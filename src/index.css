@@ -1,1 +1,15 @@
+@import url("https://fonts.googleapis.com/css2?family=Charm:wght@400;700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+
 @import "tailwindcss";
+
+@theme {
+  --font-roboto: "Roboto", sans-serif;
+  --font-charm: "Charm", cursive;
+  --background-image-banner: url("./assets/banner.jpg");
+}
+
+@layer components {
+  .btn {
+    @apply cursor-pointer rounded-sm bg-white p-4 text-center font-medium text-black uppercase transition-colors duration-300 ease-linear hover:bg-black/90 hover:text-white;
+  }
+}
