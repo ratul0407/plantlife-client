@@ -20,7 +20,7 @@ export const Home = () => {
               <button className="btn">Shop Now</button>
             </div>
             {/*  main footer*/}
-            <div className="absolute bottom-0 text-lg uppercase lg:flex lg:min-w-full lg:items-center lg:justify-between lg:px-4">
+            <div className="absolute bottom-10 text-lg uppercase lg:flex lg:min-w-full lg:items-center lg:justify-between lg:px-4">
               <div className="hidden basis-1/3 lg:block">
                 <p>We offer a handpick selection of plants!</p>
                 <a href="#" className="underline">
