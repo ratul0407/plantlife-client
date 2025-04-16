@@ -46,7 +46,7 @@ export const CuratedPlants = () => {
       </div>
 
       {/* plants  */}
-      <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 md:px-4 lg:grid-cols-4 lg:px-8">
+      <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 md:px-4 lg:grid-cols-4 lg:gap-1 lg:px-8">
         {plants.map((plant) => {
           return <PlantCard key={plant.id} plant={plant} />;
         })}

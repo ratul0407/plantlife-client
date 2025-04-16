@@ -6,7 +6,7 @@ export const PlantCard = ({ plant }) => {
       initial={{ opacity: 0, translateY: 50 }}
       animate={{ opacity: 1, translateY: 0 }}
       transition={{ duration: 0.5, ease: "easeIn", delay: 0.1 * plant.id }}
-      className="relative mx-auto max-w-72 shadow-xl"
+      className="relative mx-auto max-w-72"
     >
       {plant.new && (
         <p className="absolute top-2 left-2 bg-black px-2 py-1 text-white">
