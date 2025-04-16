@@ -7,7 +7,7 @@ export const PowerOfPlant = () => {
       <div className="flex flex-col-reverse gap-12 lg:flex-row lg:items-stretch lg:gap-20">
         <div className="relative text-white lg:basis-1/2">
           <img src={plantImg} className="max-h-[900px] lg:max-h-full" />
-          <p className="absolute inset-0 translate-y-1/2 text-center uppercase sm:text-lg">
+          <p className="absolute inset-0 translate-y-1/2 text-center uppercase sm:text-lg 2xl:text-3xl">
             Plant improve air quality, reduces stress and brings a sense of calm
             and to your environment. discover all the ways our plants can
             enhance your well-being.
@@ -20,14 +20,14 @@ export const PowerOfPlant = () => {
           </h3>
           <img
             src={plantImg2}
-            className="basis-1/2 object-contain object-left lg:max-h-[450px]"
+            className="basis-1/2 object-contain object-left lg:max-h-[450px] xl:max-h-[600px] 2xl:max-h-[700px]"
           />
-          <div className="uppercase">
+          <div className="text-gray-900 uppercase xl:text-2xl">
             <p className="before:h-1 before:w-1 before:bg-red-500">
-              -- Natural Air purifiers
+              Natural Air purifiers
             </p>
-            <p>-- Boosts relaxation and focus</p>
-            <p>-- Elevate any interior decorator</p>
+            <p>Boosts relaxation and focus</p>
+            <p>Elevate any interior decorator</p>
           </div>
         </div>
       </div>
