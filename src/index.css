@@ -12,4 +12,10 @@
   .btn {
     @apply cursor-pointer rounded-sm bg-white p-4 text-center font-medium text-black uppercase transition-colors duration-300 ease-linear hover:bg-black/90 hover:text-white;
   }
+  .heading {
+    @apply text-2xl sm:text-3xl md:text-4xl lg:text-5xl;
+  }
+  .plant-text {
+    @apply font-charm text-3xl font-thin text-[#386641] sm:text-4xl md:text-5xl lg:text-6xl;
+  }
 }

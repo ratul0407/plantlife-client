@@ -1,7 +1,7 @@
-import fiddleLeaf from "../assets/plant4.jpg";
-import monster from "../assets/plant5.jpg";
-import african from "../assets/plant7.jpg";
-import snake from "../assets/plant2.jpg";
+import fiddleLeaf from "../../assets/plant4.jpg";
+import monster from "../../assets/plant5.jpg";
+import african from "../../assets/plant7.jpg";
+import snake from "../../assets/plant2.jpg";
 import { PlantCard } from "./PlantCard";
 
 const plants = [
@@ -36,20 +36,17 @@ const plants = [
 export const CuratedPlants = () => {
   return (
     <div className="space-y-10 lg:space-y-20">
-      <div className="lg:px-8">
-        <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
+      <div className="md:px-4 lg:px-8">
+        <h3 className="heading">
           <span className="block">
-            Choose from our{" "}
-            <span className="font-charm text-3xl font-thin text-[#386641] sm:text-4xl md:text-5xl lg:text-6xl">
-              curated plant
-            </span>
+            Choose from our <span className="plant-text">curated plant</span>
           </span>
           <span>collections, designed to fit every lifestyle.</span>
         </h3>
       </div>
 
       {/* plants  */}
-      <div className="flex flex-col items-stretch gap-4 rounded-sm px-2 lg:flex-row lg:items-stretch lg:justify-center">
+      <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 md:px-4 lg:grid-cols-4 lg:px-8">
         {plants.map((plant) => {
           return <PlantCard key={plant.id} plant={plant} />;
         })}
@@ -57,3 +54,4 @@ export const CuratedPlants = () => {
     </div>
   );
 };
+// flex flex-col items-stretch gap-4 rounded-sm px-2 lg:flex-row lg:items-stretch lg:justify-center

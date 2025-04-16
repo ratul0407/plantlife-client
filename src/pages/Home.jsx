@@ -1,7 +1,8 @@
 import React from "react";
-import { Navbar } from "../components/Navbar";
 import { IoArrowDown } from "react-icons/io5";
-import { CuratedPlants } from "../components/CuratedPlants";
+import { CuratedPlants } from "../components/Home/CuratedPlants";
+import { Navbar } from "../components/Home/Navbar";
+import { PowerOfPlant } from "../components/Home/PowerOfPlant";
 
 export const Home = () => {
   return (
@@ -40,10 +41,13 @@ export const Home = () => {
         </section>
       </div>
 
-      <main className="py-12">
+      <main className="space-y-16 px-4 py-12 sm:px-6 md:space-y-24 2xl:container 2xl:mx-auto">
         {/* curated plants section */}
         <section>
           <CuratedPlants />
+        </section>
+        <section>
+          <PowerOfPlant />
         </section>
       </main>
       <footer></footer>
