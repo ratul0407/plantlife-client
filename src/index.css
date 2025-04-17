@@ -6,6 +6,7 @@
   --font-roboto: "Roboto", sans-serif;
   --font-charm: "Charm", cursive;
   --background-image-banner: url("./assets/banner.jpg");
+  --background-image-popular-plant: url("./assets/popular-plant.jpg");
 }
 
 @layer components {

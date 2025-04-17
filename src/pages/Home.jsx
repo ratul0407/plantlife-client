@@ -3,6 +3,7 @@ import { IoArrowDown } from "react-icons/io5";
 import { CuratedPlants } from "../components/Home/CuratedPlants";
 import { Navbar } from "../components/Home/Navbar";
 import { PowerOfPlant } from "../components/Home/PowerOfPlant";
+import { PopularPlants } from "../components/Home/PopularPlants";
 
 export const Home = () => {
   return (
@@ -48,6 +49,9 @@ export const Home = () => {
         </section>
         <section>
           <PowerOfPlant />
+        </section>
+        <section>
+          <PopularPlants />
         </section>
       </main>
       <footer></footer>
