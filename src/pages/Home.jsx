@@ -4,6 +4,7 @@ import { CuratedPlants } from "../components/Home/CuratedPlants";
 import { Navbar } from "../components/Home/Navbar";
 import { PowerOfPlant } from "../components/Home/PowerOfPlant";
 import { PopularPlants } from "../components/Home/PopularPlants";
+import { AirPurifying } from "../components/Home/plantsCollection/AirPurifying";
 
 export const Home = () => {
   return (
@@ -52,6 +53,11 @@ export const Home = () => {
         </section>
         <section>
           <PopularPlants />
+        </section>
+
+        {/* plants collection section */}
+        <section>
+          <AirPurifying />
         </section>
       </main>
       <footer></footer>
