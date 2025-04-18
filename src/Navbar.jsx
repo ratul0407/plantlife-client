@@ -11,7 +11,7 @@ export const Navbar = () => {
       </button>
       {/* logo text */}
       <div>
-        <h3 className="font-metal text-2xl font-semibold italic sm:text-3xl">
+        <h3 className="font-simonetta text-2xl font-semibold italic sm:text-3xl">
           PlantLife
         </h3>
       </div>

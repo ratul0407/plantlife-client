@@ -5,7 +5,7 @@ export const PopularPlants = () => {
     <div className="bg-popular-plant relative flex flex-col space-y-8 rounded-lg bg-cover bg-top px-8 pt-8 pb-20 sm:flex-row sm:justify-between md:pb-40 lg:pb-72">
       <div className="flex flex-col gap-6">
         <h3 className="heading">
-          Explore our most <span className="plant-text">Popular</span> Plants
+          Explore our most <span className="plant-text">popular</span> plants
         </h3>
         <p className="font-bold">#BOOSTPRODUCTIVITY #GREENWORKSPACE</p>
       </div>

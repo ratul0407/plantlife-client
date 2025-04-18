@@ -1,10 +1,9 @@
-@import url("https://fonts.googleapis.com/css2?family=Charm:wght@400;700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
-
+@import url("https://fonts.googleapis.com/css2?family=Metal&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 @import "tailwindcss";
 
 @theme {
   --font-roboto: "Roboto", sans-serif;
-  --font-charm: "Charm", cursive;
+  --font-metal: "metal", serif;
   --background-image-banner: url("./assets/banner.jpg");
   --background-image-popular-plant: url("./assets/popular-plant.jpg");
 }
@@ -17,6 +16,6 @@
     @apply text-2xl sm:text-3xl md:text-4xl lg:text-5xl;
   }
   .plant-text {
-    @apply font-charm text-3xl font-thin text-[#386641] sm:text-4xl md:text-5xl lg:text-6xl;
+    @apply font-metal text-3xl font-thin text-[#386641] italic sm:text-4xl md:text-5xl lg:text-6xl;
   }
 }

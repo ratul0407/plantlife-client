@@ -18,7 +18,8 @@ export const Home = () => {
           <div className="flex flex-col items-center justify-center gap-8 lg:gap-0">
             <div className="flex flex-col items-center justify-center gap-4">
               <h1 className="text-center text-5xl tracking-tighter sm:text-6xl md:text-7xl lg:text-9xl">
-                Bring ..<span className="font-metal">nature</span>.. home.
+                Bring ..<span className="font-metal italic">nature</span>..
+                home.
               </h1>
               <button className="btn">Shop Now</button>
             </div>
