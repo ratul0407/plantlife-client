@@ -32,7 +32,9 @@ export const Home = () => {
               </div>
               <div className="basis-1/3 space-y-4 text-center">
                 <p>(Scroll Down)</p>
-                <IoArrowDown className="mx-auto h-8 w-8 animate-bounce rounded-full border border-white p-1 text-white" />
+                <a href="#curatedPlants">
+                  <IoArrowDown className="mx-auto h-8 w-8 animate-bounce cursor-pointer rounded-full border border-white p-1 text-white" />
+                </a>
               </div>
               <div className="hidden basis-1/3 text-right lg:block">
                 <p>Stay updated with us!</p>
@@ -45,7 +47,7 @@ export const Home = () => {
 
       <main className="space-y-16 px-4 py-12 sm:px-6 md:space-y-24 2xl:container 2xl:mx-auto">
         {/* curated plants section */}
-        <section>
+        <section id="curatedPlants">
           <CuratedPlants />
         </section>
         <section>

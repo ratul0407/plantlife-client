@@ -1,6 +1,10 @@
 import React from "react";
+// eslint-disable-next-line no-unused-vars
+import { motion } from "motion/react";
 import plantImg2 from "../../assets/popular-plant2.jpg";
+import { useRef } from "react";
 export const PopularPlants = () => {
+  const container = useRef(null);
   return (
     <div className="bg-popular-plant relative flex flex-col space-y-8 rounded-lg bg-cover bg-top px-8 pt-8 pb-20 sm:flex-row sm:justify-between md:pb-40 lg:pb-72">
       <div className="flex flex-col gap-6">
@@ -9,13 +13,23 @@ export const PopularPlants = () => {
         </h3>
         <p className="font-bold">#BOOSTPRODUCTIVITY #GREENWORKSPACE</p>
       </div>
-      <div className="relative basis-1/2">
+      <div ref={container} className="relative basis-1/2">
         <div className="relative">
-          <div className="absolute top-5 left-32 flex h-30 w-30 items-center justify-center rounded-full bg-[#BBD8A3]">
-            <p className="translate-x-1/6 font-bold uppercase underline">
+          <motion.div
+            drag
+            dragConstraints={{ left: 0, right: 10, top: 10, bottom: 200 }}
+            whileHover={{
+              scale: 0.8,
+            }}
+            whileTap={{
+              scale: 0.6,
+            }}
+            className="absolute top-5 left-32 flex h-30 w-30 cursor-pointer items-center justify-center rounded-full bg-[#BBD8A3]"
+          >
+            <p drag className="translate-x-1/6 font-bold uppercase underline">
               View this product
             </p>
-          </div>
+          </motion.div>
           <img src={plantImg2} className="h-[400px] rounded-lg" />
         </div>
       </div>

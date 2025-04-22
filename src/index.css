@@ -1,6 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Metal&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 @import "tailwindcss";
 
+html {
+  scroll-behavior: smooth;
+}
 @theme {
   --font-roboto: "Roboto", sans-serif;
   --font-metal: "metal", serif;

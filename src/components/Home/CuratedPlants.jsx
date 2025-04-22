@@ -54,4 +54,3 @@ export const CuratedPlants = () => {
     </div>
   );
 };
-// flex flex-col items-stretch gap-4 rounded-sm px-2 lg:flex-row lg:items-stretch lg:justify-center
