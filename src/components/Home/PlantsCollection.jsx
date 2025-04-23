@@ -1,5 +1,3 @@
-import React from "react";
-
 import img1 from "../../assets/plant6.jpg";
 import img2 from "../../assets/plant3.jpg";
 import img3 from "../../assets/plant7.jpg";
@@ -12,8 +10,8 @@ import img9 from "../../assets/hanging/english-ivy.jpg";
 import { PlantsGrid } from "./PlantsGrid";
 export const PlantsCollection = () => {
   return (
-    <>
-      <section>
+    <section className="min-h-screen space-y-20">
+      <div>
         <PlantsGrid
           img1={img1}
           img2={img2}
@@ -21,8 +19,8 @@ export const PlantsCollection = () => {
           order={[1, 2, 4, 3]}
           title="Air-purifying plants"
         />
-      </section>
-      <section>
+      </div>
+      <div>
         <div className="space-y-20">
           <div>
             <h3 className="heading mx-auto max-w-[34ch] text-center">
@@ -50,7 +48,7 @@ export const PlantsCollection = () => {
             />
           </div>
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 };

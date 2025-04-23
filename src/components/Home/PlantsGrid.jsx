@@ -1,4 +1,3 @@
-import React from "react";
 import { IoArrowForward } from "react-icons/io5";
 
 export const PlantsGrid = ({ img1, img2, img3, title, order }) => {

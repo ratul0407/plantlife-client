@@ -1,4 +1,3 @@
-import React from "react";
 import plantImg from "../../assets/powerofplant.jpg";
 import plantImg2 from "../../assets/powerofplant2.jpg";
 import "./powerofplant.css";

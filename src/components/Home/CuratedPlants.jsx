@@ -37,7 +37,7 @@ export const CuratedPlants = () => {
   return (
     <div className="space-y-10 lg:space-y-20">
       <div className="md:px-4 lg:px-8">
-        <h3 className="heading">
+        <h3 className="heading overflow-hidden">
           <span className="block">
             Choose from our <span className="plant-text">curated plant</span>
           </span>

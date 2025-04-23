@@ -1,4 +1,3 @@
-import React from "react";
 import { Navbar } from "./Navbar";
 import { IoArrowDown } from "react-icons/io5";
 
