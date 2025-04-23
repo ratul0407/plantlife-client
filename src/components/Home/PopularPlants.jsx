@@ -15,21 +15,11 @@ export const PopularPlants = () => {
       </div>
       <div ref={container} className="relative basis-1/2">
         <div className="relative">
-          <motion.div
-            drag
-            dragConstraints={{ left: 0, right: 10, top: 10, bottom: 200 }}
-            whileHover={{
-              scale: 0.8,
-            }}
-            whileTap={{
-              scale: 0.6,
-            }}
-            className="absolute top-5 left-32 flex h-30 w-30 cursor-pointer items-center justify-center rounded-full bg-[#BBD8A3]"
-          >
-            <p drag className="translate-x-1/6 font-bold uppercase underline">
+          <div className="absolute top-5 left-32 flex h-30 w-30 cursor-pointer items-center justify-center rounded-full bg-[#BBD8A3]">
+            <p className="translate-x-1/6 font-bold uppercase underline">
               View this product
             </p>
-          </motion.div>
+          </div>
           <img src={plantImg2} className="h-[400px] rounded-lg" />
         </div>
       </div>
