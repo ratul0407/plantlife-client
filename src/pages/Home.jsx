@@ -15,21 +15,25 @@ export const Home = () => {
     <div className="font-roboto space-y-8 sm:space-y-12 md:space-y-16 lg:space-y-20">
       <Banner />
 
-      <main className="space-y-20 px-4 py-12 sm:px-6 md:space-y-12 2xl:container 2xl:mx-auto">
+      <main className="px-4 py-12 sm:px-6 md:space-y-12 lg:space-y-32 2xl:container 2xl:mx-auto">
         {/* curated plants section */}
-        <section className="box">
+        <section>
           <CuratedPlants />
         </section>
-        <section className="">
+        <section>
           <PowerOfPlant />
         </section>
-        <section className="">
+        <section>
           <PopularPlants />
         </section>
 
         {/* plants collection section */}
-        <PlantsCollection />
-        <VisitStore />
+        <section>
+          <PlantsCollection />
+        </section>
+        <section className="flex min-h-[80vh] items-center">
+          <VisitStore />
+        </section>
       </main>
       <footer></footer>
     </div>

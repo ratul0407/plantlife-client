@@ -10,7 +10,7 @@ import img9 from "../../assets/hanging/english-ivy.jpg";
 import { PlantsGrid } from "./PlantsGrid";
 export const PlantsCollection = () => {
   return (
-    <section className="min-h-screen space-y-20">
+    <div className="min-h-screen space-y-20">
       <div>
         <PlantsGrid
           img1={img1}
@@ -49,6 +49,6 @@ export const PlantsCollection = () => {
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 };
