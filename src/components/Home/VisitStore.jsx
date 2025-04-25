@@ -1,7 +1,44 @@
 import React from "react";
+import { useState } from "react";
 import { IoArrowForward } from "react-icons/io5";
-
+import { Modal } from "./Modal";
+import img1 from "../../assets/cactus.jpg";
+import img2 from "../../assets/powerofplant2.jpg";
+import img3 from "../../assets/powerofplant.jpg";
+import img4 from "../../assets/popular-plant.jpg";
+const stores = [
+  {
+    name: "Green Heaven Market",
+    address: "Riverside mall",
+    day: "November 25-26, 2024",
+    src: img1,
+    color: "#8c8c8c",
+  },
+  {
+    name: "Urban Jungle Fest",
+    address: "Downtown Garden",
+    day: "February 14-15, 2025",
+    src: img2,
+    color: "#000",
+  },
+  {
+    name: "Botanical Bliss Pop-Up",
+    address: "Open courtyard",
+    day: "December 14-15, 2024",
+    src: img3,
+    color: "#efe83d",
+  },
+  {
+    name: "Eco Oasis  Experience",
+    address: "Green park pavilion",
+    day: "January 13-14",
+    src: img4,
+    color: "#706d3",
+  },
+];
 export const VisitStore = () => {
+  const [modal, setModal] = useState({ active: false, index: 0 });
+  console.log(modal);
   return (
     <div className="flex gap-10">
       <div className="flex basis-[30%] flex-col justify-between">
@@ -16,58 +53,41 @@ export const VisitStore = () => {
         </p>
       </div>
       <div className="flex basis-[70%] flex-col gap-20">
-        {/* first store */}
-        <div className="flex items-start">
-          <p className="pr-20 text-gray-400">01.</p>
-          <div className="flex flex-grow-1">
-            <h3 className="font-metal basis-1/2 text-4xl font-medium text-[#386641]">
-              Green Heaven Market
-            </h3>
-            <p className="basis-1/2 text-left uppercase *:block">
-              <span>Riverside MALL</span>
-              <span>November 25-26, 2025</span>
-            </p>
-          </div>
-        </div>
-        {/* second store */}
-        <div className="flex items-start">
-          <p className="pr-20 text-gray-400">01.</p>
-          <div className="flex flex-grow-1">
-            <h3 className="font-metal basis-1/2 text-4xl font-medium text-[#386641]">
-              Urban Jungle Fest
-            </h3>
-            <p className="basis-1/2 text-right uppercase *:block">
-              <span>DownTown Garden</span>
-              <span>February 14-15, 2025</span>
-            </p>
-          </div>
-        </div>
-        {/* third store */}
-        <div className="flex items-start">
-          <p className="pr-20 text-gray-400">01.</p>
-          <div className="flex flex-grow-1">
-            <h3 className="font-metal basis-1/2 text-4xl font-medium text-[#386641]">
-              Botanical Bliss Pop-Up
-            </h3>
-            <p className="basis-1/2 text-left uppercase *:block">
-              <span>Open CourtYard</span>
-              <span>December 14-15, 2024</span>
-            </p>
-          </div>
-        </div>
-        {/* fourth store */}
-        <div className="flex items-start">
-          <p className="pr-20 text-gray-400">01.</p>
-          <div className="flex flex-grow-1">
-            <h3 className="font-metal basis-1/2 text-4xl font-medium text-[#386641]">
-              Eco Oasis Experience
-            </h3>
-            <p className="basis-1/2 text-right uppercase *:block">
-              <span>Green Park Pavilion</span>
-              <span>January 13-14, 2025</span>
-            </p>
-          </div>
-        </div>
+        {stores.map((store, index) => {
+          return (
+            <Store
+              key={index}
+              store={store}
+              index={index}
+              setModal={setModal}
+            />
+          );
+        })}
+      </div>
+      <Modal modal={modal} stores={stores} />
+    </div>
+  );
+};
+
+const Store = ({ store, index, setModal }) => {
+  const num = index + 1;
+  return (
+    <div
+      className="flex items-start"
+      onMouseEnter={() => setModal({ active: true, index })}
+      onMouseLeave={() => setModal({ active: false, index })}
+    >
+      <p className="pr-20 text-gray-400">0{num}.</p>
+      <div className="flex flex-grow-1">
+        <h3 className="font-metal basis-1/2 text-4xl font-medium text-[#386641]">
+          {store.name}
+        </h3>
+        <p
+          className={`basis-1/2 ${index % 2 == 0 ? "text-left" : "text-right"} uppercase *:block`}
+        >
+          <span>{store.address}</span>
+          <span>{store.day}</span>
+        </p>
       </div>
     </div>
   );
