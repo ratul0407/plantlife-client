@@ -52,7 +52,7 @@ export const VisitStore = () => {
           </span>
         </p>
       </div>
-      <div className="flex basis-[70%] flex-col gap-20">
+      <div className="flex basis-[70%] flex-col">
         {stores.map((store, index) => {
           return (
             <Store
@@ -73,7 +73,7 @@ const Store = ({ store, index, setModal }) => {
   const num = index + 1;
   return (
     <div
-      className="flex items-start"
+      className="flex items-start py-10"
       onMouseEnter={() => setModal({ active: true, index })}
       onMouseLeave={() => setModal({ active: false, index })}
     >
