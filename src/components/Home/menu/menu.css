@@ -1,0 +1,96 @@
+.button {
+  background-color: #31572c;
+}
+
+.burger {
+  width: 100%;
+}
+
+.burger::before,
+.burger::after {
+  content: "";
+  display: block;
+  height: 1px;
+  width: 40px;
+  margin: auto;
+  background-color: white;
+  position: relative;
+  transition: transform 0.3s;
+}
+
+.burger::after {
+  top: -5px;
+}
+.burger::before {
+  top: 5px;
+}
+
+.burger-active::after {
+  transform: rotate(45deg);
+  top: -1px;
+}
+
+.burger-active::before {
+  transform: rotate(-45deg);
+  top: 0px;
+}
+
+/* nav */
+
+.menu {
+  height: 100vh;
+  background-color: #386641;
+  position: fixed;
+  left: 0;
+  top: 0;
+  color: white;
+  z-index: 40;
+}
+
+.body {
+  box-sizing: border-box;
+  height: 100%;
+  padding: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  font-size: 3.7rem;
+  gap: 12px;
+  margin-top: 80px;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+  font-weight: 300;
+}
+.link {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.indicator {
+  width: 10px;
+  height: 10px;
+  background-color: white;
+  border-radius: 50%;
+  position: absolute;
+  left: -30px;
+}
+.svgCurve {
+  position: absolute;
+  top: 0;
+  right: -99px;
+  width: 100px;
+  height: 100%;
+  fill: #386641;
+
+  transform: rotate(180deg);
+  stroke: none;
+}

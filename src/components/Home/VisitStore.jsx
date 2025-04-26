@@ -2,38 +2,38 @@ import React from "react";
 import { useState } from "react";
 import { IoArrowForward } from "react-icons/io5";
 import { Modal } from "./Modal";
-import img1 from "../../assets/cactus.jpg";
-import img2 from "../../assets/powerofplant2.jpg";
-import img3 from "../../assets/powerofplant.jpg";
-import img4 from "../../assets/popular-plant.jpg";
+import img1 from "../../assets/store-img/store1.jpg";
+import img2 from "../../assets/store-img/store2.jpg";
+import img3 from "../../assets/store-img/store3.jpg";
+import img4 from "../../assets/store-img/store4.jpg";
 const stores = [
   {
     name: "Green Heaven Market",
     address: "Riverside mall",
     day: "November 25-26, 2024",
     src: img1,
-    color: "#8c8c8c",
+    color: "#344e41",
   },
   {
     name: "Urban Jungle Fest",
     address: "Downtown Garden",
     day: "February 14-15, 2025",
     src: img2,
-    color: "#000",
+    color: "#3a5a40",
   },
   {
     name: "Botanical Bliss Pop-Up",
     address: "Open courtyard",
     day: "December 14-15, 2024",
     src: img3,
-    color: "#efe83d",
+    color: "#588157",
   },
   {
     name: "Eco Oasis  Experience",
     address: "Green park pavilion",
     day: "January 13-14",
     src: img4,
-    color: "#706d3",
+    color: "#a3b18a",
   },
 ];
 export const VisitStore = () => {
