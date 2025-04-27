@@ -27,15 +27,15 @@ export const Nav = () => {
   const [selectedIndicator, setSelectedIndicator] = useState(pathname);
   return (
     <motion.div
-      className="menu"
+      className="menu | fixed top-0 left-0 z-40 h-screen bg-[#386641] text-white"
       variants={menuSlide}
       initial="initial"
       animate="enter"
       exit="exit"
     >
-      <div className="body">
+      <div className="body | flex h-full flex-col justify-between p-[100px]">
         <div
-          className="nav"
+          className="nav | mt-20 flex flex-col gap-10 text-2xl sm:text-3xl md:text-4xl lg:text-5xl"
           onMouseLeave={() => setSelectedIndicator(pathname)}
         >
           {navItems.map((item, index) => {

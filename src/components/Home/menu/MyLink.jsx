@@ -6,7 +6,7 @@ export const MyLink = ({ item, index, isActive, setSelectedIndicator }) => {
   const { href, title } = item;
   return (
     <motion.div
-      className="link"
+      className="link | relative flex items-center"
       onMouseEnter={() => setSelectedIndicator(href)}
       variants={slide}
       initial="initial"
@@ -15,11 +15,13 @@ export const MyLink = ({ item, index, isActive, setSelectedIndicator }) => {
       custom={index}
     >
       <motion.div
-        className="indicator"
+        className="indicator | absolute -left-[30px] h-[10px] w-[10px] rounded-full bg-white"
         variants={scale}
         animate={isActive ? "open" : "closed"}
       ></motion.div>
-      <Link to={href}>{title} </Link>
+      <Link className="white font-light" to={href}>
+        {title}{" "}
+      </Link>
     </motion.div>
   );
 };

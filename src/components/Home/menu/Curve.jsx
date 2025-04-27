@@ -19,7 +19,7 @@ export const Curve = () => {
   };
 
   return (
-    <svg className="svgCurve">
+    <svg className="svgCurve | absolute top-0 -right-[99px] h-full w-[100px] rotate-180 fill-[#386641] stroke-none">
       <motion.path
         variants={curve}
         initial="initial"

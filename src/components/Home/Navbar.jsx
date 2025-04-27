@@ -1,9 +1,8 @@
-import { IoMdMenu } from "react-icons/io";
 import { Menu } from "./menu/Menu";
 
 export const Navbar = () => {
   return (
-    <div className="flex items-center justify-between">
+    <div className="sticky top-0 z-10 flex items-center justify-between px-10 py-4">
       {/* menu */}
       <Menu />
       {/* logo text */}

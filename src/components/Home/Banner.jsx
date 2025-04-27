@@ -5,7 +5,7 @@ export const Banner = () => {
   return (
     <div className="bg-banner flex h-screen flex-col justify-between bg-cover text-white">
       <header className="basis-1/4 p-4 sm:p-6 md:p-8">
-        <Navbar />
+        {/* <Navbar /> */}
       </header>
       <section className="relative basis-3/4">
         {/* main headline */}
