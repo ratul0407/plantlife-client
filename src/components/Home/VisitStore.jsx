@@ -40,7 +40,7 @@ export const VisitStore = () => {
   const [modal, setModal] = useState({ active: false, index: 0 });
   console.log(modal);
   return (
-    <div className="flex gap-10">
+    <div className="flex flex-col gap-10 lg:flex-row">
       <div className="flex basis-[30%] flex-col justify-between">
         <h3 className="font-lg font-semibold uppercase">
           Visit our pop-up stores for exclusive plants and offers near you
@@ -64,7 +64,9 @@ export const VisitStore = () => {
           );
         })}
       </div>
-      <Modal modal={modal} stores={stores} />
+      <div className="hidden lg:block">
+        <Modal modal={modal} stores={stores} />
+      </div>
     </div>
   );
 };

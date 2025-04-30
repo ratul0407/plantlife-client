@@ -19,3 +19,6 @@
     @apply font-metal text-3xl font-thin text-[#386641] italic sm:text-4xl md:text-5xl lg:text-6xl;
   }
 }
+* {
+  /* border: 1px solid red; */
+}
