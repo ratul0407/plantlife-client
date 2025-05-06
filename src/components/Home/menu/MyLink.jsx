@@ -2,7 +2,6 @@ import { motion } from "motion/react";
 import { Link } from "react-router";
 import { scale, slide } from "./anim";
 export const MyLink = ({ item, index, isActive, setSelectedIndicator }) => {
-  console.log(item);
   const { href, title } = item;
   return (
     <motion.div

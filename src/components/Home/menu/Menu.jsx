@@ -1,5 +1,4 @@
 import { AnimatePresence } from "motion/react";
-import React from "react";
 import { useState } from "react";
 import { Nav } from "./Nav";
 import "./menu.css";
