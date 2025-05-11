@@ -1,7 +1,6 @@
 import img1 from "../../../assets/plant6.jpg";
 import img2 from "../../../assets/plant3.jpg";
 import img3 from "../../../assets/plant7.jpg";
-import { IoMdArrowDropright } from "react-icons/io";
 import { IoArrowForward } from "react-icons/io5";
 export const AirPurifying = () => {
   return (

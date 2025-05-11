@@ -1,4 +1,5 @@
 import { IoArrowForward } from "react-icons/io5";
+import { Link } from "react-router";
 
 export const PlantsGrid = ({ img1, img2, img3, title, order }) => {
   const orderClasses = {
@@ -32,10 +33,14 @@ export const PlantsGrid = ({ img1, img2, img3, title, order }) => {
         <p className="font-metal text-3xl font-medium tracking-tighter italic sm:text-4xl">
           {title}
         </p>
-        <p className="flex items-center gap-4 pl-4 font-semibold uppercase underline">
+        <Link
+          to="/all-plants
+        "
+          className="flex items-center gap-4 pl-4 font-semibold uppercase underline"
+        >
           view collection
           <IoArrowForward />
-        </p>
+        </Link>
       </div>
     </div>
   );

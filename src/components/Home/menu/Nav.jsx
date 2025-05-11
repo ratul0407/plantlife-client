@@ -33,7 +33,7 @@ export const Nav = () => {
       animate="enter"
       exit="exit"
     >
-      <div className="body | flex h-full flex-col justify-between p-[100px]">
+      <div className="body | flex h-full flex-col justify-between p-20 lg:p-[100px]">
         <div
           className="nav | mt-20 flex flex-col gap-10 text-2xl sm:text-3xl md:text-4xl lg:text-5xl"
           onMouseLeave={() => setSelectedIndicator(pathname)}
