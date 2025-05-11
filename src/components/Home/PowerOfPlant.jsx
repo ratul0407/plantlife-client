@@ -1,5 +1,5 @@
-import plantImg from "../../assets/powerofplant.jpg";
-import plantImg2 from "../../assets/powerofplant2.jpg";
+import plantImg from "../../assets/static/powerofplant.jpg";
+import plantImg2 from "../../assets/static/powerofplant2.jpg";
 import "./powerofplant.css";
 export const PowerOfPlant = () => {
   return (

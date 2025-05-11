@@ -17,9 +17,9 @@ export const PlantCard = ({ plant }) => {
         />
       </div>
 
-      <div className="mt-4 mb-2 flex flex-col items-center justify-between md:flex-row">
-        <h2 className="text-xl font-semibold text-gray-800">{name}</h2>
-        <span className="text-lg font-bold text-green-600">${price}</span>
+      <div className="mt-4 mb-2 flex flex-col justify-between">
+        <span className="text-base font-bold text-green-900">${price}</span>
+        <h2 className="text-base font-semibold text-gray-800">{name}</h2>
       </div>
     </div>
   );

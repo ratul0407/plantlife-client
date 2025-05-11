@@ -4,7 +4,7 @@
 @theme {
   --font-roboto: "Roboto", sans-serif;
   --font-metal: "metal", serif;
-  --background-image-banner: url("./assets/banner.jpg");
+  --background-image-banner: url("./assets/static/banner.jpg");
   --background-image-popular-plant: url("./assets/popular-plant.jpg");
 }
 

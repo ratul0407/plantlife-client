@@ -34,7 +34,7 @@ export const Home = () => {
         <section>
           <PlantsCollection />
         </section>
-        <section className="flex min-h-[80vh] items-center">
+        <section className="flex items-center">
           <VisitStore />
         </section>
       </main>

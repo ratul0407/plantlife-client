@@ -2,10 +2,11 @@ import axios from "axios";
 import { useState } from "react";
 import { useEffect } from "react";
 import { PlantCard } from "./PlantCard";
-import filterIcon from "../../assets/icons/filter.png";
 import { BsFilterLeft } from "react-icons/bs";
+import { IoMdClose } from "react-icons/io";
+import { FilterSideBar } from "./FilterSideBar";
 
-export const AllPlantsSection = () => {
+export const AllPlantsSection = ({ setOverlay }) => {
   const [allPlants, setAllPlants] = useState([{}]);
   const [openFilter, setOpenFilter] = useState(false);
   const [filter, setFilter] = useState();
@@ -19,14 +20,22 @@ export const AllPlantsSection = () => {
     };
 
     getAllPlants();
-  }, [filter]);
-  console.log(openFilter);
+  }, []);
+  const openFilterSideBar = () => {
+    setOpenFilter(true);
+    setOverlay(true);
+  };
+
+  const closeFilterSideBar = () => {
+    setOpenFilter(false);
+    setOverlay(false);
+  };
   return (
     <div>
       <div className="flex items-center justify-between">
         {/* filter */}
         <button
-          onClick={() => setOpenFilter(true)}
+          onClick={openFilterSideBar}
           className="flex w-fit cursor-pointer items-center gap-4 rounded-sm border border-gray-300 px-2 py-1"
         >
           <BsFilterLeft className="h-7 w-7" />
@@ -35,12 +44,11 @@ export const AllPlantsSection = () => {
 
         {/* filter sidebar */}
 
-        <div
-          className={`${openFilter ? "translate-x-0" : "-translate-x-100"} absolute top-0 left-0 z-50 min-h-screen w-72 bg-blue-500/10 transition-all duration-300`}
-        >
-          <p onClick={() => setOpenFilter(false)}>cross icon</p>
-          <p>Side bar</p>
-        </div>
+        <FilterSideBar
+          openFilter={openFilter}
+          closeFilterSideBar={closeFilterSideBar}
+          setOverlay={setOverlay}
+        />
 
         {/* sort by */}
         <div className="flex items-center gap-4">
