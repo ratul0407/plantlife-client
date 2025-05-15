@@ -1,6 +1,7 @@
 import { Link } from "react-router";
 
 export const PlantCard = ({ plant }) => {
+  console.log(plant);
   const { name, img, price, _id, second_img } = plant;
   return (
     <Link

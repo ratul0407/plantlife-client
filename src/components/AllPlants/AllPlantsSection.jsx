@@ -9,13 +9,11 @@ import { FilterSideBar } from "./FilterSideBar";
 export const AllPlantsSection = ({ setOverlay }) => {
   const [allPlants, setAllPlants] = useState([{}]);
   const [openFilter, setOpenFilter] = useState(false);
-  const [filter, setFilter] = useState();
   useEffect(() => {
     const getAllPlants = async () => {
       const { data } = await axios.get(
         `${import.meta.env.VITE_API_URL}/all-plants`,
       );
-      console.log(data);
       return setAllPlants(data);
     };
 
@@ -30,6 +28,7 @@ export const AllPlantsSection = ({ setOverlay }) => {
     setOpenFilter(false);
     setOverlay(false);
   };
+
   return (
     <div>
       <div className="flex items-center justify-between">
@@ -63,10 +62,9 @@ export const AllPlantsSection = ({ setOverlay }) => {
         </div>
       </div>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {allPlants &&
-          allPlants.map((plant, index) => {
-            return <PlantCard key={index} plant={plant} />;
-          })}
+        {allPlants?.map((plant, index) => {
+          return <PlantCard key={index} plant={plant} />;
+        })}
       </div>
     </div>
   );

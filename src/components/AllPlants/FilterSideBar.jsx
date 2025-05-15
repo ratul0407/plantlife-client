@@ -59,14 +59,14 @@ export const FilterSideBar = ({
               return (
                 <label
                   key={index}
-                  class="flex cursor-pointer items-center space-x-2"
+                  className="flex cursor-pointer items-center space-x-2"
                 >
                   <input
                     type="checkbox"
                     value={item.value}
-                    class="peer hidden"
+                    className="peer hidden"
                   />
-                  <span class="h-4 w-4 rounded-sm border border-slate-300 bg-white"></span>
+                  <span className="h-4 w-4 rounded-sm border border-slate-300 bg-white"></span>
                   <FaCheck className="absolute hidden h-3 w-3 translate-x-0.5 text-green-900 peer-checked:block" />
                   <span>{item.name}</span>
                 </label>

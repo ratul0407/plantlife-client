@@ -5,7 +5,7 @@
   --font-roboto: "Roboto", sans-serif;
   --font-metal: "metal", serif;
   --background-image-banner: url("./assets/static/banner.jpg");
-  --background-image-popular-plant: url("./assets/popular-plant.jpg");
+  --background-image-popular-plant: url("./assets/static/popular-plant.jpg");
 }
 
 @layer components {
