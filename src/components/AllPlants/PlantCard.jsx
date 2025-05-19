@@ -6,7 +6,7 @@ export const PlantCard = ({ plant }) => {
   return (
     <Link
       to={`/plants/${_id}`}
-      className="max-w-3xs overflow-hidden bg-white p-4"
+      className="max-w-3xs overflow-hidden bg-white p-4 xl:max-w-xs"
     >
       <div className="group relative h-72 w-full cursor-pointer overflow-hidden rounded-xl">
         <img

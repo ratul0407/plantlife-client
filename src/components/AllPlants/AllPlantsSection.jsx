@@ -29,14 +29,31 @@ export const AllPlantsSection = () => {
     setOpenFilter(false);
     setOverlay(false);
   };
+
+  // close filter sidebar with keyboard or by clicking on the overlay
   useEffect(() => {
-    document.querySelector(".overlay").addEventListener("click", () => {
-      closeFilterSideBar();
-    });
-  }, []);
+    const closeWithKeyboard = (e) => {
+      if (e.key === "Escape") {
+        closeFilterSideBar();
+      }
+    };
+
+    const overlay = document.querySelector(".overlay");
+    if (overlay) {
+      overlay.addEventListener("click", closeFilterSideBar);
+      document.addEventListener("keydown", closeWithKeyboard);
+    }
+
+    return () => {
+      if (overlay) {
+        overlay.removeEventListener("click", closeFilterSideBar);
+      }
+      document.removeEventListener("keydown", closeWithKeyboard);
+    };
+  }, [closeFilterSideBar]);
   return (
     <>
-      <div className="pt-20">
+      <div className="pt-20 2xl:mx-80">
         <div className="flex items-center justify-between">
           {/* filter */}
           <button

@@ -34,8 +34,7 @@ export const PlantsGrid = ({ img1, img2, img3, title, order }) => {
           {title}
         </p>
         <Link
-          to="/all-plants
-        "
+          to="/plants"
           className="flex items-center gap-4 pl-4 font-semibold uppercase underline"
         >
           view collection
