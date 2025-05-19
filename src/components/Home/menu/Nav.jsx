@@ -11,7 +11,7 @@ const navItems = [
   },
   {
     title: "All Plants",
-    href: "/all-plants",
+    href: "/plants",
   },
   {
     title: "About Us",

@@ -5,7 +5,7 @@ export const PlantCard = ({ plant }) => {
   const { name, img, price, _id, second_img } = plant;
   return (
     <Link
-      to={`/plant/${_id}`}
+      to={`/plants/${_id}`}
       className="max-w-3xs overflow-hidden bg-white p-4"
     >
       <div className="group relative h-72 w-full cursor-pointer overflow-hidden rounded-xl">

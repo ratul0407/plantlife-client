@@ -1,14 +1,10 @@
-import { Link, NavLink } from "react-router";
-import { AllPlantsSection } from "../components/AllPlants/AllPlantsSection";
+import { Link, NavLink, Outlet } from "react-router";
 import { IoMenu } from "react-icons/io5";
-import { useState } from "react";
 
 export const AllPlants = () => {
-  const [overlay, setOverlay] = useState(false);
-  console.log(overlay);
   return (
     <>
-      <div className="relative space-y-20 p-8">
+      <div className="relative p-8">
         <header className="flex items-center justify-between">
           <h3 className="font-metal text-4xl">
             <Link to="/">PlantLife</Link>
@@ -30,13 +26,9 @@ export const AllPlants = () => {
           </div>
         </header>
         <main>
-          <AllPlantsSection setOverlay={setOverlay} />
+          <Outlet />
         </main>
       </div>
-      {/* overlay */}
-      <div
-        className={`${overlay ? "block" : "hidden"} overlay | absolute top-0 z-10 min-h-screen min-w-full cursor-pointer bg-black/20`}
-      ></div>
     </>
   );
 };

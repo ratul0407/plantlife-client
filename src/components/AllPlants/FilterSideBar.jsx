@@ -29,16 +29,7 @@ const plantCategories = [
     value: "flowering",
   },
 ];
-export const FilterSideBar = ({
-  setOverlay,
-  openFilter,
-  closeFilterSideBar,
-}) => {
-  useEffect(() => {
-    document.querySelector(".overlay").addEventListener("click", () => {
-      closeFilterSideBar();
-    });
-  }, []);
+export const FilterSideBar = ({ openFilter, closeFilterSideBar }) => {
   return (
     <div
       className={`${openFilter ? "translate-x-0" : "-translate-x-100"} absolute top-0 left-0 z-50 min-h-screen w-84 bg-slate-50 transition-all duration-300 ease-linear`}

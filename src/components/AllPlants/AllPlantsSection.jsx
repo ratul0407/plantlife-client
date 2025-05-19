@@ -3,10 +3,11 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { PlantCard } from "./PlantCard";
 import { BsFilterLeft } from "react-icons/bs";
-import { IoMdClose } from "react-icons/io";
 import { FilterSideBar } from "./FilterSideBar";
 
-export const AllPlantsSection = ({ setOverlay }) => {
+export const AllPlantsSection = () => {
+  const [overlay, setOverlay] = useState(false);
+  console.log(setOverlay);
   const [allPlants, setAllPlants] = useState([{}]);
   const [openFilter, setOpenFilter] = useState(false);
   useEffect(() => {
@@ -28,44 +29,53 @@ export const AllPlantsSection = ({ setOverlay }) => {
     setOpenFilter(false);
     setOverlay(false);
   };
-
+  useEffect(() => {
+    document.querySelector(".overlay").addEventListener("click", () => {
+      closeFilterSideBar();
+    });
+  }, []);
   return (
-    <div>
-      <div className="flex items-center justify-between">
-        {/* filter */}
-        <button
-          onClick={openFilterSideBar}
-          className="flex w-fit cursor-pointer items-center gap-4 rounded-sm border border-gray-300 px-2 py-1"
-        >
-          <BsFilterLeft className="h-7 w-7" />
-          <span>Filter</span>
-        </button>
+    <>
+      <div className="pt-20">
+        <div className="flex items-center justify-between">
+          {/* filter */}
+          <button
+            onClick={openFilterSideBar}
+            className="flex w-fit cursor-pointer items-center gap-4 rounded-sm border border-gray-300 px-2 py-1"
+          >
+            <BsFilterLeft className="h-7 w-7" />
+            <span>Filter</span>
+          </button>
 
-        {/* filter sidebar */}
+          {/* filter sidebar */}
 
-        <FilterSideBar
-          openFilter={openFilter}
-          closeFilterSideBar={closeFilterSideBar}
-          setOverlay={setOverlay}
-        />
+          <FilterSideBar
+            openFilter={openFilter}
+            closeFilterSideBar={closeFilterSideBar}
+            setOverlay={setOverlay}
+          />
 
-        {/* sort by */}
-        <div className="flex items-center gap-4">
-          <span>Sort By:</span>
-          <div className="rounded-sm border border-gray-300 py-1">
-            <select name="sort" id="id" className="">
-              <option value>Default</option>
-              <option value="asc">Price, low to high</option>
-              <option value="dsc">Price, high to low</option>
-            </select>
+          {/* sort by */}
+          <div className="flex items-center gap-4">
+            <span>Sort By:</span>
+            <div className="rounded-sm border border-gray-300 py-1">
+              <select name="sort" id="id" className="">
+                <option value>Default</option>
+                <option value="asc">Price, low to high</option>
+                <option value="dsc">Price, high to low</option>
+              </select>
+            </div>
           </div>
         </div>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          {allPlants?.map((plant, index) => {
+            return <PlantCard key={index} plant={plant} />;
+          })}
+        </div>
       </div>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {allPlants?.map((plant, index) => {
-          return <PlantCard key={index} plant={plant} />;
-        })}
-      </div>
-    </div>
+      <div
+        className={`${overlay ? "block" : "hidden"} overlay | absolute top-0 z-10 min-h-screen w-[97.4vw] cursor-pointer bg-black/20`}
+      ></div>
+    </>
   );
 };
