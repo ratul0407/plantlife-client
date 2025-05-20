@@ -77,7 +77,7 @@ export const PlantDetails = () => {
     setAddStock(addStock - 1);
   };
   console.log(plant);
-  console.log(images);
+  console.log(imgIndex);
   return (
     <div className="pt-10 2xl:container 2xl:mx-auto">
       <div className="flex flex-col gap-4 lg:flex-row">
@@ -158,6 +158,7 @@ export const PlantDetails = () => {
                   <label
                     tabIndex={0}
                     htmlFor={`variant-${index}`}
+                    onClick={() => handleSetImgIndex(index)}
                     className="inline-block w-full cursor-pointer rounded-full border-2 border-slate-200 bg-slate-200 py-2 text-center font-bold peer-checked:border-2 peer-checked:border-green-300 peer-checked:bg-green-300 peer-checked:text-green-950"
                   >
                     {variant.name}
