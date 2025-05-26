@@ -16,7 +16,7 @@ export const PowerOfPlant = () => {
 
         <div className="flex basis-1/2 flex-col justify-between gap-8 lg:gap-0">
           <h3 className="heading">
-            The power of <span className="plant-text">plant</span> in your home
+            The power of <span className="plant-text">plant </span> in your home
           </h3>
           <img
             src={plantImg2}

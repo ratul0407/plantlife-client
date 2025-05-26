@@ -74,7 +74,7 @@ export const Modal = ({ modal, stores }) => {
         variants={scaleAnimation}
         initial="initial"
         animate={active ? "enter" : "exit"}
-        className="pointer-events-none absolute flex h-[350px] w-[400px] items-center justify-center overflow-hidden bg-white"
+        className="font-metal pointer-events-none absolute flex h-[350px] w-[400px] items-center justify-center overflow-hidden bg-white"
       >
         <div
           style={{ top: index * -100 + "%" }}
@@ -84,10 +84,11 @@ export const Modal = ({ modal, stores }) => {
             const { src, color } = store;
             return (
               <div
-                className="flex min-h-full w-full items-center justify-center"
+                className="flex min-h-full w-full flex-col items-center justify-center"
                 style={{ backgroundColor: color }}
                 key={index}
               >
+                <p className="text-2xl text-white">{store.name}</p>
                 <img
                   className="h-auto max-h-[300px] object-cover"
                   src={src}

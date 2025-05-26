@@ -2,8 +2,11 @@ import { AnimatePresence } from "motion/react";
 import { useState } from "react";
 import { Nav } from "./Nav";
 import "./menu.css";
+import { useEffect } from "react";
 export const Menu = () => {
   const [isActive, setIsActive] = useState(false);
+  console.log(isActive);
+  // useEffect(() => {}, [isActive]);
   return (
     <>
       <div className="main">

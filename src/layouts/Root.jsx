@@ -11,9 +11,5 @@ export const Root = () => {
     }
     requestAnimationFrame(raf);
   }, []);
-  return (
-    <div>
-      <Home />
-    </div>
-  );
+  return <Home />;
 };

@@ -7,12 +7,14 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { VisitStore } from "../components/Home/VisitStore";
+import { Navbar } from "../components/Home/Navbar";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 export const Home = () => {
   return (
     <div className="font-roboto">
+      <Navbar />
       <Banner />
 
       <main className="space-y-20 px-4 py-12 sm:px-6 md:space-y-12 lg:space-y-32 2xl:container 2xl:mx-auto">

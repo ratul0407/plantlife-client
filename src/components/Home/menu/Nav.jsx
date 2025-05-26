@@ -27,7 +27,7 @@ export const Nav = () => {
   const [selectedIndicator, setSelectedIndicator] = useState(pathname);
   return (
     <motion.div
-      className="menu | fixed top-0 left-0 z-40 h-screen bg-white/10 text-white backdrop-blur-xl"
+      className="menu | bg-nav fixed top-0 left-0 z-40 h-screen text-white"
       variants={menuSlide}
       initial="initial"
       animate="enter"
@@ -41,6 +41,7 @@ export const Nav = () => {
           {navItems.map((item, index) => {
             return (
               <MyLink
+                key={index}
                 item={item}
                 index={index}
                 isActive={selectedIndicator === item.href}

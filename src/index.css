@@ -6,6 +6,7 @@
   --font-metal: "metal", serif;
   --background-image-banner: url("./assets/static/banner.jpg");
   --background-image-popular-plant: url("./assets/static/popular-plant.jpg");
+  --color-nav: #264027;
 }
 
 @layer components {
@@ -16,7 +17,7 @@
     @apply text-2xl sm:text-3xl md:text-4xl lg:text-5xl;
   }
   .plant-text {
-    @apply font-metal text-3xl font-thin text-[#386641] italic sm:text-4xl md:text-5xl lg:text-6xl;
+    @apply font-metal pr-2 text-3xl font-thin text-[#386641] italic sm:text-4xl md:text-5xl lg:text-6xl;
   }
 }
 * {
