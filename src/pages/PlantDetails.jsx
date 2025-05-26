@@ -4,12 +4,7 @@ import axios from "axios";
 import { useParams } from "react-router";
 import { useState } from "react";
 import { PiMinus, PiPlus } from "react-icons/pi";
-import {
-  IoArrowUp,
-  IoChevronUp,
-  IoHeart,
-  IoHeartOutline,
-} from "react-icons/io5";
+import { IoChevronUp, IoHeart, IoHeartOutline } from "react-icons/io5";
 import { FiGift, FiHeadphones, FiShield, FiTruck } from "react-icons/fi";
 import { useEffect } from "react";
 import { useRef } from "react";
@@ -41,6 +36,7 @@ export const PlantDetails = () => {
   const [currentVariant, setCurrentVariant] = useState(null);
   const [addStock, setAddStock] = useState(1);
   const [addToWhishList, setAddToWishList] = useState(false);
+  const [showControls, setShowControls] = useState(false);
   const { id } = useParams();
   const { data: plant = {}, isLoading } = useQuery({
     queryKey: ["plant", id],
@@ -88,6 +84,7 @@ export const PlantDetails = () => {
       }
     }
   }, [imgIndex, images]);
+
   const handleSetImgIndex = (index) => {
     setImgIndex(index);
   };
@@ -130,13 +127,13 @@ export const PlantDetails = () => {
           <div className="relative min-w-full lg:flex lg:min-w-auto lg:flex-col">
             <button
               onClick={goToPreviousImg}
-              className="absolute top-10 -left-4 flex cursor-pointer justify-center bg-slate-50 hover:bg-slate-100 active:bg-slate-200 lg:static lg:top-0 lg:left-0"
+              className="absolute top-10 -left-4 flex cursor-pointer justify-center bg-slate-50 transition-all duration-300 hover:bg-slate-100 active:scale-90 lg:static lg:top-0 lg:left-0"
             >
               <IoChevronUp className="h-10 w-10 -rotate-90 lg:rotate-0" />
             </button>
             <div
               ref={thumbnailsRef}
-              className="flex min-w-full flex-row justify-center gap-2 *:cursor-pointer lg:max-h-[700px] lg:min-w-auto lg:flex-col lg:justify-start lg:overflow-y-auto lg:py-10"
+              className="flex min-w-full flex-row justify-center gap-2 *:cursor-pointer lg:max-h-[700px] lg:min-w-auto lg:flex-col lg:justify-start lg:overflow-y-auto lg:py-2"
               style={{ scrollbarWidth: "none" }}
             >
               {images?.map((img, index) => (
@@ -156,14 +153,25 @@ export const PlantDetails = () => {
             </div>
             <button
               onClick={goToNextImg}
-              className="absolute top-10 -right-4 flex -rotate-90 cursor-pointer justify-center bg-slate-50 hover:bg-slate-100 active:bg-slate-200 lg:static lg:rotate-0"
+              className="absolute top-10 -right-4 flex -rotate-90 cursor-pointer justify-center bg-slate-50 transition-all duration-300 hover:bg-slate-100 active:scale-90 lg:static lg:rotate-0"
             >
               <IoChevronUp className="h-10 w-10 rotate-180" />
             </button>
           </div>
           {/* img slider */}
 
-          <div className="relative flex h-[600px] w-full overflow-hidden md:h-[700px] lg:w-full">
+          <div
+            onMouseEnter={() => setShowControls(true)}
+            onMouseLeave={() => setShowControls(false)}
+            className="relative flex h-[600px] w-full overflow-hidden md:h-[700px] lg:w-full"
+          >
+            <button
+              onClick={goToPreviousImg}
+              className={`absolute left-0 z-50 h-full w-20 cursor-pointer bg-white/20 transition-all duration-300 ${showControls ? "opacity-100" : "opacity-0"}`}
+            >
+              <IoChevronUp className="h-10 w-10 -rotate-90" />
+            </button>
+
             {images?.map((img, index) => (
               <div
                 style={{ translate: `${-100 * imgIndex}%` }}
@@ -176,6 +184,12 @@ export const PlantDetails = () => {
                 />
               </div>
             ))}
+            <button
+              onClick={goToNextImg}
+              className={`absolute right-0 z-50 h-full w-20 cursor-pointer bg-white/20 transition-all duration-300 ${showControls ? "opacity-100" : "opacity-0"}`}
+            >
+              <IoChevronUp className="h-10 w-10 rotate-90" />
+            </button>
           </div>
         </div>
         <div className="flex w-full flex-col justify-around gap-7 lg:w-[50%]">
