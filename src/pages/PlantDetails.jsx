@@ -4,9 +4,15 @@ import axios from "axios";
 import { useParams } from "react-router";
 import { useState } from "react";
 import { PiMinus, PiPlus } from "react-icons/pi";
-import { IoHeart, IoHeartOutline } from "react-icons/io5";
+import {
+  IoArrowUp,
+  IoChevronUp,
+  IoHeart,
+  IoHeartOutline,
+} from "react-icons/io5";
 import { FiGift, FiHeadphones, FiShield, FiTruck } from "react-icons/fi";
 import { useEffect } from "react";
+import { useRef } from "react";
 
 const features = [
   {
@@ -57,6 +63,8 @@ export const PlantDetails = () => {
       setAddStock(currentVariant?.stock);
     }
   }, [currentVariant]);
+  const thumbnailsRef = useRef(null);
+
   const { name, category, basePrice, description, variants, more_images } =
     plant || {};
   const images = [
@@ -64,8 +72,45 @@ export const PlantDetails = () => {
     ...(more_images || []),
   ];
 
+  useEffect(() => {
+    if (thumbnailsRef.current && images?.length) {
+      const activeThumb = thumbnailsRef.current.children[imgIndex];
+      if (activeThumb) {
+        const container = thumbnailsRef.current;
+        const thumbPos = activeThumb.offsetTop;
+        const thumbHeight = activeThumb.offsetHeight;
+        const containerHeight = container.offsetHeight;
+
+        container.scrollTo({
+          top: thumbPos - containerHeight / 2 + thumbHeight / 2,
+          behavior: "smooth",
+        });
+      }
+    }
+  }, [imgIndex, images]);
   const handleSetImgIndex = (index) => {
     setImgIndex(index);
+  };
+
+  const goToPreviousImg = () => {
+    setImgIndex((index) => {
+      console.log(index);
+      if (index > 0) {
+        return (index -= 1);
+      } else {
+        setImgIndex(images.length - 1);
+      }
+    });
+  };
+
+  const goToNextImg = () => {
+    setImgIndex((index) => {
+      if (index == images.length - 1) {
+        return 0;
+      } else {
+        return (index += 1);
+      }
+    });
   };
   const handleIncrementStock = () => {
     if (addStock >= currentVariant.stock) return;
@@ -76,28 +121,45 @@ export const PlantDetails = () => {
     if (addStock <= 1) return;
     setAddStock(addStock - 1);
   };
-  console.log(plant);
   console.log(imgIndex);
   return (
     <div className="pt-10 2xl:container 2xl:mx-auto">
       <div className="flex flex-col gap-4 lg:flex-row">
         <div className="flex w-full flex-col-reverse items-center lg:w-[50%] lg:flex-row lg:items-start 2xl:justify-start">
           {/* slider buttons */}
-          <div className="flex flex-row gap-2 overflow-hidden *:cursor-pointer md:h-[700px] lg:flex-col">
-            {images?.map((img, index) => (
-              <button
-                key={index}
-                onClick={() => handleSetImgIndex(index)}
-                className={`${imgIndex === index ? "border-2 border-green-950" : ""}`}
-              >
-                <img
-                  className="object-cover lg:h-[170px]"
-                  src={img}
-                  height={100}
-                  width={100}
-                />
-              </button>
-            ))}
+          <div className="relative min-w-full lg:flex lg:min-w-auto lg:flex-col">
+            <button
+              onClick={goToPreviousImg}
+              className="absolute top-10 -left-4 flex cursor-pointer justify-center bg-slate-50 hover:bg-slate-100 active:bg-slate-200 lg:static lg:top-0 lg:left-0"
+            >
+              <IoChevronUp className="h-10 w-10 -rotate-90 lg:rotate-0" />
+            </button>
+            <div
+              ref={thumbnailsRef}
+              className="flex min-w-full flex-row justify-center gap-2 *:cursor-pointer lg:max-h-[700px] lg:min-w-auto lg:flex-col lg:justify-start lg:overflow-y-auto lg:py-10"
+              style={{ scrollbarWidth: "none" }}
+            >
+              {images?.map((img, index) => (
+                <button
+                  key={index}
+                  onClick={() => handleSetImgIndex(index)}
+                  className={`${imgIndex === index ? "border-2 border-slate-600" : ""}`}
+                >
+                  <img
+                    className="object-cover lg:h-[180px]"
+                    src={img}
+                    height={100}
+                    width={100}
+                  />
+                </button>
+              ))}
+            </div>
+            <button
+              onClick={goToNextImg}
+              className="absolute top-10 -right-4 flex -rotate-90 cursor-pointer justify-center bg-slate-50 hover:bg-slate-100 active:bg-slate-200 lg:static lg:rotate-0"
+            >
+              <IoChevronUp className="h-10 w-10 rotate-180" />
+            </button>
           </div>
           {/* img slider */}
 
@@ -200,7 +262,7 @@ export const PlantDetails = () => {
               </button>
             </div>
           </div>
-          <div className="grid grid-cols-1 gap-6 rounded-xl bg-green-50/70 md:grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-2 gap-6 rounded-xl bg-green-50/70 lg:grid-cols-4">
             {features.map((feature, index) => (
               <div
                 key={index}

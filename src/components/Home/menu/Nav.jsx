@@ -27,7 +27,7 @@ export const Nav = () => {
   const [selectedIndicator, setSelectedIndicator] = useState(pathname);
   return (
     <motion.div
-      className="menu | fixed top-0 left-0 z-40 h-screen bg-[#386641] text-white"
+      className="menu | fixed top-0 left-0 z-40 h-screen bg-white/10 text-white backdrop-blur-xl"
       variants={menuSlide}
       initial="initial"
       animate="enter"
