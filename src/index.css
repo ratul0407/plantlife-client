@@ -20,9 +20,12 @@
     @apply font-metal pr-2 text-3xl font-thin text-[#386641] italic sm:text-4xl md:text-5xl lg:text-6xl;
   }
   .input-container {
-    @apply flex-col items-start justify-start gap-4 space-y-4;
+    @apply relative flex-col items-start justify-start;
   }
   .input {
     @apply block w-80 min-w-full rounded-lg border border-slate-300 px-2 py-3 font-medium text-gray-600 focus:outline-green-800/50 sm:w-full lg:w-full lg:rounded-sm lg:py-3;
+  }
+  .error-msg {
+    @apply absolute -bottom-5 text-sm text-red-500;
   }
 }
