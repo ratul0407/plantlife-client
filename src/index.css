@@ -23,6 +23,6 @@
     @apply flex-col items-start justify-start gap-4 space-y-4;
   }
   .input {
-    @apply block w-80 min-w-full rounded-lg border border-slate-300 px-2 py-1.5 focus:outline-green-800/50 sm:w-full lg:w-full lg:rounded-sm lg:py-3;
+    @apply block w-80 min-w-full rounded-lg border border-slate-300 px-2 py-3 font-medium text-gray-600 focus:outline-green-800/50 sm:w-full lg:w-full lg:rounded-sm lg:py-3;
   }
 }
