@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import { Home } from "../pages/Home";
 import Lenis from "lenis";
+import { Outlet } from "react-router";
+import { Navbar } from "../components/Home/Navbar";
 
 export const Root = () => {
   useEffect(() => {
@@ -11,5 +13,9 @@ export const Root = () => {
     }
     requestAnimationFrame(raf);
   }, []);
-  return <Home />;
+  return (
+    <div>
+      <Home />
+    </div>
+  );
 };

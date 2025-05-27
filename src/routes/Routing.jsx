@@ -6,6 +6,7 @@ import { PlantDetails } from "../pages/PlantDetails";
 import { Home } from "../pages/Home";
 import { Component } from "react";
 import { AllPlantsSection } from "../components/AllPlants/AllPlantsSection";
+import { SignUp } from "../pages/authentication/SignUp";
 
 export const router = createBrowserRouter([
   {
@@ -31,5 +32,9 @@ export const router = createBrowserRouter([
         Component: PlantDetails,
       },
     ],
+  },
+  {
+    path: "/signup",
+    Component: SignUp,
   },
 ]);

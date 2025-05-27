@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Menu } from "./menu/Menu";
 import { useEffect } from "react";
+import { Link } from "react-router";
 
 export const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -38,8 +39,14 @@ export const Navbar = () => {
         </h3>
       </div>
       {/* cart */}
-      <div>
-        <p className="sm:text-lg">CART (2)</p>
+      <div className="space-x-2 lg:space-x-8">
+        <button className="sm:text-lg">CART (2)</button>
+        <Link
+          to="/signup"
+          className="cursor-pointer rounded-sm bg-white p-2 text-black shadow-xl transition-all duration-300 hover:bg-black hover:text-white"
+        >
+          Sign up
+        </Link>
       </div>
     </div>
   );

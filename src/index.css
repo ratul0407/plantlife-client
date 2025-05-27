@@ -19,7 +19,10 @@
   .plant-text {
     @apply font-metal pr-2 text-3xl font-thin text-[#386641] italic sm:text-4xl md:text-5xl lg:text-6xl;
   }
-}
-* {
-  /* border: 1px solid red; */
+  .input-container {
+    @apply flex-col items-start justify-start gap-4 space-y-4;
+  }
+  .input {
+    @apply block w-80 min-w-full rounded-lg border border-slate-300 px-2 py-1.5 focus:outline-green-800/50 sm:w-full lg:w-full lg:rounded-sm lg:py-3;
+  }
 }
