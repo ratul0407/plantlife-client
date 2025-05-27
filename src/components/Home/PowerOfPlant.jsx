@@ -7,7 +7,7 @@ export const PowerOfPlant = () => {
       <div className="flex flex-col-reverse gap-12 lg:flex-row lg:items-stretch lg:gap-20">
         <div className="relative space-y-4 text-white lg:basis-1/2 lg:space-y-0">
           <img src={plantImg} className="lg:max-h-[900px] 2xl:max-h-[1000px]" />
-          <p className="absolute inset-0 translate-y-1/2 text-center uppercase sm:text-lg 2xl:text-3xl">
+          <p className="absolute inset-0 translate-y-1/2 text-center uppercase sm:text-lg lg:mx-auto lg:max-w-[50ch]">
             Plant improve air quality, reduces stress and brings a sense of calm
             and to your environment. discover all the ways our plants can
             enhance your well-being.

@@ -14,6 +14,17 @@ export const Navbar = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    const gotoPreviousState = () => {
+      const atTop = window.scrollY < 112;
+      if (atTop) {
+        setScrolled(false);
+      }
+    };
+    window.addEventListener("scroll", gotoPreviousState);
+    return () => window.removeEventListener("scroll", gotoPreviousState);
+  }, []);
   return (
     <div
       className={`sticky top-0 z-50 flex items-center justify-between bg-white/0 px-10 py-4 transition-all duration-300 ${scrolled ? "bg-white/50 text-black" : "text-white"}`}
