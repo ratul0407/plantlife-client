@@ -4,22 +4,28 @@ import { useEffect } from "react";
 import { PlantCard } from "./PlantCard";
 import { BsFilterLeft } from "react-icons/bs";
 import { FilterSideBar } from "./FilterSideBar";
+import { useQuery } from "@tanstack/react-query";
 
 export const AllPlantsSection = () => {
   const [overlay, setOverlay] = useState(false);
   console.log(setOverlay);
-  const [allPlants, setAllPlants] = useState([{}]);
   const [openFilter, setOpenFilter] = useState(false);
-  useEffect(() => {
-    const getAllPlants = async () => {
-      const { data } = await axios.get(
-        `${import.meta.env.VITE_API_URL}/all-plants`,
-      );
-      return setAllPlants(data);
-    };
 
-    getAllPlants();
-  }, []);
+  const { data: plants } = useQuery({
+    queryKey: ["plants"],
+    queryFn: async () => {
+      const { data } = await axios.get(
+        `${import.meta.env.VITE_API_URL}/plants`,
+        {
+          withCredentials: true,
+        },
+      );
+      console.log(data);
+      return data;
+    },
+  });
+
+  console.log(plants);
   const openFilterSideBar = () => {
     setOpenFilter(true);
     setOverlay(true);
@@ -85,7 +91,7 @@ export const AllPlantsSection = () => {
           </div>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {allPlants?.map((plant, index) => {
+          {plants?.map((plant, index) => {
             return <PlantCard key={index} plant={plant} />;
           })}
         </div>

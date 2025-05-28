@@ -32,7 +32,7 @@ export const SignUp = () => {
   });
 
   return (
-    <div className="px-4 lg:flex lg:max-h-screen lg:items-center lg:gap-12 lg:p-0 2xl:container 2xl:mx-auto">
+    <div className="px-4 lg:flex lg:min-h-screen lg:items-center lg:gap-12 lg:p-0 2xl:container 2xl:mx-auto">
       <div className="hidden basis-1/2 lg:block">
         <img src={signUpImg} className="max-h-screen w-full" />
       </div>

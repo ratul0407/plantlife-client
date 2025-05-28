@@ -4,12 +4,12 @@ import {
 } from "firebase/auth";
 import { useState } from "react";
 import { createContext } from "react";
-import auth from "../firebase/firebase.config";
 import { useEffect } from "react";
 import axios from "axios";
+import { auth } from "../firebase/firebase.config";
 
 export const AuthContext = createContext(null);
-export const AuthProvider = () => {
+export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -21,20 +21,29 @@ export const AuthProvider = () => {
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser?.email) {
-        try {
-          const res = await axios.post(`${import.meta.env.VITE_API_URL}/jwt`, {
-            email: currentUser.email,
-          });
-          if (res.data.token) {
-            setUser(currentUser);
-            localStorage.setItem("token", res.data.token);
-          }
-        } catch (error) {
-          console.error("Error generating jwt token");
-        }
+        setUser(currentUser);
+
+        await axios.post(
+          `${import.meta.env.VITE_API_URL}/jwt`,
+          {
+            email: currentUser?.email,
+          },
+          {
+            withCredentials: true,
+          },
+        );
+      } else {
       }
     });
     return () => unSubscribe;
   }, []);
-  return <div>AuthProvider</div>;
+
+  const authInfo = {
+    user,
+    loading,
+    createUser,
+  };
+  return (
+    <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>
+  );
 };
