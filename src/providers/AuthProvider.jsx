@@ -1,6 +1,7 @@
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
+  updateProfile,
 } from "firebase/auth";
 import { useState } from "react";
 import { createContext } from "react";
@@ -18,6 +19,13 @@ export const AuthProvider = ({ children }) => {
     return createUserWithEmailAndPassword(auth, email, password);
   };
 
+  const updateUserProfile = (name, photo) => {
+    setLoading(true);
+    return updateProfile(auth.currentUser, {
+      displayName: name,
+      photoURL: photo || null,
+    });
+  };
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser?.email) {
@@ -42,6 +50,7 @@ export const AuthProvider = ({ children }) => {
     user,
     loading,
     createUser,
+    updateUserProfile,
   };
   return (
     <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>

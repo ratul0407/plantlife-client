@@ -1,13 +1,15 @@
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import signUpImg from "../../assets/static/sign-up-page-img.jpg";
 import googleIcon from "../../assets/icons/google-icon.svg";
 import { useState } from "react";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { useFormik } from "formik";
 import { basicSchema } from "../../schema/error";
+import { useAuth } from "../../hooks/useAuth";
 export const SignUp = () => {
   const [showPass, setShowPass] = useState(false);
-
+  const navigate = useNavigate();
+  const { createUser } = useAuth();
   const {
     values,
     errors,
@@ -25,8 +27,10 @@ export const SignUp = () => {
     },
     onSubmit: async (values, action) => {
       console.log("onSubmit", values);
-      // action.resetForm();
-      await new Promise((resolve) => setTimeout(() => resolve, 5000));
+      action.resetForm();
+      await createUser(email, password);
+      await updateUserProfile(name);
+      await navigate("/plants");
     },
     validationSchema: basicSchema,
   });
