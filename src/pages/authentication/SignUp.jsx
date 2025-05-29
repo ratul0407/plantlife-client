@@ -1,15 +1,20 @@
 import { Link, useNavigate } from "react-router";
 import signUpImg from "../../assets/static/sign-up-page-img.jpg";
-import googleIcon from "../../assets/icons/google-icon.svg";
+
 import { useState } from "react";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { useFormik } from "formik";
-import { basicSchema } from "../../schema/error";
+import { signUpSchema } from "../../schema/error";
 import { useAuth } from "../../hooks/useAuth";
+import { saveUser } from "../../api/utils";
+import {
+  FormButton,
+  GoogleLogin,
+} from "../../components/microComponents/MicroComponents";
 export const SignUp = () => {
   const [showPass, setShowPass] = useState(false);
   const navigate = useNavigate();
-  const { createUser } = useAuth();
+  const { createUser, updateUserProfile } = useAuth();
   const {
     values,
     errors,
@@ -27,12 +32,13 @@ export const SignUp = () => {
     },
     onSubmit: async (values, action) => {
       console.log("onSubmit", values);
+      await createUser(values.email, values.password);
+      await updateUserProfile(values.name);
+      await saveUser(values);
       action.resetForm();
-      await createUser(email, password);
-      await updateUserProfile(name);
-      await navigate("/plants");
+      navigate("/plants");
     },
-    validationSchema: basicSchema,
+    validationSchema: signUpSchema,
   });
 
   return (
@@ -151,13 +157,7 @@ export const SignUp = () => {
                   </Link>
                 </p>
               </div>
-              <button
-                disabled={isSubmitting}
-                type="submit"
-                className="min-w-full cursor-pointer rounded-sm bg-green-800 py-2.5 text-lg font-semibold text-white transition-all duration-300 hover:bg-green-700 disabled:cursor-not-allowed disabled:bg-gray-400"
-              >
-                Sign Up
-              </button>
+              <FormButton isSubmitting={isSubmitting} text={"Sign Up"} />
             </div>
           </form>
 
@@ -166,12 +166,7 @@ export const SignUp = () => {
             <p className="text-gray-400">Or</p>
             <span className="h-[1px] w-full bg-gray-300"></span>
           </div>
-          <div>
-            <button className="flex w-full cursor-pointer items-center justify-center gap-4 rounded-xl py-2 text-lg font-medium shadow-sm shadow-slate-200 transition-all duration-300 hover:bg-slate-50 lg:gap-12">
-              <img src={googleIcon} />
-              Continue with google
-            </button>
-          </div>
+          <GoogleLogin isSubmitting={isSubmitting} />
         </div>
       </div>
     </div>

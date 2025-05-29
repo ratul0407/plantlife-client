@@ -2,8 +2,10 @@ import { useState } from "react";
 import { Menu } from "./menu/Menu";
 import { useEffect } from "react";
 import { Link } from "react-router";
+import { useAuth } from "../../hooks/useAuth";
 
 export const Navbar = () => {
+  const { user, logOut } = useAuth();
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
     const handleScroll = () => {
@@ -39,14 +41,20 @@ export const Navbar = () => {
         </h3>
       </div>
       {/* cart */}
-      <div className="space-x-2 lg:space-x-8">
-        <button className="sm:text-lg">CART (2)</button>
-        <Link
-          to="/signup"
-          className="cursor-pointer rounded-sm bg-white p-2 text-black shadow-xl transition-all duration-300 hover:bg-black hover:text-white"
-        >
-          Sign up
-        </Link>
+      <div className="flex items-center gap-2 lg:gap-8">
+        <button className="sm:text-lg">CART (0)</button>
+        <div>
+          {user ? (
+            <p>Helllo , {user.displayName.split(" ")[0]}</p>
+          ) : (
+            <Link
+              to="/login"
+              className="cursor-pointer rounded-sm bg-white p-2 text-black shadow-xl transition-all duration-300 hover:bg-black hover:text-white"
+            >
+              Login
+            </Link>
+          )}
+        </div>
       </div>
     </div>
   );

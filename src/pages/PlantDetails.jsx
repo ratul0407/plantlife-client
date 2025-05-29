@@ -118,7 +118,6 @@ export const PlantDetails = () => {
     if (addStock <= 1) return;
     setAddStock(addStock - 1);
   };
-  console.log(imgIndex);
   return (
     <div className="pt-10 2xl:container 2xl:mx-auto">
       <div className="flex flex-col gap-4 lg:flex-row">
@@ -127,7 +126,7 @@ export const PlantDetails = () => {
           <div className="relative min-w-full lg:flex lg:min-w-auto lg:flex-col">
             <button
               onClick={goToPreviousImg}
-              className="absolute top-10 -left-4 flex cursor-pointer justify-center bg-slate-50 transition-all duration-300 hover:bg-slate-100 active:scale-90 lg:static lg:top-0 lg:left-0"
+              className="absolute top-2 -left-4 flex rotate-0 cursor-pointer justify-center transition-all duration-300 hover:bg-slate-100 active:scale-90 sm:top-10 sm:bg-slate-50 lg:static lg:rotate-0"
             >
               <IoChevronUp className="h-10 w-10 -rotate-90 lg:rotate-0" />
             </button>
@@ -153,7 +152,7 @@ export const PlantDetails = () => {
             </div>
             <button
               onClick={goToNextImg}
-              className="absolute top-10 -right-4 flex -rotate-90 cursor-pointer justify-center bg-slate-50 transition-all duration-300 hover:bg-slate-100 active:scale-90 lg:static lg:rotate-0"
+              className="absolute top-2 -right-4 flex -rotate-90 cursor-pointer justify-center transition-all duration-300 hover:bg-slate-100 active:scale-90 sm:top-10 sm:bg-slate-50 lg:static lg:rotate-0"
             >
               <IoChevronUp className="h-10 w-10 rotate-180" />
             </button>
@@ -163,11 +162,11 @@ export const PlantDetails = () => {
           <div
             onMouseEnter={() => setShowControls(true)}
             onMouseLeave={() => setShowControls(false)}
-            className="relative flex h-[600px] w-full overflow-hidden md:h-[700px] lg:w-full"
+            className="relative flex max-h-[350px] w-full overflow-hidden md:h-[600px] lg:h-[700px] lg:w-full"
           >
             <button
               onClick={goToPreviousImg}
-              className={`absolute left-0 z-50 h-full w-20 cursor-pointer bg-white/20 transition-all duration-300 ${showControls ? "opacity-100" : "opacity-0"}`}
+              className={`absolute left-0 z-50 h-full w-10 cursor-pointer bg-white/20 transition-all duration-300 md:w-20 ${showControls ? "opacity-100" : "opacity-0"}`}
             >
               <IoChevronUp className="h-10 w-10 -rotate-90" />
             </button>
@@ -186,7 +185,7 @@ export const PlantDetails = () => {
             ))}
             <button
               onClick={goToNextImg}
-              className={`absolute right-0 z-50 h-full w-20 cursor-pointer bg-white/20 transition-all duration-300 ${showControls ? "opacity-100" : "opacity-0"}`}
+              className={`absolute right-0 z-50 h-full w-10 cursor-pointer bg-white/20 transition-all duration-300 md:w-20 ${showControls ? "opacity-100" : "opacity-0"}`}
             >
               <IoChevronUp className="h-10 w-10 rotate-90" />
             </button>

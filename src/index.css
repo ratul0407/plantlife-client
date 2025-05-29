@@ -26,6 +26,6 @@
     @apply block w-80 min-w-full rounded-lg border border-slate-300 px-2 py-3 font-medium text-gray-600 focus:outline-green-800/50 sm:w-full lg:w-full lg:rounded-sm lg:py-3;
   }
   .error-msg {
-    @apply absolute -bottom-5 text-sm text-red-500;
+    @apply absolute -bottom-5 text-sm text-red-300;
   }
 }
