@@ -11,7 +11,7 @@ export const AllPlantsSection = () => {
   console.log(setOverlay);
   const [openFilter, setOpenFilter] = useState(false);
 
-  const { data: plants } = useQuery({
+  const { data: plants, isLoading } = useQuery({
     queryKey: ["plants"],
     queryFn: async () => {
       const { data } = await axios.get(
@@ -57,6 +57,8 @@ export const AllPlantsSection = () => {
       document.removeEventListener("keydown", closeWithKeyboard);
     };
   }, [closeFilterSideBar]);
+
+  if (isLoading) return <p>isLoading...........</p>;
   return (
     <>
       <div className="pt-20 2xl:mx-80">
