@@ -3,6 +3,7 @@ import { Menu } from "./menu/Menu";
 import { useEffect } from "react";
 import { Link } from "react-router";
 import { useAuth } from "../../hooks/useAuth";
+import { PiShoppingCart } from "react-icons/pi";
 
 export const Navbar = () => {
   const { user, logOut } = useAuth();
@@ -30,7 +31,7 @@ export const Navbar = () => {
   }, []);
   return (
     <div
-      className={`sticky top-0 z-50 flex items-center justify-between bg-white/0 px-10 py-4 transition-all duration-300 ${scrolled ? "bg-white/50 text-black" : "text-white"}`}
+      className={`sticky top-0 z-50 flex items-center justify-between bg-white/0 p-2 transition-all duration-300 sm:px-10 sm:py-4 ${scrolled ? "bg-white/50 text-black" : "text-white"}`}
     >
       {/* menu */}
       <Menu />
@@ -42,8 +43,10 @@ export const Navbar = () => {
       </div>
       {/* cart */}
       <div className="flex items-center gap-2 lg:gap-8">
-        <button className="sm:text-lg">CART (0)</button>
         <div>
+          <button className="sm:text-lg">CART (0)</button>
+        </div>
+        <div className="hidden sm:block">
           {user ? (
             <p>Helllo , {user.displayName.split(" ")[0]}</p>
           ) : (

@@ -162,7 +162,7 @@ export const PlantDetails = () => {
           <div
             onMouseEnter={() => setShowControls(true)}
             onMouseLeave={() => setShowControls(false)}
-            className="relative flex max-h-[350px] w-full overflow-hidden md:h-[600px] lg:h-[700px] lg:w-full"
+            className="relative flex h-[350px] w-full overflow-hidden md:h-[600px] lg:h-[700px] lg:w-full"
           >
             <button
               onClick={goToPreviousImg}

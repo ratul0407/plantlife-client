@@ -1,5 +1,6 @@
 import { Link, NavLink, Outlet } from "react-router";
 import { IoMenu } from "react-icons/io5";
+import { Menu } from "../components/Home/menu/Menu";
 
 export const AllPlants = () => {
   return (
@@ -10,7 +11,7 @@ export const AllPlants = () => {
             <Link to="/">PlantLife</Link>
           </h3>
           {/*  desktop nav */}
-          <nav className="hidden lg:block">
+          <nav className="hidden md:block">
             <ul className="flex items-center gap-8 font-semibold">
               <NavLink to="/">Home</NavLink>
               <NavLink to="/all-plants"> All Plants</NavLink>
@@ -22,7 +23,7 @@ export const AllPlants = () => {
           {/* mobile nav */}
 
           <div className="block md:hidden">
-            <IoMenu className="h-12 w-12" />
+            <Menu />
           </div>
         </header>
         <main>
