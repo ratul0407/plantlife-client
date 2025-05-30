@@ -12,7 +12,7 @@ export const AllPlants = () => {
   return (
     <>
       <div className="relative">
-        <header className="sticky top-0 left-0 z-50 flex items-center justify-between bg-white px-8 py-6 shadow-xl">
+        <header className="sticky top-0 left-0 z-50 flex items-center justify-between bg-white px-8 py-6 shadow-sm">
           <h3 className="font-metal text-4xl">
             <Link to="/">PlantLife</Link>
           </h3>
@@ -20,7 +20,7 @@ export const AllPlants = () => {
           <nav className="hidden md:block">
             <ul className="flex items-center gap-8 font-semibold">
               <NavLink to="/">Home</NavLink>
-              <NavLink to="/all-plants"> All Plants</NavLink>
+              <NavLink to="/plants"> All Plants</NavLink>
               <NavLink to="/">About</NavLink>
               <NavLink to="/">Contact</NavLink>
             </ul>
