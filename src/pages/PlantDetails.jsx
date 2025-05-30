@@ -166,7 +166,7 @@ export const PlantDetails = () => {
           >
             <button
               onClick={goToPreviousImg}
-              className={`absolute left-0 z-50 h-full w-10 cursor-pointer bg-white/20 transition-all duration-300 md:w-20 ${showControls ? "opacity-100" : "opacity-0"}`}
+              className={`absolute left-0 z-40 h-full w-10 cursor-pointer bg-white/20 transition-all duration-300 md:w-20 ${showControls ? "opacity-100" : "opacity-0"}`}
             >
               <IoChevronUp className="h-10 w-10 -rotate-90" />
             </button>
@@ -185,7 +185,7 @@ export const PlantDetails = () => {
             ))}
             <button
               onClick={goToNextImg}
-              className={`absolute right-0 z-50 h-full w-10 cursor-pointer bg-white/20 transition-all duration-300 md:w-20 ${showControls ? "opacity-100" : "opacity-0"}`}
+              className={`absolute right-0 z-40 h-full w-10 cursor-pointer bg-white/20 transition-all duration-300 md:w-20 ${showControls ? "opacity-100" : "opacity-0"}`}
             >
               <IoChevronUp className="h-10 w-10 rotate-90" />
             </button>
