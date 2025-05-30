@@ -99,7 +99,7 @@ export const AllPlantsSection = () => {
         </div>
       </div>
       <div
-        className={`${overlay ? "block" : "hidden"} overlay | absolute top-0 z-10 min-h-screen w-[97.4vw] cursor-pointer bg-black/20`}
+        className={`${overlay ? "block" : "hidden"} overlay | absolute top-0 z-10 min-h-screen w-[96.3vw] cursor-pointer bg-black/20`}
       ></div>
     </>
   );

@@ -44,7 +44,7 @@ export const Navbar = () => {
       {/* cart */}
       <div className="flex items-center gap-2 lg:gap-8">
         <div>
-          <button className="sm:text-lg">CART (0)</button>
+          <button className="sm:text-lg">CART (1)</button>
         </div>
         <div className="hidden sm:block">
           {user ? (
