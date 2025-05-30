@@ -46,7 +46,7 @@ export const AllPlants = () => {
                     onClick={() => setOpenProfileBar(true)}
                     className="flex h-8 w-8 items-center justify-center rounded-full bg-green-800 text-white"
                   >
-                    {user?.displayName[0]}
+                    {user?.displayName[0].toUpperCase()}
                   </button>
                 ) : (
                   <Link
