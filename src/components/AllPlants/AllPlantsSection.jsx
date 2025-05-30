@@ -14,9 +14,9 @@ export const AllPlantsSection = () => {
   const [openFilter, setOpenFilter] = useState(false);
   useEffect(() => {
     if (openFilter) {
-      lenisRef.current.stop();
+      lenisRef?.current?.stop();
     } else {
-      lenisRef.current.start();
+      lenisRef?.current?.start();
     }
   }, [openFilter]);
   const { data: plants, isLoading } = useQuery({
@@ -92,7 +92,7 @@ export const AllPlantsSection = () => {
           <div className="flex items-center gap-4">
             <span>Sort By:</span>
             <div className="rounded-sm border border-gray-300 py-1">
-              <select name="sort" id="id" className="">
+              <select name="sort" id="id" className="cursor-pointer">
                 <option value>Default</option>
                 <option value="asc">Price, low to high</option>
                 <option value="dsc">Price, high to low</option>

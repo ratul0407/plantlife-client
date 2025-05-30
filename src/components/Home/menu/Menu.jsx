@@ -7,9 +7,8 @@ import { useLenis } from "../../../hooks/useLenis";
 export const Menu = () => {
   const [isActive, setIsActive] = useState(false);
   const { lenisRef } = useLenis();
-  console.log(lenisRef.current);
   useEffect(() => {
-    if (!lenisRef.current) return;
+    if (!lenisRef?.current) return;
     if (isActive) {
       lenisRef?.current.stop();
     } else {

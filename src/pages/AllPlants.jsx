@@ -14,9 +14,9 @@ export const AllPlants = () => {
   const { lenisRef } = useLenis();
   useEffect(() => {
     if (openProfileBar) {
-      lenisRef?.current.stop();
+      lenisRef?.current?.stop();
     } else {
-      lenisRef?.current.start();
+      lenisRef?.current?.start();
     }
   }, [openProfileBar]);
   return (
