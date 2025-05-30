@@ -1,13 +1,11 @@
-import { createBrowserRouter } from "react-router";
-
 import { Root } from "../layouts/Root";
 import { AllPlants } from "../pages/AllPlants";
 import { PlantDetails } from "../pages/PlantDetails";
 import { Home } from "../pages/Home";
-import { Component } from "react";
 import { AllPlantsSection } from "../components/AllPlants/AllPlantsSection";
 import { SignUp } from "../pages/authentication/SignUp";
 import { Login } from "../pages/authentication/Login";
+import { createBrowserRouter } from "react-router";
 
 export const router = createBrowserRouter([
   {
