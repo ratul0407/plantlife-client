@@ -3,10 +3,19 @@ import { useState } from "react";
 import { Nav } from "./Nav";
 import "./menu.css";
 import { useEffect } from "react";
+import { useLenis } from "../../../hooks/useLenis";
 export const Menu = () => {
   const [isActive, setIsActive] = useState(false);
-  console.log(isActive);
-  // useEffect(() => {}, [isActive]);
+  const { lenisRef } = useLenis();
+  console.log(lenisRef.current);
+  useEffect(() => {
+    if (!lenisRef.current) return;
+    if (isActive) {
+      lenisRef?.current.stop();
+    } else {
+      lenisRef?.current?.start();
+    }
+  }, [isActive, lenisRef]);
   return (
     <>
       <div className="main">
@@ -19,7 +28,9 @@ export const Menu = () => {
           </button>
         </div>
       </div>
-      <AnimatePresence mode="wait">{isActive && <Nav />}</AnimatePresence>
+      <AnimatePresence mode="wait">
+        {isActive && <Nav closeMenu={() => setIsActive(false)} />}
+      </AnimatePresence>
     </>
   );
 };

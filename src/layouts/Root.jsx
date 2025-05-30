@@ -1,18 +1,5 @@
-import { useEffect } from "react";
 import { Home } from "../pages/Home";
-import Lenis from "lenis";
-import { Outlet } from "react-router";
-import { Navbar } from "../components/Home/Navbar";
-
 export const Root = () => {
-  useEffect(() => {
-    const lenis = new Lenis();
-    function raf(time) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
-    requestAnimationFrame(raf);
-  }, []);
   return (
     <div>
       <Home />

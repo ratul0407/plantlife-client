@@ -3,10 +3,9 @@ import { Menu } from "./menu/Menu";
 import { useEffect } from "react";
 import { Link } from "react-router";
 import { useAuth } from "../../hooks/useAuth";
-import { PiShoppingCart } from "react-icons/pi";
 
 export const Navbar = () => {
-  const { user, logOut } = useAuth();
+  const { user } = useAuth();
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
     const handleScroll = () => {

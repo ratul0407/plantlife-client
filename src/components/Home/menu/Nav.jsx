@@ -22,7 +22,7 @@ const navItems = [
     href: "/contact",
   },
 ];
-export const Nav = () => {
+export const Nav = ({ closeMenu }) => {
   const { pathname } = useLocation();
   const [selectedIndicator, setSelectedIndicator] = useState(pathname);
   return (
@@ -41,6 +41,7 @@ export const Nav = () => {
           {navItems.map((item, index) => {
             return (
               <MyLink
+                closeMenu={closeMenu}
                 key={index}
                 item={item}
                 index={index}

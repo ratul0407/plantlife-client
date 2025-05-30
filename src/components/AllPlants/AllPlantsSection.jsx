@@ -5,12 +5,20 @@ import { PlantCard } from "./PlantCard";
 import { BsFilterLeft } from "react-icons/bs";
 import { FilterSideBar } from "./FilterSideBar";
 import { useQuery } from "@tanstack/react-query";
+import { useLenis } from "../../hooks/useLenis";
 
 export const AllPlantsSection = () => {
   const [overlay, setOverlay] = useState(false);
+  const { lenisRef } = useLenis();
   console.log(setOverlay);
   const [openFilter, setOpenFilter] = useState(false);
-
+  useEffect(() => {
+    if (openFilter) {
+      lenisRef.current.stop();
+    } else {
+      lenisRef.current.start();
+    }
+  }, [openFilter]);
   const { data: plants, isLoading } = useQuery({
     queryKey: ["plants"],
     queryFn: async () => {
@@ -61,7 +69,7 @@ export const AllPlantsSection = () => {
   if (isLoading) return <p>isLoading...........</p>;
   return (
     <>
-      <div className="pt-20 2xl:mx-80">
+      <div className="space-y-10 md:space-y-20 2xl:mx-80">
         <div className="flex items-center justify-between">
           {/* filter */}
           <button

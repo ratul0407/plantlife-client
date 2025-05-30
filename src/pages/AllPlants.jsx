@@ -5,10 +5,20 @@ import { MdClose, MdLogout, MdOutlineCancel } from "react-icons/md";
 import { useAuth } from "../hooks/useAuth";
 import { FaCaretDown } from "react-icons/fa";
 import { useState } from "react";
+import { useLenis } from "../hooks/useLenis";
+import { useEffect } from "react";
 
 export const AllPlants = () => {
   const { user, logOut } = useAuth();
   const [openProfileBar, setOpenProfileBar] = useState(false);
+  const { lenisRef } = useLenis();
+  useEffect(() => {
+    if (openProfileBar) {
+      lenisRef?.current.stop();
+    } else {
+      lenisRef?.current.start();
+    }
+  }, [openProfileBar]);
   return (
     <>
       <div className="relative">
@@ -49,7 +59,7 @@ export const AllPlants = () => {
 
                 {/* menu for mobile */}
                 <div
-                  className={`absolute top-0 right-0 z-[100] min-h-screen w-60 bg-white ${openProfileBar ? "block" : "hidden"}`}
+                  className={`absolute top-0 right-0 z-[100] min-h-screen w-60 border-l border-slate-200 bg-white shadow-sm ${openProfileBar ? "block" : "hidden"}`}
                 >
                   <p className="flex items-center justify-between bg-green-800 px-2 py-3 text-white">
                     Hi, {user?.displayName}

@@ -1,7 +1,13 @@
 import { motion } from "motion/react";
 import { Link } from "react-router";
 import { scale, slide } from "./anim";
-export const MyLink = ({ item, index, isActive, setSelectedIndicator }) => {
+export const MyLink = ({
+  item,
+  index,
+  isActive,
+  setSelectedIndicator,
+  closeMenu,
+}) => {
   const { href, title } = item;
   return (
     <motion.div
@@ -18,8 +24,8 @@ export const MyLink = ({ item, index, isActive, setSelectedIndicator }) => {
         variants={scale}
         animate={isActive ? "open" : "closed"}
       ></motion.div>
-      <Link className="white font-light" to={href}>
-        {title}{" "}
+      <Link onClick={closeMenu} className="white font-light" to={href}>
+        {title}
       </Link>
     </motion.div>
   );
