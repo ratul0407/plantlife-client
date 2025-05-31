@@ -6,6 +6,7 @@ import { AllPlantsSection } from "../components/AllPlants/AllPlantsSection";
 import { SignUp } from "../pages/authentication/SignUp";
 import { Login } from "../pages/authentication/Login";
 import { createBrowserRouter } from "react-router";
+import { ErrorPage } from "../pages/ErrorPage";
 
 export const router = createBrowserRouter([
   {
@@ -17,6 +18,7 @@ export const router = createBrowserRouter([
         Component: Home,
       },
     ],
+    errorElement: <ErrorPage />,
   },
   {
     path: "plants",
