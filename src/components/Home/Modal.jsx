@@ -74,7 +74,7 @@ export const Modal = ({ modal, stores }) => {
         variants={scaleAnimation}
         initial="initial"
         animate={active ? "enter" : "exit"}
-        className="font-metal pointer-events-none absolute flex h-[350px] w-[400px] items-center justify-center overflow-hidden bg-white"
+        className="font-metal pointer-events-none absolute hidden h-[350px] w-[400px] items-center justify-center overflow-hidden bg-white lg:flex"
       >
         <div
           style={{ top: index * -100 + "%" }}

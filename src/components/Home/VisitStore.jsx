@@ -63,9 +63,8 @@ export const VisitStore = () => {
           );
         })}
       </div>
-      <div className="hidden lg:block">
-        <Modal modal={modal} stores={stores} />
-      </div>
+
+      <Modal modal={modal} stores={stores} />
     </div>
   );
 };
