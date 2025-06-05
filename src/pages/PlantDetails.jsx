@@ -8,6 +8,7 @@ import { IoChevronUp, IoHeart, IoHeartOutline } from "react-icons/io5";
 import { FiGift, FiHeadphones, FiShield, FiTruck } from "react-icons/fi";
 import { useEffect } from "react";
 import { useRef } from "react";
+import { Reviews } from "../components/AllPlants/Reviews";
 
 const features = [
   {
@@ -191,6 +192,7 @@ export const PlantDetails = () => {
             </button>
           </div>
         </div>
+        {/* plant text details */}
         <div className="flex w-full flex-col justify-around gap-7 lg:w-[50%]">
           <p className="w-fit rounded-full bg-green-700 px-4 text-white">
             {category} plants
@@ -213,8 +215,8 @@ export const PlantDetails = () => {
           </p>
           {/* description */}
           <p className="text-gray-700">{description}</p>
-          {/* variants */}
           <div className="space-y-4">
+            {/* variants */}
             <h4 className="text-xl font-bold text-gray-800">Variants:</h4>
             <div className="flex gap-2">
               {variants?.map((variant, index) => (
@@ -243,7 +245,7 @@ export const PlantDetails = () => {
             </div>
             {/* add to cart or whishlist */}
             <div className="flex items-center gap-2">
-              <div className="flex w-1/4 items-center justify-between rounded-full border border-slate-300 text-center *:text-xl">
+              <div className="flex w-1/3 items-center justify-between rounded-full border border-slate-300 text-center text-sm sm:*:text-xl lg:w-1/4">
                 <button
                   onClick={handleIncrementStock}
                   className="cursor-pointer rounded-l-full py-2.5 pr-4 pl-4 hover:bg-slate-200"
@@ -275,6 +277,7 @@ export const PlantDetails = () => {
               </button>
             </div>
           </div>
+          {/* features section */}
           <div className="grid grid-cols-2 gap-6 rounded-xl bg-green-50/70 lg:grid-cols-4">
             {features.map((feature, index) => (
               <div
@@ -290,6 +293,7 @@ export const PlantDetails = () => {
               </div>
             ))}
           </div>
+          <Reviews />
         </div>
       </div>
     </div>

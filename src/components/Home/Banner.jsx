@@ -1,7 +1,14 @@
+import { useEffect } from "react";
 import { Navbar } from "./Navbar";
 import { IoArrowDown } from "react-icons/io5";
+import { useRef } from "react";
+import gsap from "gsap";
 
 export const Banner = () => {
+  const titleRef = useRef(null);
+  useEffect(() => {
+    gsap.from(titleRef, { opacity: 0, duration: 3 });
+  }, []);
   return (
     <div className="bg-banner -mt-[112px] flex h-screen flex-col justify-between bg-cover text-white">
       <header
@@ -12,7 +19,10 @@ export const Banner = () => {
         {/* main headline */}
         <div className="flex flex-col items-center justify-center gap-8 lg:gap-0">
           <div className="flex flex-col items-center justify-center gap-4">
-            <h1 className="text-center text-5xl tracking-tighter sm:text-6xl md:text-7xl lg:text-9xl">
+            <h1
+              ref={titleRef}
+              className="text-center text-5xl tracking-tighter sm:text-6xl md:text-7xl lg:text-9xl"
+            >
               Bring ..<span className="font-metal italic">nature</span>.. home.
             </h1>
             <button className="btn">Shop Now</button>
