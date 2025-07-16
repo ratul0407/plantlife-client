@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-unused-vars
-import { animate, motion } from "motion/react";
+import { motion } from "motion/react";
 
 export const PlantCard = ({ plant }) => {
   const addToCartVariants = {
