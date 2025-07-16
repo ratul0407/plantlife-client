@@ -236,7 +236,7 @@ export const PlantDetails = () => {
                     tabIndex={0}
                     htmlFor={`variant-${index}`}
                     onClick={() => handleSetImgIndex(index)}
-                    className="inline-block w-full cursor-pointer rounded-full border-2 border-slate-200 bg-slate-200 py-2 text-center font-bold peer-checked:border-2 peer-checked:border-green-300 peer-checked:bg-green-300 peer-checked:text-green-950"
+                    className="inline-block w-full cursor-pointer rounded-full border-2 border-slate-200 bg-slate-200 py-2 text-center font-bold select-none peer-checked:border-2 peer-checked:border-green-300 peer-checked:bg-green-300 peer-checked:text-green-950"
                   >
                     {variant.name}
                   </label>
