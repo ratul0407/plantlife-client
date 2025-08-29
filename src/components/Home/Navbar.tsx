@@ -1,11 +1,10 @@
 import { useState } from "react";
 import { Menu } from "./menu/Menu";
 import { useEffect } from "react";
+import { Button } from "../ui/button";
 import { Link } from "react-router";
-// import { useAuth } from "../../hooks/useAuth";
 
 export const Navbar = () => {
-  // const { user } = useAuth();
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
     const handleScroll = () => {
@@ -57,6 +56,9 @@ export const Navbar = () => {
             </Link>
           )}
         </div> */}
+        <Link to="/login">
+          <Button variant={"ghost"}>Login</Button>
+        </Link>
       </div>
     </div>
   );

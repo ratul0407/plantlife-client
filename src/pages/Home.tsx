@@ -1,13 +1,13 @@
-import { Banner } from "../components/Home/Banner";
-import { CuratedPlants } from "../components/Home/CuratedPlants";
-import { PowerOfPlant } from "../components/Home/PowerOfPlant";
-import { PopularPlants } from "../components/Home/PopularPlants";
-import { PlantsCollection } from "../components/Home/PlantsCollection";
+import { Banner } from "@/components/Home/Banner";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { VisitStore } from "../components/Home/VisitStore";
-import { Navbar } from "../components/Home/Navbar";
+import { VisitStore } from "@/components/Home/VisitStore";
+import { Navbar } from "@/components/Home/Navbar";
+import { CuratedPlants } from "@/components/Home/CuratedPlants";
+import { PowerOfPlant } from "@/components/Home/PowerOfPlant";
+import { PopularPlants } from "@/components/Home/PopularPlants";
+import { PlantsCollection } from "@/components/Home/PlantsCollection";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 

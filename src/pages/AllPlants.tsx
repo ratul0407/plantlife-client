@@ -2,14 +2,14 @@ import { Link, NavLink, Outlet } from "react-router";
 
 import { BsBox, BsCart, BsHeart, BsPerson, BsStar } from "react-icons/bs";
 import { MdClose, MdLogout, MdOutlineCancel } from "react-icons/md";
-import { useAuth } from "../hooks/useAuth";
+// import { useAuth } from "../hooks/useAuth";
 import { FaCaretDown } from "react-icons/fa";
-import { useState } from "react";
-import { useLenis } from "../hooks/useLenis";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
+
+import { useLenis } from "@/hooks/useLenis";
 
 export const AllPlants = () => {
-  const { user, logOut } = useAuth();
+  // const { user, logOut } = useAuth();
   const [openProfileBar, setOpenProfileBar] = useState(false);
   const { lenisRef } = useLenis();
   useEffect(() => {
@@ -41,12 +41,12 @@ export const AllPlants = () => {
             <div>
               {/* menu open button for mobile */}
               <div className="block md:hidden">
-                {user ? (
+                {true ? (
                   <button
                     onClick={() => setOpenProfileBar(true)}
                     className="flex h-8 w-8 items-center justify-center rounded-full bg-green-800 text-white"
                   >
-                    {user?.displayName[0].toUpperCase()}
+                    {/* {user?.displayName[0].toUpperCase()} */}
                   </button>
                 ) : (
                   <Link
@@ -62,7 +62,7 @@ export const AllPlants = () => {
                   className={`absolute top-0 right-0 z-[100] min-h-screen w-60 border-l border-slate-200 bg-white shadow-sm ${openProfileBar ? "block" : "hidden"}`}
                 >
                   <p className="flex items-center justify-between bg-green-800 px-2 py-3 text-white">
-                    Hi, {user?.displayName}
+                    {/* Hi, {user?.displayName} */}
                     <button onClick={() => setOpenProfileBar(false)}>
                       <MdClose className="h-6 w-6 rounded-full border p-0.5" />
                     </button>
@@ -90,23 +90,23 @@ export const AllPlants = () => {
                       <BsStar />
                       Reviews
                     </li>
-                    <li
+                    {/* <li
                       onClick={logOut}
                       className="absolute bottom-0 text-red-500"
                     >
                       <MdLogout />
                       Log out
-                    </li>
+                    </li> */}
                   </ul>
                 </div>
               </div>
               {/* menu for desktop */}
-              <div className={`${user ? "group" : ""}`}>
+              <div>
                 {/* menu open button for desktop */}
-                {user ? (
+                {true ? (
                   <div className="hidden items-center justify-center gap-3 md:flex md:rounded-full md:border md:border-slate-300 md:p-0.5 md:px-3">
                     <p className="text-gray-600">
-                      Hi, {user?.displayName.split(" ").pop()}
+                      {/* Hi, {user?.displayName.split(" ").pop()} */}
                     </p>
 
                     <FaCaretDown className="text-slate-600" />
@@ -148,10 +148,10 @@ export const AllPlants = () => {
                       <BsStar />
                       Reviews
                     </li>
-                    <li onClick={logOut} className="text-red-500">
-                      <MdLogout />
-                      Log out
-                    </li>
+                    {/* <li onClick={logOut} className="text-red-500"> */}
+                    {/* <MdLogout /> */}
+                    {/* Log out */}
+                    {/* </li> */}
                   </ul>
                 </div>
               </div>

@@ -8,7 +8,7 @@ import { IoChevronUp, IoHeart, IoHeartOutline } from "react-icons/io5";
 import { FiGift, FiHeadphones, FiShield, FiTruck } from "react-icons/fi";
 import { useEffect } from "react";
 import { useRef } from "react";
-import { Reviews } from "../components/AllPlants/Reviews";
+import { Reviews } from "@/components/AllPlants/Reviews";
 
 const features = [
   {
