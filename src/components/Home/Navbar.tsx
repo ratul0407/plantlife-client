@@ -2,10 +2,10 @@ import { useState } from "react";
 import { Menu } from "./menu/Menu";
 import { useEffect } from "react";
 import { Link } from "react-router";
-import { useAuth } from "../../hooks/useAuth";
+// import { useAuth } from "../../hooks/useAuth";
 
 export const Navbar = () => {
-  const { user } = useAuth();
+  // const { user } = useAuth();
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
     const handleScroll = () => {
@@ -45,7 +45,7 @@ export const Navbar = () => {
         <div>
           <button className="sm:text-lg">CART (1)</button>
         </div>
-        <div className="hidden sm:block">
+        {/* <div className="hidden sm:block">
           {user ? (
             <p>Helllo , {user.displayName.split(" ")[0]}</p>
           ) : (
@@ -56,7 +56,7 @@ export const Navbar = () => {
               Login
             </Link>
           )}
-        </div>
+        </div> */}
       </div>
     </div>
   );

@@ -20,26 +20,26 @@ export const router = createBrowserRouter([
     ],
     errorElement: <ErrorPage />,
   },
-  {
-    path: "plants",
-    Component: AllPlants,
-    children: [
-      {
-        index: true,
-        Component: AllPlantsSection,
-      },
-      {
-        path: "/plants/:id",
-        Component: PlantDetails,
-      },
-    ],
-  },
-  {
-    path: "/signup",
-    Component: SignUp,
-  },
-  {
-    path: "/login",
-    Component: Login,
-  },
+  // {
+  //   path: "plants",
+  //   Component: AllPlants,
+  //   children: [
+  //     {
+  //       index: true,
+  //       Component: AllPlantsSection,
+  //     },
+  //     {
+  //       path: "/plants/:id",
+  //       Component: PlantDetails,
+  //     },
+  //   ],
+  // },
+  // {
+  //   path: "/signup",
+  //   Component: SignUp,
+  // },
+  // {
+  //   path: "/login",
+  //   Component: Login,
+  // },
 ]);
