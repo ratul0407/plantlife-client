@@ -6,6 +6,7 @@ import { Link } from "react-router";
 import { useGetMeQuery } from "@/redux/features/user.api";
 import { authApi, useLogOutMutation } from "@/redux/features/auth.api";
 import { useAppDispatch } from "@/redux/hooks";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 export const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -18,7 +19,7 @@ export const Navbar = () => {
     dispatch(authApi.util.resetApiState());
   };
   const user = data?.data;
-  console.log(data);
+  console.log(user);
   useEffect(() => {
     const handleScroll = () => {
       const isScrolled = window.scrollY > 400;
@@ -59,17 +60,14 @@ export const Navbar = () => {
         </div>
         <div className="hidden sm:block">
           {user ? (
-            <div className="flex items-center gap-3">
-              <p>Hello , {user.name.split(" ")[0]}</p>
-              <Button
-                onClick={handleLogout}
-                variant={"outline"}
-                className="text-black"
-              >
-                Log out
-              </Button>
-            </div>
+            <Avatar>
+              <AvatarImage src={user?.picture} />
+              <AvatarFallback className="text-black">
+                {user?.name?.split("")[0].toUpperCase()}
+              </AvatarFallback>
+            </Avatar>
           ) : (
+            // </Link>
             <Link
               to="/login"
               className="cursor-pointer rounded-sm bg-white p-2 text-black shadow-xl transition-all duration-300 hover:bg-black hover:text-white"
@@ -78,6 +76,7 @@ export const Navbar = () => {
             </Link>
           )}
         </div>
+        <button onClick={handleLogout}>logout</button>
       </div>
     </div>
   );
