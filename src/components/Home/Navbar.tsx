@@ -3,9 +3,22 @@ import { Menu } from "./menu/Menu";
 import { useEffect } from "react";
 import { Button } from "../ui/button";
 import { Link } from "react-router";
+import { useGetMeQuery } from "@/redux/features/user.api";
+import { authApi, useLogOutMutation } from "@/redux/features/auth.api";
+import { useAppDispatch } from "@/redux/hooks";
 
 export const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
+  const { data } = useGetMeQuery(undefined);
+  const [logout] = useLogOutMutation();
+  const dispatch = useAppDispatch();
+  const handleLogout = async () => {
+    const res = await logout(undefined);
+    console.log(res);
+    dispatch(authApi.util.resetApiState());
+  };
+  const user = data?.data;
+  console.log(data);
   useEffect(() => {
     const handleScroll = () => {
       const isScrolled = window.scrollY > 400;
@@ -44,9 +57,18 @@ export const Navbar = () => {
         <div>
           <button className="sm:text-lg">CART (1)</button>
         </div>
-        {/* <div className="hidden sm:block">
+        <div className="hidden sm:block">
           {user ? (
-            <p>Helllo , {user.displayName.split(" ")[0]}</p>
+            <div className="flex items-center gap-3">
+              <p>Hello , {user.name.split(" ")[0]}</p>
+              <Button
+                onClick={handleLogout}
+                variant={"outline"}
+                className="text-black"
+              >
+                Log out
+              </Button>
+            </div>
           ) : (
             <Link
               to="/login"
@@ -55,10 +77,7 @@ export const Navbar = () => {
               Login
             </Link>
           )}
-        </div> */}
-        <Link to="/login">
-          <Button variant={"ghost"}>Login</Button>
-        </Link>
+        </div>
       </div>
     </div>
   );

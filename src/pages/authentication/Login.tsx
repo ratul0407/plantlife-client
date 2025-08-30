@@ -11,17 +11,19 @@ import {
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import Password from "@/components/Password";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { useLoginMutation } from "@/redux/features/auth.api";
 import config from "@/config";
+import { toast } from "sonner";
 const loginSchema = z.object({
   email: z.string(),
   password: z.string().min(8, { error: "Min 8 characters required" }),
 });
 export const Login = () => {
+  const navigate = useNavigate();
   const [login, { isLoading }] = useLoginMutation();
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -36,6 +38,10 @@ export const Login = () => {
     try {
       const res = await login(data).unwrap();
       console.log(res);
+      if (res.success) {
+        navigate("/");
+        toast.success("Logged in successfully!");
+      }
     } catch (error) {
       console.log(error);
     }
@@ -112,6 +118,9 @@ export const Login = () => {
           </svg>
           Login with Google
         </Button>
+        <p>
+          Already have an account? <Link to="/register">Register</Link>
+        </p>
       </div>
       <div className="hidden basis-1/2 lg:block">
         <img className="max-h-screen w-full" src={loginImg} />

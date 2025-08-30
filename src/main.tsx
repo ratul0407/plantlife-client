@@ -9,6 +9,7 @@ import { LenisProvider } from "./layouts/LenisProvider.jsx";
 import { Provider as ReduxProvider } from "react-redux";
 import { store } from "./redux/store.js";
 import { router } from "./routes/index.js";
+import { Toaster } from "sonner";
 
 // const queryClient = new QueryClient();
 createRoot(document.getElementById("root")!).render(
@@ -17,6 +18,7 @@ createRoot(document.getElementById("root")!).render(
     <ReduxProvider store={store}>
       <LenisProvider>
         <RouterProvider router={router} />
+        <Toaster richColors />
       </LenisProvider>
     </ReduxProvider>
     {/* </AuthProvider> */}

@@ -4,6 +4,7 @@ import { createBrowserRouter } from "react-router";
 import { ErrorPage } from "@/pages/ErrorPage";
 import App from "@/App";
 import { Login } from "@/pages/authentication/Login";
+import { Register } from "@/pages/authentication/Register";
 
 export const router = createBrowserRouter([
   {
@@ -34,10 +35,10 @@ export const router = createBrowserRouter([
   //     },
   //   ],
   // },
-  // {
-  //   path: "/signup",
-  //   Component: SignUp,
-  // },
+  {
+    path: "/register",
+    Component: Register,
+  },
   {
     path: "/login",
     Component: Login,
