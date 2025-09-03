@@ -1,11 +1,11 @@
-import axios from "axios";
 import { useState } from "react";
 import { useEffect } from "react";
 import { PlantCard } from "./PlantCard";
 import { BsFilterLeft } from "react-icons/bs";
 import { FilterSideBar } from "./FilterSideBar";
-import { useQuery } from "@tanstack/react-query";
+
 import { useLenis } from "../../hooks/useLenis";
+import { useGetAllPlantsQuery } from "@/redux/features/plant.api";
 
 export const AllPlantsSection = () => {
   const [overlay, setOverlay] = useState(false);
@@ -19,20 +19,24 @@ export const AllPlantsSection = () => {
       lenisRef?.current?.start();
     }
   }, [openFilter]);
-  const { data: plants, isLoading } = useQuery({
-    queryKey: ["plants"],
-    queryFn: async () => {
-      const { data } = await axios.get(
-        `${import.meta.env.VITE_API_URL}/plants`,
-        {
-          withCredentials: true,
-        },
-      );
-      console.log(data);
-      return data;
-    },
-  });
+  // const { data: plants, isLoading } = useQuery({
+  //   queryKey: ["plants"],
+  //   queryFn: async () => {
+  //     const { data } = await axios.get(
+  //       `${import.meta.env.VITE_API_URL}/plants`,
+  //       {
+  //         withCredentials: true,
+  //       },
+  //     );
+  //     console.log(data);
+  //     return data;
+  //   },
+  // });
 
+  // console.log(plants);
+
+  const { data, isLoading } = useGetAllPlantsQuery(undefined);
+  const plants = data?.data;
   console.log(plants);
   const openFilterSideBar = () => {
     setOpenFilter(true);

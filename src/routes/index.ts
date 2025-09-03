@@ -5,6 +5,9 @@ import { ErrorPage } from "@/pages/ErrorPage";
 import App from "@/App";
 import { Login } from "@/pages/authentication/Login";
 import { Register } from "@/pages/authentication/Register";
+import { AllPlants } from "@/pages/AllPlants";
+import { AllPlantsSection } from "@/components/AllPlants/AllPlantsSection";
+import { PlantDetails } from "@/pages/PlantDetails";
 
 export const router = createBrowserRouter([
   {
@@ -21,20 +24,20 @@ export const router = createBrowserRouter([
     path: "*",
     Component: ErrorPage,
   },
-  // {
-  //   path: "plants",
-  //   Component: AllPlants,
-  //   children: [
-  //     {
-  //       index: true,
-  //       Component: AllPlantsSection,
-  //     },
-  //     {
-  //       path: "/plants/:id",
-  //       Component: PlantDetails,
-  //     },
-  //   ],
-  // },
+  {
+    path: "plants",
+    Component: AllPlants,
+    children: [
+      {
+        index: true,
+        Component: AllPlantsSection,
+      },
+      {
+        path: "/plants/:id",
+        Component: PlantDetails,
+      },
+    ],
+  },
   {
     path: "/register",
     Component: Register,

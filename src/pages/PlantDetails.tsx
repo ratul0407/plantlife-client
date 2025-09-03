@@ -9,6 +9,7 @@ import { FiGift, FiHeadphones, FiShield, FiTruck } from "react-icons/fi";
 import { useEffect } from "react";
 import { useRef } from "react";
 import { Reviews } from "@/components/AllPlants/Reviews";
+import { useGetSinglePlantQuery } from "@/redux/features/plant.api";
 
 const features = [
   {
@@ -39,22 +40,9 @@ export const PlantDetails = () => {
   const [addToWhishList, setAddToWishList] = useState(false);
   const [showControls, setShowControls] = useState(false);
   const { id } = useParams();
-  const { data: plant = {}, isLoading } = useQuery({
-    queryKey: ["plant", id],
-    queryFn: async () => {
-      const { data } = await axios(
-        `${import.meta.env.VITE_API_URL}/plant/${id}`,
-      );
-      if (data) {
-        setCurrentVariant(
-          data.variants.find((item) => item.id === data.defaultVariant),
-        );
-        setImgIndex(+data.defaultVariant - 1);
-      }
-      return data;
-    },
-  });
-
+  console.log(id);
+  const { data, isLoading } = useGetSinglePlantQuery({ id: id });
+  const plant = data?.data;
   useEffect(() => {
     if (addStock > currentVariant?.stock) {
       setAddStock(currentVariant?.stock);

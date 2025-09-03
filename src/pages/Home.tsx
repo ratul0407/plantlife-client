@@ -8,10 +8,13 @@ import { CuratedPlants } from "@/components/Home/CuratedPlants";
 import { PowerOfPlant } from "@/components/Home/PowerOfPlant";
 import { PopularPlants } from "@/components/Home/PopularPlants";
 import { PlantsCollection } from "@/components/Home/PlantsCollection";
+import { useGetAllPlantsQuery } from "@/redux/features/plant.api";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 export const Home = () => {
+  const { data } = useGetAllPlantsQuery(undefined);
+  console.log(data);
   return (
     <div className="font-roboto">
       <Navbar />
