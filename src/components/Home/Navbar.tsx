@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Menu } from "./menu/Menu";
 import { useEffect } from "react";
-import { Button } from "../ui/button";
+
 import { Link } from "react-router";
 import { useGetMeQuery } from "@/redux/features/user.api";
 import { authApi, useLogOutMutation } from "@/redux/features/auth.api";
@@ -76,7 +76,7 @@ export const Navbar = () => {
             </Link>
           )}
         </div>
-        <button onClick={handleLogout}>logout</button>
+        {/* <button onClick={handleLogout}>logout</button> */}
       </div>
     </div>
   );

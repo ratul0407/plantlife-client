@@ -4,27 +4,39 @@ import { useLocation } from "react-router";
 import { MyLink } from "./MyLink";
 import { Curve } from "./Curve";
 import { menuSlide } from "./anim";
-const navItems = [
-  {
-    title: "Home",
-    href: "/",
-  },
-  {
-    title: "All Plants",
-    href: "/plants",
-  },
-  {
-    title: "About Us",
-    href: "/about",
-  },
-  {
-    title: "Contact Us",
-    href: "/contact",
-  },
-];
+import { useGetMeQuery } from "@/redux/features/user.api";
+import { role } from "@/constants/role";
+
 export const Nav = ({ closeMenu }) => {
   const { pathname } = useLocation();
   const [selectedIndicator, setSelectedIndicator] = useState(pathname);
+  const { data } = useGetMeQuery(undefined);
+
+  const userRole = data?.data?.role;
+
+  const navItems = [
+    {
+      title: "Home",
+      href: "/",
+    },
+    {
+      title: "All Plants",
+      href: "/plants",
+    },
+    {
+      title: "About Us",
+      href: "/about",
+    },
+    {
+      title: "Contact Us",
+      href: "/contact",
+    },
+    {
+      title: "Dashboard",
+      href:
+        userRole === role.admin || userRole === role.superAdmin ? "/admin" : "",
+    },
+  ];
   return (
     <motion.div
       className="menu | bg-nav fixed top-0 left-0 z-40 h-screen text-white"

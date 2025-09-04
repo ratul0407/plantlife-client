@@ -8,7 +8,7 @@ import { RouterProvider } from "react-router";
 import { LenisProvider } from "./layouts/LenisProvider.jsx";
 import { Provider as ReduxProvider } from "react-redux";
 import { store } from "./redux/store.js";
-import { router } from "./routes/index.js";
+import { router } from "./routes/index.tsx";
 import { Toaster } from "sonner";
 
 // const queryClient = new QueryClient();
