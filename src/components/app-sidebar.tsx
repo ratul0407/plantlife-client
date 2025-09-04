@@ -1,5 +1,3 @@
-import * as React from "react";
-
 import { SearchForm } from "@/components/search-form";
 
 import {
@@ -15,7 +13,7 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 import { useGetMeQuery } from "@/redux/features/user.api";
-import { useLocation } from "react-router";
+import { Link, useLocation } from "react-router";
 import { getSidebarItems } from "@/utils/getSidebarItems";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
@@ -39,7 +37,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 {item.items.map((item) => (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton asChild isActive={pathname === item.url}>
-                      <a href={item.url}>{item.title}</a>
+                      <Link to={item.url}>{item.title}</Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 ))}
