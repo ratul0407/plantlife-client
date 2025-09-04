@@ -10,7 +10,6 @@ import { useGetAllPlantsQuery } from "@/redux/features/plant.api";
 export const AllPlantsSection = () => {
   const [overlay, setOverlay] = useState(false);
   const { lenisRef } = useLenis();
-  console.log(setOverlay);
   const [openFilter, setOpenFilter] = useState(false);
   useEffect(() => {
     if (openFilter) {
@@ -19,21 +18,6 @@ export const AllPlantsSection = () => {
       lenisRef?.current?.start();
     }
   }, [openFilter]);
-  // const { data: plants, isLoading } = useQuery({
-  //   queryKey: ["plants"],
-  //   queryFn: async () => {
-  //     const { data } = await axios.get(
-  //       `${import.meta.env.VITE_API_URL}/plants`,
-  //       {
-  //         withCredentials: true,
-  //       },
-  //     );
-  //     console.log(data);
-  //     return data;
-  //   },
-  // });
-
-  // console.log(plants);
 
   const { data, isLoading } = useGetAllPlantsQuery(undefined);
   const plants = data?.data;
@@ -97,7 +81,7 @@ export const AllPlantsSection = () => {
             <span>Sort By:</span>
             <div className="rounded-sm border border-gray-300 py-1">
               <select name="sort" id="id" className="cursor-pointer">
-                <option value>Default</option>
+                <option value="all">Default</option>
                 <option value="asc">Price, low to high</option>
                 <option value="dsc">Price, high to low</option>
               </select>

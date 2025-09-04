@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { FaCheck } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 

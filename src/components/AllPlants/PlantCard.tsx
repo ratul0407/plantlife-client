@@ -3,7 +3,7 @@ import { motion } from "motion/react";
 import { BsCart } from "react-icons/bs";
 import { useState } from "react";
 import { IoHeart, IoHeartOutline } from "react-icons/io5";
-export const PlantCard = ({ plant }) => {
+export const PlantCard = ({ plant }: any) => {
   const { name, img, price, _id, second_img } = plant;
   const [addToWishList, setAddToWishList] = useState(false);
   const navigate = useNavigate();

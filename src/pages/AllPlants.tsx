@@ -2,14 +2,17 @@ import { Link, NavLink, Outlet } from "react-router";
 
 import { BsBox, BsCart, BsHeart, BsPerson, BsStar } from "react-icons/bs";
 import { MdClose, MdLogout, MdOutlineCancel } from "react-icons/md";
-// import { useAuth } from "../hooks/useAuth";
 import { FaCaretDown } from "react-icons/fa";
 import { useState, useEffect } from "react";
 
 import { useLenis } from "@/hooks/useLenis";
+import { useGetMeQuery } from "@/redux/features/user.api";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export const AllPlants = () => {
-  // const { user, logOut } = useAuth();
+  const { data, isLoading } = useGetMeQuery(undefined);
+  const user = data?.data;
+
   const [openProfileBar, setOpenProfileBar] = useState(false);
   const { lenisRef } = useLenis();
   useEffect(() => {
@@ -46,7 +49,7 @@ export const AllPlants = () => {
                     onClick={() => setOpenProfileBar(true)}
                     className="flex h-8 w-8 items-center justify-center rounded-full bg-green-800 text-white"
                   >
-                    {/* {user?.displayName[0].toUpperCase()} */}
+                    {!isLoading && user?.name?.[0].toUpperCase()}
                   </button>
                 ) : (
                   <Link
@@ -101,30 +104,18 @@ export const AllPlants = () => {
                 </div>
               </div>
               {/* menu for desktop */}
-              <div>
-                {/* menu open button for desktop */}
-                {true ? (
-                  <div className="hidden items-center justify-center gap-3 md:flex md:rounded-full md:border md:border-slate-300 md:p-0.5 md:px-3">
-                    <p className="text-gray-600">
-                      {/* Hi, {user?.displayName.split(" ").pop()} */}
-                    </p>
-
-                    <FaCaretDown className="text-slate-600" />
-                  </div>
-                ) : (
-                  <Link
-                    to="/login"
-                    className="hidden cursor-pointer items-center gap-2 rounded-sm bg-white p-2 text-black shadow-xl transition-all duration-300 hover:bg-black hover:text-white md:flex"
-                  >
-                    <span>
-                      <BsPerson />
-                    </span>
-                    Login
-                  </Link>
-                )}
-
+              <div
+                onMouseEnter={() => setOpenProfileBar(true)}
+                onMouseLeave={() => setOpenProfileBar(false)}
+              >
+                <Avatar>
+                  <AvatarImage src={user?.picture} />
+                  <AvatarFallback>{user?.name[0]}</AvatarFallback>
+                </Avatar>
                 {/* drop down for desktop */}
-                <div className="absolute top-6 -left-12 hidden w-44 rounded-xl bg-white py-3 shadow-xl transition-opacity duration-300 group-hover:block">
+                <div
+                  className={`absolute top-6 right-0 w-44 rounded-xl bg-white py-3 shadow-xl duration-300 group-hover:block ${!openProfileBar && "hidden"}`}
+                >
                   <ul className="flex flex-col text-gray-800 *:flex *:items-center *:gap-2 *:px-4 *:py-2 *:hover:bg-gray-100 *:hover:text-green-800">
                     <li>
                       <span>
