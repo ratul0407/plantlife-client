@@ -4,12 +4,13 @@ import { BsCart } from "react-icons/bs";
 import { useState } from "react";
 import { IoHeart, IoHeartOutline } from "react-icons/io5";
 import { useAddToWishlistMutation } from "@/redux/features/user.api";
-export const PlantCard = ({ plant, wishlist }: any) => {
+import { toast } from "sonner";
+export const PlantCard = ({ plant, wishSet }: any) => {
   const { name, img, price, _id, second_img } = plant;
 
-  const alreadyAdded = wishlist.some((item) => item.plant === _id);
-  console.log(alreadyAdded);
-  const [addedToWishlist, setAddedToWishlist] = useState(alreadyAdded);
+  const alreadyInWishlist = wishSet.has(_id);
+  console.log(alreadyInWishlist);
+  const [addedToWishlist, setAddedToWishlist] = useState(alreadyInWishlist);
 
   const [addToWishList] = useAddToWishlistMutation();
 
@@ -41,8 +42,12 @@ export const PlantCard = ({ plant, wishlist }: any) => {
     try {
       const res = await addToWishList({ plant: _id }).unwrap();
       console.log(res);
+      if (res.success) {
+        toast.success("Added to wishlist");
+      }
     } catch (error) {
       console.log(error);
+      toast.error(error?.data?.message);
     }
   };
   return (
@@ -54,7 +59,7 @@ export const PlantCard = ({ plant, wishlist }: any) => {
       <div className="relative rounded-xl">
         <div
           onClick={() => {
-            navigate(`/plants/${plant?._id}`);
+            navigate(`/plants/${plant?._id}`, { state: wishSet });
           }}
           className="group relative h-72 w-full cursor-pointer overflow-hidden rounded-xl"
         >

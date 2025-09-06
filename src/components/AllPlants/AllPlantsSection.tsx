@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useEffect } from "react";
 import { PlantCard } from "./PlantCard";
 import { BsFilterLeft } from "react-icons/bs";
@@ -11,6 +11,12 @@ import { useGetMeQuery } from "@/redux/features/user.api";
 export const AllPlantsSection = () => {
   const { data: userData } = useGetMeQuery(undefined);
   const wishlist = userData?.data?.wishlist ?? [];
+
+  const wishSet = useMemo(
+    () => new Set(wishlist.map((w: any) => w.plant)),
+    [wishlist],
+  );
+  console.log(wishSet, "Wishset");
   console.log(wishlist);
   const [overlay, setOverlay] = useState(false);
   const { lenisRef } = useLenis();
@@ -94,7 +100,7 @@ export const AllPlantsSection = () => {
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {plants?.map((plant, index) => {
-            return <PlantCard key={index} plant={plant} wishlist={wishlist} />;
+            return <PlantCard key={index} plant={plant} wishSet={wishSet} />;
           })}
         </div>
       </div>

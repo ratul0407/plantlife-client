@@ -1,7 +1,5 @@
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import { useParams } from "react-router";
+import { useLocation, useParams } from "react-router";
 import { useState } from "react";
 import { PiMinus, PiPlus } from "react-icons/pi";
 import { IoChevronUp, IoHeart, IoHeartOutline } from "react-icons/io5";
@@ -34,15 +32,35 @@ const features = [
   },
 ];
 export const PlantDetails = () => {
+  // get params
+  const { id } = useParams();
+
+  //get plants from db
+  const { data, isLoading } = useGetSinglePlantQuery({ id: id });
+
+  //plants
+  const plant = data?.data;
+
+  //img index
   const [imgIndex, setImgIndex] = useState(0);
   const [currentVariant, setCurrentVariant] = useState(null);
+
+  //location
+  const location = useLocation();
+
+  const wishSet = location?.state;
+  const alreadyInWishlist = wishSet.has(String(plant?._id)) ?? false;
+  console.log(alreadyInWishlist);
   const [addStock, setAddStock] = useState(1);
-  const [addToWhishList, setAddToWishList] = useState(false);
+  const [addedToWishlist, setAddedToWishlist] = useState(alreadyInWishlist);
   const [showControls, setShowControls] = useState(false);
-  const { id } = useParams();
-  console.log(id);
-  const { data, isLoading } = useGetSinglePlantQuery({ id: id });
-  const plant = data?.data;
+  console.log(alreadyInWishlist, addedToWishlist);
+
+  useEffect(() => {
+    if (plant?._id) {
+      setAddedToWishlist(alreadyInWishlist);
+    }
+  }, [alreadyInWishlist, plant?._id]);
   useEffect(() => {
     if (addStock > currentVariant?.stock) {
       setAddStock(currentVariant?.stock);
@@ -254,10 +272,10 @@ export const PlantDetails = () => {
                 </button>
               </div>
               <button
-                onClick={() => setAddToWishList(!addToWhishList)}
+                onClick={() => setAddedToWishlist(!addedToWishlist)}
                 className="cursor-pointer rounded-full border border-slate-200 p-1"
               >
-                {addToWhishList ? (
+                {addedToWishlist ? (
                   <IoHeart fill={"#c1121f"} size={30} />
                 ) : (
                   <IoHeartOutline size={30} />
