@@ -9,7 +9,14 @@ export const userApi = baseApi.injectEndpoints({
       }),
       providesTags: ["USER"],
     }),
+    addToWishlist: builder.mutation({
+      query: (data) => ({
+        url: "/user/add-to-wishlist",
+        method: "PATCH",
+        data,
+      }),
+    }),
   }),
 });
 
-export const { useGetMeQuery } = userApi;
+export const { useGetMeQuery, useAddToWishlistMutation } = userApi;

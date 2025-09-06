@@ -1,6 +1,7 @@
-import AddPlants from "@/pages/Admin/AddPlants";
 import { ISidebarItems } from "@/types";
+import { lazy } from "react";
 
+const AddPlants = lazy(() => import("@/pages/Admin/AddPlants"));
 export const adminSidebarItems: ISidebarItems[] = [
   {
     title: "Dashboard",

@@ -19,6 +19,7 @@ import { getSidebarItems } from "@/utils/getSidebarItems";
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { data: userData } = useGetMeQuery(undefined);
   const { pathname } = useLocation();
+  console.log(userData?.data?.role);
   const data = {
     navMain: getSidebarItems(userData?.data?.role),
   };

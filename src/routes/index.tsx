@@ -14,6 +14,7 @@ import { role } from "@/constants/role";
 import { TRole } from "@/types";
 import { generateRoute } from "@/utils/generateRoutes";
 import { adminSidebarItems } from "./adminSidebarItems";
+import { userSidebarItems } from "./userSidebarItems";
 
 export const router = createBrowserRouter([
   {
@@ -58,6 +59,17 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: <Navigate to="/admin/add-plants" /> },
       ...generateRoute(adminSidebarItems),
+    ],
+  },
+  {
+    path: "/user",
+    Component: withAuth(DashboardLayout, role.user as TRole),
+    children: [
+      {
+        index: true,
+        element: <Navigate to="/user/wishlist" />,
+      },
+      ...generateRoute(userSidebarItems),
     ],
   },
 ]);

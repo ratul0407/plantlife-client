@@ -6,8 +6,12 @@ import { FilterSideBar } from "./FilterSideBar";
 
 import { useLenis } from "../../hooks/useLenis";
 import { useGetAllPlantsQuery } from "@/redux/features/plant.api";
+import { useGetMeQuery } from "@/redux/features/user.api";
 
 export const AllPlantsSection = () => {
+  const { data: userData } = useGetMeQuery(undefined);
+  const wishlist = userData?.data?.wishlist ?? [];
+  console.log(wishlist);
   const [overlay, setOverlay] = useState(false);
   const { lenisRef } = useLenis();
   const [openFilter, setOpenFilter] = useState(false);
@@ -90,7 +94,7 @@ export const AllPlantsSection = () => {
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {plants?.map((plant, index) => {
-            return <PlantCard key={index} plant={plant} />;
+            return <PlantCard key={index} plant={plant} wishlist={wishlist} />;
           })}
         </div>
       </div>

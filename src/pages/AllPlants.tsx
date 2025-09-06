@@ -2,12 +2,12 @@ import { Link, NavLink, Outlet } from "react-router";
 
 import { BsBox, BsCart, BsHeart, BsPerson, BsStar } from "react-icons/bs";
 import { MdClose, MdLogout, MdOutlineCancel } from "react-icons/md";
-import { FaCaretDown } from "react-icons/fa";
 import { useState, useEffect } from "react";
 
 import { useLenis } from "@/hooks/useLenis";
 import { useGetMeQuery } from "@/redux/features/user.api";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { User } from "lucide-react";
 
 export const AllPlants = () => {
   const { data, isLoading } = useGetMeQuery(undefined);
@@ -104,55 +104,65 @@ export const AllPlants = () => {
                 </div>
               </div>
               {/* menu for desktop */}
-              <div
-                onMouseEnter={() => setOpenProfileBar(true)}
-                onMouseLeave={() => setOpenProfileBar(false)}
-              >
-                <Avatar>
-                  <AvatarImage src={user?.picture} />
-                  <AvatarFallback>{user?.name[0]}</AvatarFallback>
-                </Avatar>
-                {/* drop down for desktop */}
+              {!user ? (
+                <Link to="/login" className="flex items-center gap-2">
+                  <User size={20} className="text-gray-500" />
+                  <p>Login</p>
+                </Link>
+              ) : (
                 <div
-                  className={`absolute top-6 right-0 w-44 rounded-xl bg-white py-3 shadow-xl duration-300 group-hover:block ${!openProfileBar && "hidden"}`}
+                  onMouseEnter={() => setOpenProfileBar(true)}
+                  onMouseLeave={() => setOpenProfileBar(false)}
                 >
-                  <ul className="flex flex-col text-gray-800 *:flex *:items-center *:gap-2 *:px-4 *:py-2 *:hover:bg-gray-100 *:hover:text-green-800">
-                    <li>
-                      <span>
-                        <BsPerson />
-                      </span>
-                      My Profile
-                    </li>
-                    <li>
-                      <BsHeart />
-                      WishList
-                    </li>
-                    <li>
-                      <BsCart />
-                      Cart
-                    </li>
-                    <li>
-                      <BsBox />
-                      orders
-                    </li>
-                    <li>
-                      <BsStar />
-                      Reviews
-                    </li>
-                    {/* <li onClick={logOut} className="text-red-500"> */}
-                    {/* <MdLogout /> */}
-                    {/* Log out */}
-                    {/* </li> */}
-                  </ul>
+                  <Avatar>
+                    <AvatarImage src={user?.picture} />
+                    <AvatarFallback>{user?.name[0]}</AvatarFallback>
+                  </Avatar>
+                  {/* drop down for desktop */}
+                  <div
+                    className={`absolute top-6 right-0 w-44 rounded-xl bg-white py-3 shadow-xl duration-300 group-hover:block ${!openProfileBar && "hidden"}`}
+                  >
+                    <ul className="flex flex-col text-gray-800 *:flex *:items-center *:gap-2 *:px-4 *:py-2 *:hover:bg-gray-100 *:hover:text-green-800">
+                      <li>
+                        <span>
+                          <BsPerson />
+                        </span>
+                        My Profile
+                      </li>
+                      <li>
+                        <Link
+                          className="flex items-center gap-2"
+                          to="/user/wishlist"
+                        >
+                          <BsHeart />
+                          WishList
+                        </Link>
+                      </li>
+                      <li>
+                        <BsCart />
+                        Cart
+                      </li>
+                      <li>
+                        <BsBox />
+                        orders
+                      </li>
+                      <li>
+                        <BsStar />
+                        Reviews
+                      </li>
+                      {/* <li onClick={logOut} className="text-red-500"> */}
+                      {/* <MdLogout /> */}
+                      {/* Log out */}
+                      {/* </li> */}
+                    </ul>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
             {/* cart */}
             <div className="relative">
               <BsCart className="h-6 w-6 text-gray-600" />
-              <span className="absolute -top-3 -right-4.5 rounded-full bg-green-800 px-2 text-white">
-                1
-              </span>
+              <span className="absolute -top-3 -right-4.5 rounded-full bg-green-800 px-2 text-white"></span>
             </div>
           </div>
         </header>

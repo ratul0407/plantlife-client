@@ -3,9 +3,16 @@ import { motion } from "motion/react";
 import { BsCart } from "react-icons/bs";
 import { useState } from "react";
 import { IoHeart, IoHeartOutline } from "react-icons/io5";
-export const PlantCard = ({ plant }: any) => {
+import { useAddToWishlistMutation } from "@/redux/features/user.api";
+export const PlantCard = ({ plant, wishlist }: any) => {
   const { name, img, price, _id, second_img } = plant;
-  const [addToWishList, setAddToWishList] = useState(false);
+
+  const alreadyAdded = wishlist.some((item) => item.plant === _id);
+  console.log(alreadyAdded);
+  const [addedToWishlist, setAddedToWishlist] = useState(alreadyAdded);
+
+  const [addToWishList] = useAddToWishlistMutation();
+
   const navigate = useNavigate();
   const addToCartVariants = {
     initial: {
@@ -27,6 +34,16 @@ export const PlantCard = ({ plant }: any) => {
       opacity: 1,
       right: "1rem",
     },
+  };
+
+  const handleAddToWishlist = async () => {
+    setAddedToWishlist(true);
+    try {
+      const res = await addToWishList({ plant: _id }).unwrap();
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <motion.div
@@ -62,14 +79,13 @@ export const PlantCard = ({ plant }: any) => {
         </motion.button>
 
         <motion.button
-          onClick={() => setAddToWishList(!addToWishList)}
           variants={whishListVariants}
           className="absolute top-4 cursor-pointer"
         >
-          {addToWishList ? (
+          {addedToWishlist ? (
             <IoHeart fill={"#c1121f"} size={30} />
           ) : (
-            <IoHeartOutline size={30} />
+            <IoHeartOutline size={30} onClick={handleAddToWishlist} />
           )}
         </motion.button>
       </div>

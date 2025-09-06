@@ -34,7 +34,9 @@ export const Nav = ({ closeMenu }) => {
     {
       title: "Dashboard",
       href:
-        userRole === role.admin || userRole === role.superAdmin ? "/admin" : "",
+        userRole === role.admin || userRole === role.superAdmin
+          ? "/admin"
+          : "/user",
     },
   ];
   return (
