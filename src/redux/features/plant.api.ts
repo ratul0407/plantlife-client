@@ -14,7 +14,20 @@ export const plantApi = baseApi.injectEndpoints({
         method: "GET",
       }),
     }),
+
+    //admin apis
+    addPlants: builder.mutation({
+      query: (data) => ({
+        url: "/plant/add-plants",
+        method: "POST",
+        data,
+      }),
+    }),
   }),
 });
 
-export const { useGetAllPlantsQuery, useGetSinglePlantQuery } = plantApi;
+export const {
+  useGetAllPlantsQuery,
+  useGetSinglePlantQuery,
+  useAddPlantsMutation,
+} = plantApi;

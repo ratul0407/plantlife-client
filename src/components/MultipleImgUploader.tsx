@@ -1,9 +1,13 @@
 import { AlertCircleIcon, ImageIcon, UploadIcon, XIcon } from "lucide-react";
 
-import { useFileUpload } from "@/hooks/use-file-upload";
+import { FileMetadata, useFileUpload } from "@/hooks/use-file-upload";
 import { Button } from "@/components/ui/button";
+import { useEffect } from "react";
 
-export default function MultipleImgUploader() {
+interface IProps {
+  onChange: React.Dispatch<React.SetStateAction<(File | FileMetadata)[]>>;
+}
+export default function MultipleImgUploader({ onChange }: IProps) {
   const maxSizeMB = 5;
   const maxSize = maxSizeMB * 1024 * 1024; // 5MB default
   const maxFiles = 6;
@@ -26,6 +30,14 @@ export default function MultipleImgUploader() {
     maxFiles,
   });
 
+  useEffect(() => {
+    if (files.length > 0) {
+      const imageList = files.map((item) => item.file);
+      onChange(imageList);
+    } else {
+      onChange([]);
+    }
+  }, [files]);
   return (
     <div className="flex flex-col gap-2">
       {/* Drop area */}

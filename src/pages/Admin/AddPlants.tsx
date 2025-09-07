@@ -1,3 +1,4 @@
+import MultipleImgUploader from "@/components/MultipleImgUploader";
 import SingleImgUploader from "@/components/SingleImgUploader";
 import { Button } from "@/components/ui/button";
 import {
@@ -18,32 +19,34 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { plantCategories } from "@/constants/role";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { FileMetadata } from "@/hooks/use-file-upload";
+import { useAddPlantsMutation } from "@/redux/features/plant.api";
 import { PlusCircle } from "lucide-react";
+import { useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
+import { toast } from "sonner";
 import z from "zod";
 
 const variantSchema = z.object({
-  name: z.string(),
-  price: z.string(),
-  stock: z.string(),
+  variantName: z.string(),
+  price: z.coerce.number(),
+  stock: z.coerce.number(),
   image: z.file(),
 });
 const plantSchema = z.object({
   name: z.string(),
   description: z.string(),
   category: z.enum(plantCategories),
-  inStock: z.boolean(),
   variants: z.array(variantSchema),
 });
 const AddPlants = () => {
+  const [images, setImages] = useState<(File | FileMetadata)[]>([]);
+  const [addPlant, { isLoading }] = useAddPlantsMutation();
   const form = useForm<z.infer<typeof plantSchema>>({
-    resolver: zodResolver(plantSchema),
     defaultValues: {
       name: "",
       description: "",
       category: "",
-      inStock: true,
       variants: [],
     },
   });
@@ -57,7 +60,46 @@ const AddPlants = () => {
   });
   const onSubmit = async (data: z.infer<typeof plantSchema>) => {
     console.log(data);
+    const formData = new FormData();
+
+    // Basic fields
+    formData.append("name", data.name);
+    formData.append("description", data.description);
+    formData.append("category", data.category);
+
+    // Add variants (without the File objects)
+    const variantsWithoutFiles = data.variants.map((v) => ({
+      variantName: v.variantName,
+      price: v.price,
+      stock: v.stock,
+    }));
+    formData.append("variants", JSON.stringify(variantsWithoutFiles));
+
+    // Attach variant images
+    data.variants.forEach((variant) => {
+      if (variant.image) {
+        formData.append("variantImages", variant.image);
+        // order matches variantsWithoutFiles[index]
+      }
+    });
+
+    // Attach extra images
+    images.forEach((img) => {
+      formData.append("images", img);
+    });
+
+    // Send request
+    try {
+      const res = await addPlant(formData).unwrap();
+      console.log(res);
+      if (res.success) {
+        toast.success("Plant created successfully!");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
+
   return (
     <div>
       <h1 className="mb-12 text-4xl font-bold">Add Plants</h1>
@@ -119,10 +161,10 @@ const AddPlants = () => {
                 size="sm"
                 onClick={() =>
                   addVariant({
-                    name: "",
+                    variantName: "",
                     price: 0,
                     stock: 0,
-                    image: null,
+                    image: "",
                   })
                 }
               >
@@ -138,7 +180,7 @@ const AddPlants = () => {
                 <div className="flex h-full flex-col justify-between">
                   <FormField
                     control={form.control}
-                    name={`variants.${index}.name`}
+                    name={`variants.${index}.variantName`}
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Variant Name</FormLabel>
@@ -220,7 +262,11 @@ const AddPlants = () => {
               </FormItem>
             )}
           />
-          <Button>Submit</Button>
+          <div>
+            <h3>Add additional images</h3>
+            <MultipleImgUploader onChange={setImages} />
+          </div>
+          <Button disabled={isLoading}>Add Plant</Button>
         </form>
       </Form>
     </div>
