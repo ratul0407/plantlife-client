@@ -1,11 +1,9 @@
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { useLocation, useParams } from "react-router";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { PiMinus, PiPlus } from "react-icons/pi";
 import { IoChevronUp, IoHeart, IoHeartOutline } from "react-icons/io5";
 import { FiGift, FiHeadphones, FiShield, FiTruck } from "react-icons/fi";
-import { useEffect } from "react";
-import { useRef } from "react";
 import { Reviews } from "@/components/AllPlants/Reviews";
 import { useGetSinglePlantQuery } from "@/redux/features/plant.api";
 
@@ -13,68 +11,76 @@ const features = [
   {
     icon: <FiTruck className="h-6 w-6" />,
     title: "Enjoy Fast Delivery",
-    // description: "Get your plants within 2-3 business days",
   },
   {
     icon: <FiShield className="h-6 w-6" />,
     title: "Quality Guarantee",
-    // description: "30-day health guarantee for all plants",
   },
   {
     icon: <FiGift className="h-6 w-6" />,
     title: "Gift Packaging For your love",
-    // description: "Perfectly packaged for special occasions",
   },
   {
     icon: <FiHeadphones className="h-6 w-6" />,
     title: "Plant Experts to help you",
-    // description: "24/7 support from our botanists",
   },
 ];
+
 export const PlantDetails = () => {
   // get params
   const { id } = useParams();
 
-  //get plants from db
-  const { data, isLoading } = useGetSinglePlantQuery({ id: id });
-
-  //plants
+  //get plant from db
+  const { data, isLoading } = useGetSinglePlantQuery({ id });
   const plant = data?.data;
 
-  //img index
+  // state
   const [imgIndex, setImgIndex] = useState(0);
   const [currentVariant, setCurrentVariant] = useState(null);
-
-  //location
-  const location = useLocation();
-
-  const wishSet = location?.state;
-  const alreadyInWishlist = wishSet.has(String(plant?._id)) ?? false;
-  console.log(alreadyInWishlist);
   const [addStock, setAddStock] = useState(1);
-  const [addedToWishlist, setAddedToWishlist] = useState(alreadyInWishlist);
+  const [addedToWishlist, setAddedToWishlist] = useState(false);
   const [showControls, setShowControls] = useState(false);
-  console.log(alreadyInWishlist, addedToWishlist);
 
+  // location (wishlist state passed here)
+  const location = useLocation();
+  const wishSet = location?.state;
+  const alreadyInWishlist = wishSet?.has(String(plant?._id)) ?? false;
+
+  // refs
+  const thumbnailsRef = useRef(null);
+
+  // destructure plant
+  const { name, category, description, variants, additionalImages } =
+    plant || {};
+
+  // images = all variants + additional
+  const images = [
+    ...(variants?.map((item) => item?.image) || []),
+    ...(additionalImages || []),
+  ];
+
+  // set default variant
+  useEffect(() => {
+    if (plant?.variants?.length) {
+      setCurrentVariant(plant.variants[0]);
+    }
+  }, [plant]);
+
+  // sync wishlist
   useEffect(() => {
     if (plant?._id) {
       setAddedToWishlist(alreadyInWishlist);
     }
   }, [alreadyInWishlist, plant?._id]);
+
+  // prevent stock > currentVariant.stock
   useEffect(() => {
-    if (addStock > currentVariant?.stock) {
-      setAddStock(currentVariant?.stock);
+    if (addStock > (currentVariant?.stock ?? 0)) {
+      setAddStock(currentVariant?.stock ?? 1);
     }
   }, [currentVariant]);
-  const thumbnailsRef = useRef(null);
 
-  const { name, category, basePrice, description, variants, more_images } =
-    plant || {};
-  const images = [
-    ...(variants?.map((item) => item?.img) || []),
-    ...(more_images || []),
-  ];
-
+  // scroll thumbnail into view
   useEffect(() => {
     if (thumbnailsRef.current && images?.length) {
       const activeThumb = thumbnailsRef.current.children[imgIndex];
@@ -92,32 +98,21 @@ export const PlantDetails = () => {
     }
   }, [imgIndex, images]);
 
+  // handlers
   const handleSetImgIndex = (index) => {
     setImgIndex(index);
   };
 
   const goToPreviousImg = () => {
-    setImgIndex((index) => {
-      console.log(index);
-      if (index > 0) {
-        return (index -= 1);
-      } else {
-        setImgIndex(images.length - 1);
-      }
-    });
+    setImgIndex((index) => (index > 0 ? index - 1 : images.length - 1));
   };
 
   const goToNextImg = () => {
-    setImgIndex((index) => {
-      if (index == images.length - 1) {
-        return 0;
-      } else {
-        return (index += 1);
-      }
-    });
+    setImgIndex((index) => (index === images.length - 1 ? 0 : index + 1));
   };
+
   const handleIncrementStock = () => {
-    if (addStock >= currentVariant.stock) return;
+    if (addStock >= (currentVariant?.stock ?? 0)) return;
     setAddStock(addStock + 1);
   };
 
@@ -125,15 +120,19 @@ export const PlantDetails = () => {
     if (addStock <= 1) return;
     setAddStock(addStock - 1);
   };
+
+  if (isLoading) return <p>Loading...</p>;
+
   return (
     <div className="pt-10 2xl:container 2xl:mx-auto">
       <div className="flex flex-col gap-4 lg:flex-row">
+        {/* images + thumbnails */}
         <div className="flex w-full flex-col-reverse items-center lg:w-[50%] lg:flex-row lg:items-start 2xl:justify-start">
-          {/* slider buttons */}
+          {/* thumbnails */}
           <div className="relative min-w-full lg:flex lg:min-w-auto lg:flex-col">
             <button
               onClick={goToPreviousImg}
-              className="absolute top-2 -left-4 flex rotate-0 cursor-pointer justify-center transition-all duration-300 hover:bg-slate-100 active:scale-90 sm:top-10 sm:bg-slate-50 lg:static lg:rotate-0"
+              className="absolute top-2 -left-4 flex cursor-pointer justify-center transition-all duration-300 hover:bg-slate-100 active:scale-90 sm:top-10 sm:bg-slate-50 lg:static"
             >
               <IoChevronUp className="h-10 w-10 -rotate-90 lg:rotate-0" />
             </button>
@@ -159,13 +158,13 @@ export const PlantDetails = () => {
             </div>
             <button
               onClick={goToNextImg}
-              className="absolute top-2 -right-4 flex -rotate-90 cursor-pointer justify-center transition-all duration-300 hover:bg-slate-100 active:scale-90 sm:top-10 sm:bg-slate-50 lg:static lg:rotate-0"
+              className="absolute top-2 -right-4 flex cursor-pointer justify-center transition-all duration-300 hover:bg-slate-100 active:scale-90 sm:top-10 sm:bg-slate-50 lg:static"
             >
               <IoChevronUp className="h-10 w-10 rotate-180" />
             </button>
           </div>
-          {/* img slider */}
 
+          {/* main image slider */}
           <div
             onMouseEnter={() => setShowControls(true)}
             onMouseLeave={() => setShowControls(false)}
@@ -173,7 +172,9 @@ export const PlantDetails = () => {
           >
             <button
               onClick={goToPreviousImg}
-              className={`absolute left-0 z-40 h-full w-10 cursor-pointer bg-white/20 transition-all duration-300 md:w-20 ${showControls ? "opacity-100" : "opacity-0"}`}
+              className={`absolute left-0 z-40 h-full w-10 cursor-pointer bg-white/20 transition-all duration-300 md:w-20 ${
+                showControls ? "opacity-100" : "opacity-0"
+              }`}
             >
               <IoChevronUp className="h-10 w-10 -rotate-90" />
             </button>
@@ -182,47 +183,50 @@ export const PlantDetails = () => {
               <div
                 style={{ translate: `${-100 * imgIndex}%` }}
                 key={index}
-                className={`min-h-full min-w-full bg-white pl-0.5 transition-all duration-300 lg:min-w-full`}
+                className="min-h-full min-w-full bg-white pl-0.5 transition-all duration-300 lg:min-w-full"
               >
                 <img
                   src={img}
-                  className="h-full w-full translate-x-0 object-cover sm:object-contain lg:object-cover 2xl:object-cover"
+                  className="h-full w-full object-cover sm:object-contain lg:object-cover"
                 />
               </div>
             ))}
+
             <button
               onClick={goToNextImg}
-              className={`absolute right-0 z-40 h-full w-10 cursor-pointer bg-white/20 transition-all duration-300 md:w-20 ${showControls ? "opacity-100" : "opacity-0"}`}
+              className={`absolute right-0 z-40 h-full w-10 cursor-pointer bg-white/20 transition-all duration-300 md:w-20 ${
+                showControls ? "opacity-100" : "opacity-0"
+              }`}
             >
               <IoChevronUp className="h-10 w-10 rotate-90" />
             </button>
           </div>
         </div>
-        {/* plant text details */}
+
+        {/* plant details */}
         <div className="flex w-full flex-col justify-around gap-7 lg:w-[50%]">
           <p className="w-fit rounded-full bg-green-700 px-4 text-white">
-            {category} plants
+            {category?.toLowerCase()} plants
           </p>
           <h3 className="text-7xl font-bold">{name}</h3>
 
-          {/* review section */}
+          {/* review placeholder */}
           <div>⭐⭐⭐⭐⭐ 0 Reviews</div>
-          {/* price and stock */}
+
+          {/* price & stock */}
           <p className="text-3xl font-bold text-green-950">
-            <span> ${currentVariant ? currentVariant.price : basePrice}</span>
+            <span>${currentVariant?.price}</span>
             <span className="text-base">
-              (
-              {currentVariant
-                ? currentVariant.stock
-                : variants?.find((item) => item.id === plant.defaultVariant)
-                    .stock}
-              ) in stock
+              {" "}
+              ({currentVariant?.stock}) in stock
             </span>
           </p>
+
           {/* description */}
           <p className="text-gray-700">{description}</p>
+
+          {/* variants */}
           <div className="space-y-4">
-            {/* variants */}
             <h4 className="text-xl font-bold text-gray-800">Variants:</h4>
             <div className="flex gap-2">
               {variants?.map((variant, index) => (
@@ -231,25 +235,25 @@ export const PlantDetails = () => {
                     type="radio"
                     id={`variant-${index}`}
                     name="variant"
-                    defaultChecked={+plant.defaultVariant - 1 === index}
+                    defaultChecked={index === 0}
                     className="peer hidden"
                     onChange={() => {
                       handleSetImgIndex(index);
                       setCurrentVariant(variant);
+                      setAddStock(1); // reset quantity
                     }}
                   />
                   <label
-                    tabIndex={0}
                     htmlFor={`variant-${index}`}
-                    onClick={() => handleSetImgIndex(index)}
-                    className="inline-block w-full cursor-pointer rounded-full border-2 border-slate-200 bg-slate-200 py-2 text-center font-bold select-none peer-checked:border-2 peer-checked:border-green-300 peer-checked:bg-green-300 peer-checked:text-green-950"
+                    className="inline-block w-full cursor-pointer rounded-full border-2 border-slate-200 bg-slate-200 py-2 text-center font-bold select-none peer-checked:border-green-300 peer-checked:bg-green-300 peer-checked:text-green-950"
                   >
-                    {variant.name}
+                    {variant.variantName}
                   </label>
                 </div>
               ))}
             </div>
-            {/* add to cart or whishlist */}
+
+            {/* cart & wishlist */}
             <div className="flex items-center gap-2">
               <div className="flex w-1/3 items-center justify-between rounded-full border border-slate-300 text-center text-sm sm:*:text-xl lg:w-1/4">
                 <button
@@ -283,7 +287,8 @@ export const PlantDetails = () => {
               </button>
             </div>
           </div>
-          {/* features section */}
+
+          {/* features */}
           <div className="grid grid-cols-2 gap-6 rounded-xl bg-green-50/70 lg:grid-cols-4">
             {features.map((feature, index) => (
               <div
@@ -299,6 +304,7 @@ export const PlantDetails = () => {
               </div>
             ))}
           </div>
+
           <Reviews />
         </div>
       </div>
