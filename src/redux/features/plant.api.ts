@@ -15,6 +15,22 @@ export const plantApi = baseApi.injectEndpoints({
       }),
     }),
 
+    getMyWishlist: builder.query({
+      query: () => ({
+        url: "/plant/my-wishlist",
+        method: "GET",
+      }),
+      providesTags: ["WISHLIST"],
+    }),
+    removePlantFromWishlist: builder.mutation({
+      query: (data) => ({
+        url: "/plant/remove-from-wishlist",
+        method: "PATCH",
+        data,
+      }),
+      invalidatesTags: ["WISHLIST"],
+    }),
+
     //admin apis
     addPlants: builder.mutation({
       query: (data) => ({
@@ -30,4 +46,6 @@ export const {
   useGetAllPlantsQuery,
   useGetSinglePlantQuery,
   useAddPlantsMutation,
+  useGetMyWishlistQuery,
+  useRemovePlantFromWishlistMutation,
 } = plantApi;

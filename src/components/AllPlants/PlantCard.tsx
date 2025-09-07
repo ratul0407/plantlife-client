@@ -53,7 +53,7 @@ export const PlantCard = ({ plant, wishSet, variantImages }: any) => {
       if (res.success) {
         toast.success("Added to wishlist");
       }
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
       toast.error(error?.data?.message);
     }
