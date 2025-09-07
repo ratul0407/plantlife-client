@@ -8,11 +8,14 @@ import { useLenis } from "@/hooks/useLenis";
 import { useGetMeQuery } from "@/redux/features/user.api";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { User } from "lucide-react";
+import { authApi, useLogOutMutation } from "@/redux/features/auth.api";
+import { useDispatch } from "react-redux";
 
 export const AllPlants = () => {
   const { data, isLoading } = useGetMeQuery(undefined);
+  const [logOut] = useLogOutMutation();
   const user = data?.data;
-
+  const dispatch = useDispatch();
   const [openProfileBar, setOpenProfileBar] = useState(false);
   const { lenisRef } = useLenis();
   useEffect(() => {
@@ -22,6 +25,11 @@ export const AllPlants = () => {
       lenisRef?.current?.start();
     }
   }, [openProfileBar]);
+
+  const handleLogOut = async () => {
+    await logOut(undefined);
+    dispatch(authApi.util.resetApiState());
+  };
   return (
     <>
       <div className="relative">
@@ -150,10 +158,10 @@ export const AllPlants = () => {
                         <BsStar />
                         Reviews
                       </li>
-                      {/* <li onClick={logOut} className="text-red-500"> */}
-                      {/* <MdLogout /> */}
-                      {/* Log out */}
-                      {/* </li> */}
+                      <li onClick={handleLogOut} className="text-red-500">
+                        <MdLogout />
+                        Log out
+                      </li>
                     </ul>
                   </div>
                 </div>

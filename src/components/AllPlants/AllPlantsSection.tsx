@@ -31,7 +31,11 @@ export const AllPlantsSection = () => {
 
   const { data, isLoading } = useGetAllPlantsQuery(undefined);
   const plants = data?.data;
-  console.log(plants);
+  const variantImages = plants?.map((item) =>
+    item.variants.map((v) => v.image),
+  );
+
+  console.log(variantImages);
   const openFilterSideBar = () => {
     setOpenFilter(true);
     setOverlay(true);
@@ -100,7 +104,14 @@ export const AllPlantsSection = () => {
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {plants?.map((plant, index) => {
-            return <PlantCard key={index} plant={plant} wishSet={wishSet} />;
+            return (
+              <PlantCard
+                key={index}
+                plant={plant}
+                variantImages={variantImages[index]}
+                wishSet={wishSet}
+              />
+            );
           })}
         </div>
       </div>

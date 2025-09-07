@@ -3,11 +3,15 @@ import { motion } from "motion/react";
 import { BsCart } from "react-icons/bs";
 import { useState } from "react";
 import { IoHeart, IoHeartOutline } from "react-icons/io5";
-import { useAddToWishlistMutation } from "@/redux/features/user.api";
+import {
+  useAddToWishlistMutation,
+  useGetMeQuery,
+} from "@/redux/features/user.api";
 import { toast } from "sonner";
-export const PlantCard = ({ plant, wishSet }: any) => {
-  const { name, img, price, _id, second_img } = plant;
-
+export const PlantCard = ({ plant, wishSet, variantImages }: any) => {
+  const { name, _id } = plant;
+  const { data: userData } = useGetMeQuery(undefined);
+  console.log(userData, "from plant card component");
   const alreadyInWishlist = wishSet.has(_id);
   console.log(alreadyInWishlist);
   const [addedToWishlist, setAddedToWishlist] = useState(alreadyInWishlist);
@@ -38,6 +42,10 @@ export const PlantCard = ({ plant, wishSet }: any) => {
   };
 
   const handleAddToWishlist = async () => {
+    if (!userData) {
+      navigate("/login");
+      return;
+    }
     setAddedToWishlist(true);
     try {
       const res = await addToWishList({ plant: _id }).unwrap();
@@ -64,13 +72,13 @@ export const PlantCard = ({ plant, wishSet }: any) => {
           className="group relative h-72 w-full cursor-pointer overflow-hidden rounded-xl"
         >
           <img
-            src={img}
+            src={variantImages[0]}
             alt="ZZ Plant"
             className="h-full w-full object-cover transition-opacity duration-500 group-hover:opacity-0"
           />
 
           <img
-            src={second_img}
+            src={variantImages[1]}
             alt="ZZ Plant Alternate"
             className="absolute inset-0 h-full w-full object-cover opacity-0 transition-all duration-500 group-hover:scale-110 group-hover:opacity-100"
           />
@@ -95,7 +103,9 @@ export const PlantCard = ({ plant, wishSet }: any) => {
         </motion.button>
       </div>
       <div className="mt-4 mb-2 flex flex-col justify-between">
-        <span className="text-base font-bold text-green-900">${price}</span>
+        <span className="text-base font-bold text-green-900">
+          ${plant?.variants?.[0].price}
+        </span>
         <h2 className="text-base font-semibold text-gray-800">{name}</h2>
       </div>
     </motion.div>
