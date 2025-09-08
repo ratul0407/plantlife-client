@@ -48,7 +48,7 @@ export const Login = () => {
   };
   return (
     <div className="flex min-h-screen items-center">
-      <div className="mx-auto basis-1/2 lg:max-w-lg lg:space-y-6">
+      <div className="mx-auto px-4 sm:max-w-lg lg:max-w-lg lg:basis-1/2 lg:space-y-6">
         <div className="flex flex-col gap-4 text-center">
           <Link to="/" className="font-metal text-4xl sm:text-3xl">
             PlantLife
