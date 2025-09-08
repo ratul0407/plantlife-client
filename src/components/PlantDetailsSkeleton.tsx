@@ -7,7 +7,7 @@ const PlantDetailsSkeleton = () => {
           {/* Thumbnails */}
           <div className="relative min-w-full lg:flex lg:min-w-auto lg:flex-col">
             <div className="flex min-w-full flex-row justify-center gap-2 lg:max-h-[700px] lg:min-w-auto lg:flex-col lg:justify-start lg:overflow-y-auto lg:py-2">
-              {Array.from({ length: 4 }).map((_, i) => (
+              {Array.from({ length: 5 }).map((_, i) => (
                 <div key={i} className="h-24 w-24 rounded-md bg-gray-200" />
               ))}
             </div>
