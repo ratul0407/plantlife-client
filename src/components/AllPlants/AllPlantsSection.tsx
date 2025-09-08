@@ -7,6 +7,7 @@ import { FilterSideBar } from "./FilterSideBar";
 import { useLenis } from "../../hooks/useLenis";
 import { useGetAllPlantsQuery } from "@/redux/features/plant.api";
 import { useGetMeQuery } from "@/redux/features/user.api";
+import { PlantCardSkeleton } from "../PlantCardSkeleton";
 
 export const AllPlantsSection = () => {
   const { data: userData } = useGetMeQuery(undefined);
@@ -66,7 +67,6 @@ export const AllPlantsSection = () => {
     };
   }, [closeFilterSideBar]);
 
-  if (isLoading) return <p>isLoading...........</p>;
   return (
     <>
       <div className="space-y-10 md:space-y-20 2xl:mx-80">
@@ -100,18 +100,26 @@ export const AllPlantsSection = () => {
             </div>
           </div>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {plants?.map((plant, index) => {
-            return (
-              <PlantCard
-                key={index}
-                plant={plant}
-                variantImages={variantImages[index]}
-                wishSet={wishSet}
-              />
-            );
-          })}
-        </div>
+        {/* <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4"> */}
+        {
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+            {isLoading
+              ? Array.from({ length: 6 }).map((_, i) => (
+                  <PlantCardSkeleton key={i} />
+                ))
+              : plants?.map((plant, index: number) => {
+                  return (
+                    <PlantCard
+                      key={index}
+                      plant={plant}
+                      variantImages={variantImages[index]}
+                      wishSet={wishSet}
+                    />
+                  );
+                })}
+          </div>
+        }
+        {/* </div> */}
       </div>
       <div
         className={`${overlay ? "block" : "hidden"} overlay | absolute top-0 z-10 min-h-screen w-[96.3vw] cursor-pointer bg-black/20`}
