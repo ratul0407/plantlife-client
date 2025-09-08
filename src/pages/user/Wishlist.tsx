@@ -3,13 +3,16 @@ import {
   useGetMyWishlistQuery,
   useRemovePlantFromWishlistMutation,
 } from "@/redux/features/plant.api";
-import { Delete, Trash, Trash2 } from "lucide-react";
+import { useAddToCartMutation } from "@/redux/features/user.api";
+import { Trash2 } from "lucide-react";
+import { toast } from "sonner";
 
 const Wishlist = () => {
   const { data } = useGetMyWishlistQuery(undefined);
+  const [addToCart, { isLoading: addToCartLoading }] = useAddToCartMutation();
   const [removeFromWishlist, { isLoading }] =
     useRemovePlantFromWishlistMutation();
-  const handleRemoveFromWishlist = async (id) => {
+  const handleRemoveFromWishlist = async (id: string) => {
     console.log(id);
     try {
       const res = await removeFromWishlist({ id: id }).unwrap();
@@ -18,14 +21,23 @@ const Wishlist = () => {
       console.log(error);
     }
   };
+
+  const handleAddToCart = async (plant: string) => {
+    try {
+      const res = await addToCart({ plant: plant, quantity: 1 }).unwrap();
+      if (res.success) {
+        toast.success("Product added to cart!");
+        await handleRemoveFromWishlist(plant);
+      }
+    } catch (error) {}
+  };
   const wishlist = data?.data?.[0]?.wishlist;
   console.log(data?.data?.[0]?.wishlist);
   return (
     <div className="font-roboto space-y-12">
       <h1 className="text-2xl font-bold">My Wishlist</h1>
       <div className="flex flex-col gap-8">
-        {wishlist?.map((item, index: number) => (
-          // console.log(item?.plantDetails?.variants?.[0]?.image),
+        {wishlist?.map((item: any, index: number) => (
           <div key={index} className="relative flex items-start gap-8">
             <div>
               <img
@@ -43,10 +55,17 @@ const Wishlist = () => {
                   ${item?.plantDetails?.variants?.[0]?.price}
                 </h3>
               </div>
-              <Button className="mt-34">Add To Cart</Button>
+              <Button
+                disabled={addToCartLoading}
+                onClick={() => handleAddToCart(item?.plantDetails?._id)}
+                className="mt-34"
+              >
+                Add To Cart
+              </Button>
             </div>
             <Button
               disabled={isLoading}
+              variant={"outline"}
               onClick={() => handleRemoveFromWishlist(item?.plantDetails?._id)}
               className="absolute right-10"
             >

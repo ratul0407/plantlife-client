@@ -21,7 +21,7 @@ export function Cart() {
         <BsCart className="h-6 w-6 text-gray-600" />
         {/* badge */}
         <span className="absolute -top-2 -right-2 rounded-full bg-green-800 px-2 text-xs text-white">
-          {data?.data?.length}
+          {data?.data?.[0]?.cart?.length}
         </span>
       </Button>
 
@@ -50,7 +50,7 @@ export function Cart() {
         <div className="flex-1 overflow-y-auto p-4">
           {/* cart items */}
           <div className="space-y-4">
-            {data?.data?.map(({ cart }, index: number) => (
+            {data?.data?.[0]?.cart?.map((item, index: number) => (
               <div
                 key={index}
                 className="flex items-center justify-between border-b pb-3"
@@ -58,21 +58,17 @@ export function Cart() {
                 <div className="flex items-center gap-3">
                   <img
                     className="size-20"
-                    src={cart?.[0]?.plantDetails?.variants?.[0]?.image}
+                    src={item?.plantDetails?.variants?.[0]?.image}
                   />
                   <div>
-                    <p className="font-medium">
-                      {cart?.[0]?.plantDetails?.name}
-                    </p>
+                    <p className="font-medium">{item?.plantDetails?.name}</p>
                     <p className="text-sm text-gray-500">
-                      Qty: {cart?.[0]?.quantity}
+                      Qty: {item?.quantity}
                     </p>
                   </div>
                 </div>
                 <p className="font-semibold">
-                  $
-                  {cart?.[0]?.plantDetails?.variants?.[0]?.price *
-                    cart?.[0]?.quantity}
+                  ${item?.plantDetails?.variants?.[0]?.price * item?.quantity}
                 </p>
               </div>
             ))}
