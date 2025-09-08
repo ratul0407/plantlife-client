@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BsCart } from "react-icons/bs";
 import { IoClose } from "react-icons/io5";
 import { Button } from "./ui/button";
@@ -6,21 +6,35 @@ import { useMyCartQuery } from "@/redux/features/user.api";
 
 export function Cart() {
   const [isOpen, setIsOpen] = useState(false);
-
+  const [amount, setAmount] = useState(0);
   const { data } = useMyCartQuery(undefined);
   console.log(data);
 
+  useEffect(() => {
+    if (data?.data?.[0]?.cart?.length) {
+      let total = 0;
+      data?.data?.[0]?.cart?.map((item) => {
+        total += item?.plantDetails?.variants?.[0]?.price * item?.quantity;
+      });
+      total.toString(2);
+      setAmount(total);
+    }
+  }, [data]);
   return (
     <>
       {/* Cart button */}
       <Button
         variant="outline"
         onClick={() => setIsOpen((s) => !s)}
-        className="relative h-8 w-8 rounded-full"
+        className="relative h-8 w-8 rounded-full text-center"
       >
-        <BsCart className="h-5 w-5 text-gray-600" />
+        <BsCart
+          className={`relative h-5 w-5 text-gray-600 ${data?.data?.[0]?.cart?.length ? "left-0" : "left-1"}`}
+        />
         {/* badge */}
-        <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-green-800 text-xs text-white">
+        <span
+          className={`${data?.data?.[0]?.cart?.length && "absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-green-800 text-xs text-white"}`}
+        >
           {data?.data?.[0]?.cart?.length}
         </span>
       </Button>
@@ -78,7 +92,7 @@ export function Cart() {
         <div className="border-t p-4">
           <div className="mb-4 flex items-center justify-between">
             <p className="font-medium">Subtotal</p>
-            <p className="font-semibold">$48</p>
+            <p className="font-semibold">${amount}</p>
           </div>
           <Button className="w-full">Checkout</Button>
         </div>

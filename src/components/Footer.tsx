@@ -75,27 +75,21 @@ const Footer = ({
     title: "Plant Life",
   },
   sections = defaultSections,
-  description = "A collection of components for your startup business or side project.",
+  description = "Connect with nature again with our beautiful plants",
   socialLinks = defaultSocialLinks,
   copyright = "© 2024 Shadcnblocks.com. All rights reserved.",
   legalLinks = defaultLegalLinks,
 }: Footer7Props) => {
   return (
-    <section className="py-32">
+    <section className="px-8 py-32">
       <div className="container">
         <div className="flex w-full flex-col justify-between gap-10 lg:flex-row lg:items-start lg:text-left">
           <div className="flex w-full flex-col justify-between gap-6 lg:items-start">
             {/* Logo */}
             <div className="flex items-center gap-2 lg:justify-start">
-              <a href={logo.url}>
-                <img
-                  src={logo.src}
-                  alt={logo.alt}
-                  title={logo.title}
-                  className="h-8"
-                />
-              </a>
-              <h2 className="text-xl font-semibold">{logo.title}</h2>
+              <h2 className="font-metal text-xl font-semibold italic md:text-3xl lg:text-4xl">
+                {logo.title}
+              </h2>
             </div>
             <p className="text-muted-foreground max-w-[70%] text-sm">
               {description}
