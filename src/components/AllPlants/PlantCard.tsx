@@ -51,9 +51,6 @@ export const PlantCard = ({ plant, wishSet, variantImages }: any) => {
           initial="initial"
           whileHover="hover"
           className="group relative h-72 w-full cursor-pointer overflow-hidden rounded-xl"
-          onClick={() => {
-            navigate(`/plants/${plant?._id}`, { state: wishSet });
-          }}
         >
           {/* images */}
           <img
@@ -62,6 +59,9 @@ export const PlantCard = ({ plant, wishSet, variantImages }: any) => {
             className="h-full w-full object-cover transition-opacity duration-500 group-hover:opacity-0"
           />
           <img
+            onClick={() => {
+              navigate(`/plants/${plant?._id}`, { state: wishSet });
+            }}
             src={variantImages[1]}
             alt={`${name} alternate`}
             className="absolute inset-0 h-full w-full object-cover opacity-0 transition-all duration-500 group-hover:scale-110 group-hover:opacity-100"

@@ -20,7 +20,7 @@ export const Menu = () => {
       <div className="main">
         <div className="header | relative z-50">
           <button
-            className="button | flex h-[80px] w-[80px] cursor-pointer items-center justify-center rounded-full"
+            className="button | flex h-[50px] w-[50px] cursor-pointer items-center justify-center rounded-full"
             onClick={() => setIsActive(!isActive)}
           >
             <div className={`burger ${isActive ? "burger-active" : ""}`}></div>

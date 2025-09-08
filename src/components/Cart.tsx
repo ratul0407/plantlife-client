@@ -16,11 +16,11 @@ export function Cart() {
       <Button
         variant="outline"
         onClick={() => setIsOpen((s) => !s)}
-        className="relative"
+        className="relative h-8 w-8 rounded-full"
       >
-        <BsCart className="h-6 w-6 text-gray-600" />
+        <BsCart className="h-5 w-5 text-gray-600" />
         {/* badge */}
-        <span className="absolute -top-2 -right-2 rounded-full bg-green-800 px-2 text-xs text-white">
+        <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-green-800 text-xs text-white">
           {data?.data?.[0]?.cart?.length}
         </span>
       </Button>
