@@ -19,6 +19,8 @@ import {
 import { Cart } from "./Cart";
 import { Link } from "react-router";
 import { Menu } from "./Home/menu/Menu";
+import { SearchForm } from "./search-form";
+import SearchBar from "./navbar-components/SearchBar";
 
 // Navigation links array to be used in both desktop and mobile menus
 const navigationLinks = [
@@ -105,18 +107,7 @@ export default function NavbarUi() {
         {/* Middle area */}
         <div className="grow">
           {/* Search form */}
-          <div className="relative mx-auto w-full max-w-xs">
-            <Input
-              id={id}
-              className="peer h-8 ps-8 pe-10"
-              placeholder="Search..."
-              type="search"
-            />
-            <div className="text-muted-foreground/80 pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-2 peer-disabled:opacity-50">
-              <SearchIcon size={16} />
-            </div>
-            <div className="text-muted-foreground pointer-events-none absolute inset-y-0 end-0 flex items-center justify-center pe-2"></div>
-          </div>
+          <SearchBar />
         </div>
         {/* Right side */}
         <div className="relative z-[100] flex flex-1 items-center justify-end gap-4">

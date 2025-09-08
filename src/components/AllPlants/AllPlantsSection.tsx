@@ -30,7 +30,8 @@ export const AllPlantsSection = () => {
   }, [openFilter]);
 
   const { data, isLoading } = useGetAllPlantsQuery(undefined);
-  const plants = data?.data;
+  console.log(data);
+  const plants = data?.data?.data;
   const variantImages = plants?.map((item) =>
     item.variants.map((v) => v.image),
   );

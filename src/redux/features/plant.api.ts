@@ -3,9 +3,10 @@ import { baseApi } from "../baseApi";
 export const plantApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllPlants: builder.query({
-      query: () => ({
+      query: (params) => ({
         url: "/plant/all-plants",
         method: "GET",
+        params,
       }),
     }),
     getSinglePlant: builder.query({
