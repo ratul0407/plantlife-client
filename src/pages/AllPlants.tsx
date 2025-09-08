@@ -10,6 +10,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { User } from "lucide-react";
 import { authApi, useLogOutMutation } from "@/redux/features/auth.api";
 import { useDispatch } from "react-redux";
+import { Cart } from "@/components/Cart";
 
 export const AllPlants = () => {
   const { data, isLoading } = useGetMeQuery(undefined);
@@ -168,12 +169,13 @@ export const AllPlants = () => {
               )}
             </div>
             {/* cart */}
+
             <div className="relative">
-              <BsCart className="h-6 w-6 text-gray-600" />
-              <span className="absolute -top-3 -right-4.5 rounded-full bg-green-800 px-2 text-white"></span>
+              <Cart />
             </div>
           </div>
         </header>
+
         <main className="p-8">
           <Outlet />
         </main>

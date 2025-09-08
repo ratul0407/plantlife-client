@@ -15,6 +15,7 @@ import { TRole } from "@/types";
 import { generateRoute } from "@/utils/generateRoutes";
 import { adminSidebarItems } from "./adminSidebarItems";
 import { userSidebarItems } from "./userSidebarItems";
+import About from "@/pages/About";
 
 export const router = createBrowserRouter([
   {
@@ -24,6 +25,10 @@ export const router = createBrowserRouter([
       {
         index: true,
         Component: Home,
+      },
+      {
+        path: "/about",
+        Component: About,
       },
     ],
   },

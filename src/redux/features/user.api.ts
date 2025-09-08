@@ -16,7 +16,25 @@ export const userApi = baseApi.injectEndpoints({
         data,
       }),
     }),
+    addToCart: builder.mutation({
+      query: (data) => ({
+        url: "/user/add-to-cart",
+        method: "PATCH",
+        data,
+      }),
+    }),
+    myCart: builder.query({
+      query: () => ({
+        url: "/user/my-cart",
+        method: "GET",
+      }),
+    }),
   }),
 });
 
-export const { useGetMeQuery, useAddToWishlistMutation } = userApi;
+export const {
+  useGetMeQuery,
+  useAddToWishlistMutation,
+  useAddToCartMutation,
+  useMyCartQuery,
+} = userApi;

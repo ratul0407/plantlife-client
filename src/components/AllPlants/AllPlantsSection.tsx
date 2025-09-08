@@ -16,8 +16,7 @@ export const AllPlantsSection = () => {
     () => new Set(wishlist.map((w: any) => w.plant)),
     [wishlist],
   );
-  console.log(wishSet, "Wishset");
-  console.log(wishlist);
+
   const [overlay, setOverlay] = useState(false);
   const { lenisRef } = useLenis();
   const [openFilter, setOpenFilter] = useState(false);
@@ -35,7 +34,6 @@ export const AllPlantsSection = () => {
     item.variants.map((v) => v.image),
   );
 
-  console.log(variantImages);
   const openFilterSideBar = () => {
     setOpenFilter(true);
     setOverlay(true);

@@ -11,9 +11,9 @@ import { toast } from "sonner";
 export const PlantCard = ({ plant, wishSet, variantImages }: any) => {
   const { name, _id } = plant;
   const { data: userData } = useGetMeQuery(undefined);
-  console.log(userData, "from plant card component");
+
   const alreadyInWishlist = wishSet.has(_id);
-  console.log(alreadyInWishlist);
+
   const [addedToWishlist, setAddedToWishlist] = useState(alreadyInWishlist);
 
   const [addToWishList] = useAddToWishlistMutation();
@@ -49,12 +49,11 @@ export const PlantCard = ({ plant, wishSet, variantImages }: any) => {
     setAddedToWishlist(true);
     try {
       const res = await addToWishList({ plant: _id }).unwrap();
-      console.log(res);
+
       if (res.success) {
         toast.success("Added to wishlist");
       }
     } catch (error: any) {
-      console.log(error);
       toast.error(error?.data?.message);
     }
   };
@@ -84,7 +83,6 @@ export const PlantCard = ({ plant, wishSet, variantImages }: any) => {
           />
         </div>
         <motion.button
-          onClick={() => console.log("I was clicked")}
           variants={addToCartVariants}
           className={`absolute left-1/2 z-50 flex w-full -translate-x-1/2 cursor-pointer items-center justify-center gap-2 rounded-b-xl bg-black py-1.5 text-center text-white uppercase`}
         >
