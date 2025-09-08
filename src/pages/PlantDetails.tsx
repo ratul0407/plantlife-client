@@ -6,6 +6,7 @@ import { IoChevronUp, IoHeart, IoHeartOutline } from "react-icons/io5";
 import { FiGift, FiHeadphones, FiShield, FiTruck } from "react-icons/fi";
 import { Reviews } from "@/components/AllPlants/Reviews";
 import { useGetSinglePlantQuery } from "@/redux/features/plant.api";
+import PlantDetailsSkeleton from "@/components/PlantDetailsSkeleton";
 
 const features = [
   {
@@ -121,7 +122,7 @@ export const PlantDetails = () => {
     setAddStock(addStock - 1);
   };
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <PlantDetailsSkeleton />;
 
   return (
     <div className="pt-10 2xl:container 2xl:mx-auto">
