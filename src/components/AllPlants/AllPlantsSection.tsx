@@ -8,6 +8,7 @@ import { useLenis } from "../../hooks/useLenis";
 import { useGetAllPlantsQuery } from "@/redux/features/plant.api";
 import { useGetMeQuery } from "@/redux/features/user.api";
 import { PlantCardSkeleton } from "../PlantCardSkeleton";
+import FilterDesktop from "../FilterDesktop";
 
 export const AllPlantsSection = () => {
   const { data: userData } = useGetMeQuery(undefined);
@@ -71,11 +72,11 @@ export const AllPlantsSection = () => {
   return (
     <>
       <div className="space-y-10 md:space-y-20 2xl:mx-80">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between lg:justify-end">
           {/* filter */}
           <button
             onClick={openFilterSideBar}
-            className="flex w-fit cursor-pointer items-center gap-4 rounded-sm border border-gray-300 px-2 py-1"
+            className="flex w-fit cursor-pointer items-center gap-4 rounded-sm border border-gray-300 px-2 py-1 lg:hidden"
           >
             <BsFilterLeft className="h-7 w-7" />
             <span>Filter</span>
@@ -102,22 +103,28 @@ export const AllPlantsSection = () => {
           </div>
         </div>
         {/* <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4"> */}
+
         {
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            {isLoading
-              ? Array.from({ length: 6 }).map((_, i) => (
-                  <PlantCardSkeleton key={i} />
-                ))
-              : plants?.map((plant, index: number) => {
-                  return (
-                    <PlantCard
-                      key={index}
-                      plant={plant}
-                      variantImages={variantImages[index]}
-                      wishSet={wishSet}
-                    />
-                  );
-                })}
+          <div className="lg:flex">
+            <div className="hidden min-h-screen basis-1/4 bg-slate-50/50 lg:block">
+              <FilterDesktop />
+            </div>
+            <div className="grid basis-3/4 grid-cols-2 md:grid-cols-3">
+              {isLoading
+                ? Array.from({ length: 6 }).map((_, i) => (
+                    <PlantCardSkeleton key={i} />
+                  ))
+                : plants?.map((plant, index: number) => {
+                    return (
+                      <PlantCard
+                        key={index}
+                        plant={plant}
+                        variantImages={variantImages[index]}
+                        wishSet={wishSet}
+                      />
+                    );
+                  })}
+            </div>
           </div>
         }
         {/* </div> */}

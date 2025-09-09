@@ -8,6 +8,7 @@ import {
   useGetMeQuery,
 } from "@/redux/features/user.api";
 import { toast } from "sonner";
+import AddToCartModal from "../AddToCartModal";
 
 export const PlantCard = ({ plant, wishSet, variantImages }: any) => {
   const { name, _id } = plant;
@@ -68,12 +69,20 @@ export const PlantCard = ({ plant, wishSet, variantImages }: any) => {
           />
 
           {/* add to cart */}
-          <motion.button
+          {/* <motion.button
             variants={addToCartVariants}
             className="absolute left-1/2 z-50 flex w-full -translate-x-1/2 items-center justify-center gap-2 rounded-b-xl bg-black py-1.5 text-center text-white uppercase"
           >
             <BsCart /> Add to cart
-          </motion.button>
+          </motion.button> */}
+          <AddToCartModal plant={plant}>
+            <motion.button
+              variants={addToCartVariants}
+              className="absolute left-1/2 z-50 flex w-full -translate-x-1/2 items-center justify-center gap-2 rounded-b-xl bg-black py-1.5 text-center text-white uppercase"
+            >
+              <BsCart /> Add to cart
+            </motion.button>
+          </AddToCartModal>
 
           {/* wishlist */}
           <motion.button

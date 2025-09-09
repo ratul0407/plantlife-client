@@ -1,3 +1,4 @@
+import AddToCartModal from "@/components/AddToCartModal";
 import { Button } from "@/components/ui/button";
 import {
   useGetMyWishlistQuery,
@@ -55,13 +56,15 @@ const Wishlist = () => {
                   ${item?.plantDetails?.variants?.[0]?.price}
                 </h3>
               </div>
-              <Button
-                disabled={addToCartLoading}
-                onClick={() => handleAddToCart(item?.plantDetails?._id)}
-                className="mt-34"
-              >
-                Add To Cart
-              </Button>
+              <AddToCartModal plant={item?.plantDetails}>
+                <Button
+                  disabled={addToCartLoading}
+                  onClick={() => handleAddToCart(item?.plantDetails?._id)}
+                  className="mt-34 max-w-fit"
+                >
+                  Add To Cart
+                </Button>
+              </AddToCartModal>
             </div>
             <Button
               disabled={isLoading}

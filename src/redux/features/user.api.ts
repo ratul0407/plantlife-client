@@ -22,12 +22,22 @@ export const userApi = baseApi.injectEndpoints({
         method: "PATCH",
         data,
       }),
+      invalidatesTags: ["CART"],
     }),
     myCart: builder.query({
       query: () => ({
         url: "/user/my-cart",
         method: "GET",
       }),
+      providesTags: ["CART"],
+    }),
+    updateCart: builder.mutation({
+      query: (data) => ({
+        url: "/user/update-cart",
+        method: "PATCH",
+        data,
+      }),
+      invalidatesTags: ["CART"],
     }),
   }),
 });
@@ -37,4 +47,5 @@ export const {
   useAddToWishlistMutation,
   useAddToCartMutation,
   useMyCartQuery,
+  useUpdateCartMutation,
 } = userApi;
