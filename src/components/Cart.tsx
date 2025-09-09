@@ -103,7 +103,11 @@ export function Cart() {
             <p className="font-medium">Subtotal</p>
             <p className="font-semibold">${amount}</p>
           </div>
-          <Button className="w-full">Checkout</Button>
+          <Button className="w-full">
+            <Link className="w-full" to="/checkout">
+              Checkout
+            </Link>
+          </Button>
         </div>
       </aside>
     </>
