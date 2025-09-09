@@ -1,37 +1,29 @@
 import { useId } from "react";
-import { SearchIcon } from "lucide-react";
-
-import Logo from "@/components/navbar-components/logo";
-import UserMenu from "@/components/navbar-components/user-menu";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
   NavigationMenu,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
 } from "@/components/ui/navigation-menu";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+
 import { Cart } from "./Cart";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import { Menu } from "./Home/menu/Menu";
-import { SearchForm } from "./search-form";
+
 import SearchBar from "./navbar-components/SearchBar";
+import UserMenu from "./navbar-components/user-menu";
 
 // Navigation links array to be used in both desktop and mobile menus
-const navigationLinks = [
-  { href: "/", label: "Home", active: true },
-  { href: "/plants", label: "All Plants" },
-  { href: "/about", label: "About" },
-  { href: "/contact", label: "Contact" },
-];
 
 export default function NavbarUi() {
-  const id = useId();
+  const { pathname } = useLocation();
+  console.log(pathname);
+  const navigationLinks = [
+    { href: "/", label: "Home" },
+    { href: "/plants", label: "All Plants" },
+    { href: "/about", label: "About" },
+    { href: "/contact", label: "Contact" },
+  ];
 
   return (
     <header className="sticky top-0 z-[90] border-b bg-white px-4 pb-4 md:px-6">
@@ -124,6 +116,7 @@ export default function NavbarUi() {
             {navigationLinks.map((link, index) => (
               <NavigationMenuItem key={index}>
                 <NavigationMenuLink
+                  active={pathname === link.href}
                   asChild
                   className="text-muted-foreground hover:text-primary py-1.5 font-medium"
                 >

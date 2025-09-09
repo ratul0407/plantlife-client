@@ -22,7 +22,7 @@ import { plantCategories } from "@/constants/plantCategories";
 
 import { FileMetadata } from "@/hooks/use-file-upload";
 import { useAddPlantsMutation } from "@/redux/features/plant.api";
-import { PlusCircle } from "lucide-react";
+import { PlusCircle, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -54,7 +54,7 @@ const AddPlants = () => {
   const {
     fields: variantFields,
     append: addVariant,
-    // remove: removeVariant,
+    remove: removeVariant,
   } = useFieldArray({
     control: form.control,
     name: "variants",
@@ -96,6 +96,7 @@ const AddPlants = () => {
       if (res.success) {
         toast.success("Plant created successfully!");
       }
+      form.reset();
     } catch (error) {
       console.log(error);
     }
@@ -248,6 +249,15 @@ const AddPlants = () => {
                   )}
                 />
               </div>
+              <Button
+                type="button"
+                variant="outline"
+                className="mt-2"
+                onClick={() => removeVariant(index)}
+              >
+                <Trash2 className="text-red-500" />
+                Delete Variant {index + 1}
+              </Button>
             </div>
           ))}
           <FormField

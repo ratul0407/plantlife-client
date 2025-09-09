@@ -54,7 +54,7 @@ export const Login = () => {
       }).unwrap();
       if (res.success) {
         toast.success("Logged in as super admin");
-        navigate("/admin/add-plants");
+        navigate("/admin/overview");
       }
     } catch (error) {
       console.log(error);
