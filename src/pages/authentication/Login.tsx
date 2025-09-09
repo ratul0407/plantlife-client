@@ -46,6 +46,34 @@ export const Login = () => {
       console.log(error);
     }
   };
+  const handleSuperAdminLogin = async () => {
+    try {
+      const res = await login({
+        email: config.super_admin_email,
+        password: config.super_admin_password,
+      }).unwrap();
+      if (res.success) {
+        toast.success("Logged in as super admin");
+        navigate("/admin/add-plants");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleUserLogin = async () => {
+    try {
+      const res = await login({
+        email: config.user_email,
+        password: config.user_password,
+      }).unwrap();
+      if (res.success) {
+        toast.success("Logged in as user");
+        navigate("/plants");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className="flex min-h-screen items-center">
       <div className="mx-auto px-4 sm:max-w-lg lg:max-w-lg lg:basis-1/2 lg:space-y-6">
@@ -56,6 +84,10 @@ export const Login = () => {
           <p className="font-metal text-3xl text-gray-600">
             Connect with nature, Connect with your roots
           </p>
+        </div>
+        <div className="space-x-4">
+          <Button onClick={handleSuperAdminLogin}>Super Admin Login</Button>
+          <Button onClick={handleUserLogin}>User Login</Button>
         </div>
         <Form {...form}>
           <form

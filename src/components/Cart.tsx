@@ -3,6 +3,7 @@ import { BsCart } from "react-icons/bs";
 import { IoClose } from "react-icons/io5";
 import { Button } from "./ui/button";
 import { useMyCartQuery } from "@/redux/features/user.api";
+import { Link } from "react-router";
 
 export function Cart() {
   const [isOpen, setIsOpen] = useState(false);
@@ -70,10 +71,15 @@ export function Cart() {
                 className="flex items-center justify-between border-b pb-3"
               >
                 <div className="flex items-center gap-3">
-                  <img
-                    className="size-20"
-                    src={item?.plantDetails?.variants?.[0]?.image}
-                  />
+                  <Link
+                    to={`/plants/${item?.plantDetails?._id}`}
+                    onClick={() => setIsOpen(false)}
+                  >
+                    <img
+                      className="size-20"
+                      src={item?.plantDetails?.variants?.[0]?.image}
+                    />
+                  </Link>
                   <div>
                     <p className="font-medium">{item?.plantDetails?.name}</p>
                     <p className="text-sm text-gray-500">
@@ -82,7 +88,10 @@ export function Cart() {
                   </div>
                 </div>
                 <p className="font-semibold">
-                  ${item?.plantDetails?.variants?.[0]?.price * item?.quantity}
+                  $
+                  {(
+                    item?.plantDetails?.variants?.[0]?.price * item?.quantity
+                  ).toFixed(2)}
                 </p>
               </div>
             ))}

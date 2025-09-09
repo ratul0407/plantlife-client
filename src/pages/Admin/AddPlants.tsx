@@ -18,7 +18,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { plantCategories } from "@/constants/role";
+import { plantCategories } from "@/constants/plantCategories";
+
 import { FileMetadata } from "@/hooks/use-file-upload";
 import { useAddPlantsMutation } from "@/redux/features/plant.api";
 import { PlusCircle } from "lucide-react";
