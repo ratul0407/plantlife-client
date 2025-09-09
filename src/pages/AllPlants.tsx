@@ -12,6 +12,7 @@ import { authApi, useLogOutMutation } from "@/redux/features/auth.api";
 import { useDispatch } from "react-redux";
 import { Cart } from "@/components/Cart";
 import NavbarUi from "@/components/NavbarUi";
+import Footer from "@/components/Footer";
 
 export const AllPlants = () => {
   const { data, isLoading } = useGetMeQuery(undefined);
@@ -40,6 +41,7 @@ export const AllPlants = () => {
         <main className="p-8">
           <Outlet />
         </main>
+        <Footer />
       </div>
     </>
   );

@@ -1,9 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Trash2, Minus, Plus } from "lucide-react";
 import NavbarUi from "@/components/NavbarUi";
+import {
+  useMyCartQuery,
+  useUpdateCartMutation,
+} from "@/redux/features/user.api";
 
 type CartItem = {
   id: string;
@@ -62,6 +66,12 @@ const initialCart: CartItem[] = [
 
 export default function Checkout() {
   const [cart, setCart] = useState<CartItem[]>(initialCart);
+  const [amount, setAmount] = useState(0);
+  const [updateCart, { isLoading }] = useUpdateCartMutation();
+  const { data } = useMyCartQuery(undefined);
+  console.log(data);
+  const myCart = data?.data?.[0]?.cart;
+  console.log(myCart);
 
   const updateQuantity = (id: string, qty: number) => {
     if (qty < 1) return;
@@ -96,6 +106,27 @@ export default function Checkout() {
     console.log("Order placed!", { cart, shippingInfo, total });
     alert("Order placed successfully!");
   };
+  useEffect(() => {
+    if (cart?.length) {
+      let total = 0;
+      cart?.map((item) => {
+        total += item?.plantDetails?.variants?.[0]?.price * item?.quantity;
+      });
+      total.toString(2);
+      setAmount(total);
+    }
+  }, [data]);
+
+  const handleIncrement = (max: number, current: number, sku: string) => {
+    console.log(max, current);
+    if (current >= max) return;
+    updateCart({ quantity: current + 1, sku });
+  };
+  const handleDecrement = (current: number, sku: string) => {
+    console.log(current);
+    if (current <= 1) return;
+    updateCart({ quantity: current - 1, sku });
+  };
 
   return (
     <>
@@ -106,10 +137,11 @@ export default function Checkout() {
 
         {/* Cart Items */}
         <div className="space-y-4">
-          {cart.map((item) => {
+          {myCart?.map((item) => {
             const variant = item.plantDetails.variants.find(
               (v) => v.sku === item.sku,
             );
+            // const variant = item?.plantDetails?.variants/
             return (
               <div
                 key={item.id}
@@ -136,7 +168,9 @@ export default function Checkout() {
                   <Button
                     variant="outline"
                     size="icon"
-                    onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                    onClick={() =>
+                      handleDecrement(item?.quantity, variant?.sku)
+                    }
                   >
                     <Minus className="h-4 w-4" />
                   </Button>
@@ -144,7 +178,13 @@ export default function Checkout() {
                   <Button
                     variant="outline"
                     size="icon"
-                    onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                    onClick={() =>
+                      handleIncrement(
+                        variant?.stock,
+                        item?.quantity,
+                        variant?.sku,
+                      )
+                    }
                   >
                     <Plus className="h-4 w-4" />
                   </Button>
@@ -171,7 +211,7 @@ export default function Checkout() {
         {/* Total */}
         <div className="flex items-center justify-between rounded-lg border p-4">
           <p className="text-lg font-semibold">Total</p>
-          <p className="text-lg font-bold">${total.toFixed(2)}</p>
+          <p className="text-lg font-bold">${amount}</p>
         </div>
 
         {/* Shipping Info */}
