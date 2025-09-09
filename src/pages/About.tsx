@@ -45,24 +45,22 @@ export default function About() {
         {/* Paragraphs */}
         <section className="space-y-8 text-lg leading-relaxed">
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget
-            ligula a elit malesuada vestibulum. Morbi tincidunt diam non lectus
-            fermentum, a volutpat purus luctus. Nullam non justo sit amet libero
-            convallis tempor.
+            At PlantLife, we believe that every home and workspace deserves the
+            calming touch of greenery. Our mission is to make it easy for
+            anyone—whether you’re a seasoned plant enthusiast or just starting
+            out—to bring nature indoors. We carefully source healthy, vibrant
+            plants from trusted growers, ensuring each one arrives at your door
+            ready to thrive.
           </p>
 
           <p>
-            Phasellus finibus, justo sit amet fermentum feugiat, erat libero
-            placerat orci, non faucibus enim leo ac risus. Integer quis sapien
-            nec ligula mattis facilisis. Curabitur semper mi vel sapien
-            imperdiet, ac feugiat ligula vehicula.
-          </p>
-
-          <p>
-            Donec in sapien a mauris laoreet bibendum. Vestibulum ante ipsum
-            primis in faucibus orci luctus et ultrices posuere cubilia curae;
-            Vivamus efficitur dui ut nulla fermentum, non fringilla tortor
-            placerat. Sed vitae dui vel nulla pharetra suscipit.
+            We know that plants aren’t just decorations; they’re companions that
+            improve air quality, reduce stress, and create a sense of
+            well-being. That’s why we go beyond simply selling plants—we provide
+            detailed care instructions, helpful resources, and personalized
+            recommendations so you can nurture your plants with confidence. From
+            hanging plants to desk-friendly succulents, every option is chosen
+            with beauty and sustainability in mind.
           </p>
         </section>
 
@@ -88,6 +86,13 @@ export default function About() {
             />
           </div>
         </section>
+        <p>
+          What sets us apart is our dedication to customer experience. From
+          secure packaging that protects your plants in transit to responsive
+          support that helps with care questions, we’re here every step of the
+          way. At PlantLife, it’s more than just shopping—it’s about growing a
+          greener lifestyle, one plant at a time.
+        </p>
       </div>
     </>
   );

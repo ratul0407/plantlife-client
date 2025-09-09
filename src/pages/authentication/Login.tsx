@@ -86,8 +86,12 @@ export const Login = () => {
           </p>
         </div>
         <div className="space-x-4">
-          <Button onClick={handleSuperAdminLogin}>Super Admin Login</Button>
-          <Button onClick={handleUserLogin}>User Login</Button>
+          <Button disabled={isLoading} onClick={handleSuperAdminLogin}>
+            Admin Login
+          </Button>
+          <Button disabled={isLoading} onClick={handleUserLogin}>
+            User Login
+          </Button>
         </div>
         <Form {...form}>
           <form
@@ -127,7 +131,7 @@ export const Login = () => {
                 </FormItem>
               )}
             />
-            <Button>Login</Button>
+            <Button disabled={isLoading}>Login</Button>
           </form>
         </Form>
 
