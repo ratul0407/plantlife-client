@@ -2,15 +2,21 @@ import { useEffect, useState } from "react";
 import { BsCart } from "react-icons/bs";
 import { IoClose } from "react-icons/io5";
 import { Button } from "./ui/button";
-import { useMyCartQuery } from "@/redux/features/user.api";
+import {
+  useMyCartQuery,
+  useRemoveFromCartMutation,
+} from "@/redux/features/user.api";
 import { Link } from "react-router";
+import { X } from "lucide-react";
+import { toast } from "sonner";
 
 export function Cart() {
   const [isOpen, setIsOpen] = useState(false);
   const [amount, setAmount] = useState(0);
   const { data } = useMyCartQuery(undefined);
   console.log(data);
-
+  const [removeFromCart, { isLoading: removeFromCartLoading }] =
+    useRemoveFromCartMutation();
   useEffect(() => {
     if (data?.data?.[0]?.cart?.length) {
       let total = 0;
@@ -21,6 +27,17 @@ export function Cart() {
       setAmount(total);
     }
   }, [data]);
+
+  const handleRemoveFromCart = async (plantId: string) => {
+    try {
+      const res = await removeFromCart({ plant: plantId }).unwrap();
+      if (res.success) {
+        toast.success(res.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
       {/* Cart button */}
@@ -62,14 +79,14 @@ export function Cart() {
           </Button>
         </div>
 
-        <div className="flex-1 overflow-y-auto p-4">
+        <div className="flex-1 overflow-y-auto">
           {/* cart items */}
           <div className="space-y-4">
             {data?.data?.[0]?.cart?.length ? (
               data?.data?.[0]?.cart?.map((item, index: number) => (
                 <div
                   key={index}
-                  className="flex items-center justify-between border-b pb-3"
+                  className="flex items-center justify-between border-b p-4 pb-3 hover:bg-gray-200 hover:opacity-70"
                 >
                   <div className="flex items-center gap-3">
                     <Link
@@ -88,12 +105,24 @@ export function Cart() {
                       </p>
                     </div>
                   </div>
-                  <p className="font-semibold">
-                    $
-                    {(
-                      item?.plantDetails?.variants?.[0]?.price * item?.quantity
-                    ).toFixed(2)}
-                  </p>
+                  <div className="flex flex-col items-end justify-end gap-3">
+                    <button
+                      onClick={() =>
+                        handleRemoveFromCart(item?.plantDetails?._id)
+                      }
+                      disabled={removeFromCartLoading}
+                      className="cursor-pointer"
+                    >
+                      <X className="size-4 text-gray-700" />
+                    </button>
+                    <p className="font-semibold">
+                      $
+                      {(
+                        item?.plantDetails?.variants?.[0]?.price *
+                        item?.quantity
+                      ).toFixed(2)}
+                    </p>
+                  </div>
                 </div>
               ))
             ) : (

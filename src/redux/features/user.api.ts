@@ -39,6 +39,14 @@ export const userApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["CART"],
     }),
+    removeFromCart: builder.mutation({
+      query: (data) => ({
+        url: "/user/remove-from-cart",
+        method: "PATCH",
+        data,
+      }),
+      invalidatesTags: ["CART"],
+    }),
   }),
 });
 
@@ -48,4 +56,5 @@ export const {
   useAddToCartMutation,
   useMyCartQuery,
   useUpdateCartMutation,
+  useRemoveFromCartMutation,
 } = userApi;
