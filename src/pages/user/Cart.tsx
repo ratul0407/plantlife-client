@@ -7,29 +7,16 @@ import { Minus, Plus, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 
 const Cart = () => {
-  const [quantity, setQuantity] = useState(0);
   const [amount, setAmount] = useState(0);
   const { data } = useMyCartQuery(undefined);
   const [updateCart, isLoading] = useUpdateCartMutation();
   const cart = data?.data?.[0]?.cart;
-  console.log(cart);
-  // const updateQuantity = (id: string, newQty: number) => {};
-
-  // const removeItem = (id: string) => {
-  //   setCart((prev) => prev.filter((item) => item.id !== id));
-  // };
-
-  // const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const handleIncrement = (max: number, current: number, sku: string) => {
-    console.log(max, current);
-    if (current >= max) return;
-    updateCart({ quantity: current + 1, sku });
-  };
-  const handleDecrement = (current: number, sku: string) => {
-    console.log(current);
-    if (current <= 1) return;
-    updateCart({ quantity: current - 1, sku });
-  };
+  // console.log(cart);
+  const currentPrice = cart?.[0]?.plantDetails?.variants?.find(
+    (i) => i.sku === cart?.[0]?.sku,
+  );
+  console.log(cart?.[0]?.sku, cart?.[0]?.plantDetails?.variants?.[0]?.sku);
+  console.log(currentPrice);
 
   useEffect(() => {
     if (cart?.length) {

@@ -7,6 +7,9 @@ import { FiGift, FiHeadphones, FiShield, FiTruck } from "react-icons/fi";
 import { Reviews } from "@/components/AllPlants/Reviews";
 import { useGetSinglePlantQuery } from "@/redux/features/plant.api";
 import PlantDetailsSkeleton from "@/components/PlantDetailsSkeleton";
+import { Button } from "@/components/ui/button";
+import { useAddToCartMutation } from "@/redux/features/user.api";
+import { toast } from "sonner";
 
 const features = [
   {
@@ -35,10 +38,11 @@ export const PlantDetails = () => {
   const { data, isLoading } = useGetSinglePlantQuery({ id });
   const plant = data?.data;
 
+  const [addToCart] = useAddToCartMutation();
   // state
   const [imgIndex, setImgIndex] = useState(0);
   const [currentVariant, setCurrentVariant] = useState(null);
-  const [addStock, setAddStock] = useState(1);
+  const [quantity, setQuantity] = useState(1);
   const [addedToWishlist, setAddedToWishlist] = useState(false);
   const [showControls, setShowControls] = useState(false);
 
@@ -76,8 +80,8 @@ export const PlantDetails = () => {
 
   // prevent stock > currentVariant.stock
   useEffect(() => {
-    if (addStock > (currentVariant?.stock ?? 0)) {
-      setAddStock(currentVariant?.stock ?? 1);
+    if (quantity > (currentVariant?.stock ?? 0)) {
+      setQuantity(currentVariant?.stock ?? 1);
     }
   }, [currentVariant]);
 
@@ -113,15 +117,33 @@ export const PlantDetails = () => {
   };
 
   const handleIncrementStock = () => {
-    if (addStock >= (currentVariant?.stock ?? 0)) return;
-    setAddStock(addStock + 1);
+    if (quantity >= (currentVariant?.stock ?? 0)) return;
+    setQuantity(quantity + 1);
   };
 
   const handleDecrementStock = () => {
-    if (addStock <= 1) return;
-    setAddStock(addStock - 1);
+    if (quantity <= 1) return;
+    setQuantity(quantity - 1);
   };
 
+  console.log(currentVariant);
+  //handle add to cart
+  const handleAddToCart = async () => {
+    try {
+      const res = await addToCart({
+        plant: plant?._id,
+        sku: currentVariant?.sku,
+        quantity: quantity,
+      }).unwrap();
+      if (res.success) {
+        toast.success("Plant added to cart");
+      }
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+      toast.error(error?.data?.message);
+    }
+  };
   if (isLoading) return <PlantDetailsSkeleton />;
 
   return (
@@ -241,7 +263,7 @@ export const PlantDetails = () => {
                     onChange={() => {
                       handleSetImgIndex(index);
                       setCurrentVariant(variant);
-                      setAddStock(1); // reset quantity
+                      setQuantity(1); // reset quantity
                     }}
                   />
                   <label
@@ -257,24 +279,31 @@ export const PlantDetails = () => {
             {/* cart & wishlist */}
             <div className="flex items-center gap-2">
               <div className="flex w-1/3 items-center justify-between rounded-full border border-slate-300 text-center text-sm sm:*:text-xl lg:w-1/4">
-                <button
-                  onClick={handleIncrementStock}
-                  className="cursor-pointer rounded-l-full py-2.5 pr-4 pl-4 hover:bg-slate-200"
-                >
-                  <PiPlus />
-                </button>
-                <span className="text-gray-800">{addStock}</span>
-                <button
+                <Button
+                  variant={"ghost"}
                   onClick={handleDecrementStock}
                   className="cursor-pointer rounded-r-full py-2.5 pr-4 pl-4 hover:bg-slate-200"
                 >
                   <PiMinus />
-                </button>
+                </Button>
+
+                <span className="text-gray-800">{quantity}</span>
+                <Button
+                  variant={"ghost"}
+                  onClick={handleIncrementStock}
+                  className="cursor-pointer rounded-l-full py-2.5 pr-4 pl-4 hover:bg-slate-200"
+                >
+                  <PiPlus />
+                </Button>
               </div>
               <div className="w-[65%] text-center">
-                <button className="w-full cursor-pointer rounded-full bg-green-700 py-2.5 font-medium text-white uppercase transition-all duration-300 hover:bg-green-600">
+                <Button
+                  onClick={handleAddToCart}
+                  variant={"ghost"}
+                  className="w-full cursor-pointer rounded-full bg-green-700 py-2.5 font-medium text-white uppercase transition-all duration-300 hover:bg-green-600"
+                >
                   Add to cart
-                </button>
+                </Button>
               </div>
               <button
                 onClick={() => setAddedToWishlist(!addedToWishlist)}

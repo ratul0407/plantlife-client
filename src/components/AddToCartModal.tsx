@@ -1,4 +1,3 @@
-import { motion } from "motion/react";
 import {
   Dialog,
   DialogContent,
@@ -8,7 +7,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { BsCart } from "react-icons/bs";
+
 import { Button } from "./ui/button";
 import { Check, Minus, Plus } from "lucide-react";
 import { useState } from "react";
@@ -82,9 +81,10 @@ const AddToCartModal = ({ plant, children }) => {
           </DialogDescription>
         </DialogHeader>
 
-        <div className="grid grid-cols-3 gap-3">
+        <div className="flex items-center justify-center gap-3">
           {plant?.variants?.map((variant) => {
             const isSelected = selectedVariant === variant.sku;
+            console.log(variant);
             return (
               <div
                 key={variant.id}
@@ -93,10 +93,11 @@ const AddToCartModal = ({ plant, children }) => {
                 }`}
                 onClick={() => handleSelectVariant(variant.sku)}
               >
-                <div className="relative h-24 w-full overflow-hidden rounded-md">
+                <p>{variant?.variantName}</p>
+                <div className="relative h-24 w-full min-w-[120px] overflow-hidden rounded-md">
                   <img
                     src={variant.image}
-                    alt={variant.name}
+                    alt={variant.variantName}
                     className="h-full w-full object-cover"
                   />
                 </div>

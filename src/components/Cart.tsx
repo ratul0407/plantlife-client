@@ -5,9 +5,10 @@ import { Button } from "./ui/button";
 import {
   useMyCartQuery,
   useRemoveFromCartMutation,
+  useUpdateCartMutation,
 } from "@/redux/features/user.api";
 import { Link } from "react-router";
-import { X } from "lucide-react";
+import { Minus, Plus, X } from "lucide-react";
 import { toast } from "sonner";
 
 export function Cart() {
@@ -17,6 +18,8 @@ export function Cart() {
   console.log(data);
   const [removeFromCart, { isLoading: removeFromCartLoading }] =
     useRemoveFromCartMutation();
+  const [updateCart, { isLoading: updateCartLoading }] =
+    useUpdateCartMutation();
   useEffect(() => {
     if (data?.data?.[0]?.cart?.length) {
       let total = 0;
@@ -37,6 +40,20 @@ export function Cart() {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const handleIncrement = (max: number, current: number, sku: string) => {
+    console.log(max, current);
+    if (current >= max) return;
+    updateCart({ quantity: current + 1, sku });
+  };
+  const handleDecrement = async (current: number, sku: string, id: string) => {
+    console.log(current);
+    if (current <= 1) {
+      handleRemoveFromCart(id);
+      return;
+    }
+    updateCart({ quantity: current - 1, sku });
   };
   return (
     <>
@@ -83,51 +100,87 @@ export function Cart() {
           {/* cart items */}
           <div className="space-y-4">
             {data?.data?.[0]?.cart?.length ? (
-              data?.data?.[0]?.cart?.map((item, index: number) => (
-                <div
-                  key={index}
-                  className="flex items-center justify-between border-b p-4 pb-3 hover:bg-gray-200 hover:opacity-70"
-                >
-                  <div className="flex items-center gap-3">
-                    <Link
-                      to={`/plants/${item?.plantDetails?._id}`}
-                      onClick={() => setIsOpen(false)}
-                    >
-                      <img
-                        className="size-20"
-                        src={item?.plantDetails?.variants?.[0]?.image}
-                      />
-                    </Link>
-                    <div>
-                      <p className="font-medium">{item?.plantDetails?.name}</p>
-                      <p className="text-sm text-gray-500">
-                        Qty: {item?.quantity}
+              data?.data?.[0]?.cart?.map((item, index: number) => {
+                console.log(item, "from cart component");
+                const plant = item?.plantDetails?.variants?.find(
+                  (p) => p.sku === item?.sku,
+                );
+                return (
+                  <div
+                    key={index}
+                    className="flex items-center justify-between border-b p-4 pb-3 hover:bg-gray-100"
+                  >
+                    <div className="flex items-center gap-3">
+                      <Link
+                        to={`/plants/${item?.plantDetails?._id}`}
+                        onClick={() => setIsOpen(false)}
+                      >
+                        <img className="size-24" src={plant?.image} />
+                      </Link>
+                      <div className="space-y-2">
+                        <p className="font-medium">{plant?.variantName}</p>
+                        <p className="text-sm text-gray-500">
+                          Qty: {item?.quantity}
+                        </p>
+                        <div className="flex items-center border text-sm *:border-r">
+                          <Button
+                            disabled={updateCartLoading}
+                            variant="ghost"
+                            size="sm"
+                            onClick={() =>
+                              handleDecrement(
+                                item?.quantity,
+                                plant?.sku,
+                                item?.plantDetails?._id,
+                              )
+                            }
+                          >
+                            <Minus className="h-4 w-4" />
+                          </Button>
+                          <span className="w-6 text-center">
+                            {item.quantity}
+                          </span>
+                          <Button
+                            disabled={updateCartLoading}
+                            variant="ghost"
+                            size="sm"
+                            onClick={() =>
+                              handleIncrement(
+                                plant?.stock,
+                                item?.quantity,
+                                plant?.sku,
+                              )
+                            }
+                          >
+                            <Plus className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex flex-col items-end justify-end gap-3">
+                      <button
+                        onClick={() =>
+                          handleRemoveFromCart(item?.plantDetails?._id)
+                        }
+                        disabled={removeFromCartLoading}
+                        className="cursor-pointer"
+                      >
+                        <X className="size-4 text-gray-700" />
+                      </button>
+                      <p className="font-semibold">
+                        $
+                        {(
+                          item?.plantDetails?.variants?.[0]?.price *
+                          item?.quantity
+                        ).toFixed(2)}
                       </p>
                     </div>
                   </div>
-                  <div className="flex flex-col items-end justify-end gap-3">
-                    <button
-                      onClick={() =>
-                        handleRemoveFromCart(item?.plantDetails?._id)
-                      }
-                      disabled={removeFromCartLoading}
-                      className="cursor-pointer"
-                    >
-                      <X className="size-4 text-gray-700" />
-                    </button>
-                    <p className="font-semibold">
-                      $
-                      {(
-                        item?.plantDetails?.variants?.[0]?.price *
-                        item?.quantity
-                      ).toFixed(2)}
-                    </p>
-                  </div>
-                </div>
-              ))
+                );
+              })
             ) : (
               <>
-                <div className="flex min-h-[70vh] items-center justify-center">
+                <div className="flex min-h-[80vh] items-center justify-center">
                   <h3 className="text-[3.5vw] text-gray-400">
                     Your Cart Is Empty
                   </h3>
@@ -136,18 +189,19 @@ export function Cart() {
             )}
           </div>
         </div>
-
-        <div className="border-t p-4">
-          <div className="mb-4 flex items-center justify-between">
-            <p className="font-medium">Subtotal</p>
-            <p className="font-semibold">${amount}</p>
+        {data?.data?.[0]?.cart && (
+          <div className="border-t p-4">
+            <div className="mb-4 flex items-center justify-between">
+              <p className="font-medium">Subtotal</p>
+              <p className="font-semibold">${amount.toFixed(2)}</p>
+            </div>
+            <Button className="w-full">
+              <Link className="w-full" to="/checkout">
+                Checkout
+              </Link>
+            </Button>
           </div>
-          <Button className="w-full">
-            <Link className="w-full" to="/checkout">
-              Checkout
-            </Link>
-          </Button>
-        </div>
+        )}
       </aside>
     </>
   );
