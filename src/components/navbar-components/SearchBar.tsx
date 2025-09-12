@@ -34,7 +34,7 @@ const SearchBar = () => {
   }, [debouncedSearch]);
   return (
     <div ref={wrapperRef}>
-      <div className="relative mx-auto w-full max-w-xs">
+      <div className="font-robot relative mx-auto w-full max-w-xs">
         <Input
           value={search}
           onChange={(e) => setSearch(e.target.value)}

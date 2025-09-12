@@ -25,12 +25,10 @@ import { useGetMeQuery } from "@/redux/features/user.api";
 import { authApi, useLogOutMutation } from "@/redux/features/auth.api";
 import { useAppDispatch } from "@/redux/hooks";
 import { Link } from "react-router";
-import { BsCart } from "react-icons/bs";
-import { Cart } from "../Cart";
 
 export default function UserMenu() {
   const { data } = useGetMeQuery(undefined);
-  console.log(data);
+
   const [logout] = useLogOutMutation();
   const dispatch = useAppDispatch();
   const handleLogout = async () => {
@@ -38,6 +36,7 @@ export default function UserMenu() {
     console.log(res);
     dispatch(authApi.util.resetApiState());
   };
+  console.log(data?.data?.picture);
   return (
     <div>
       {data ? (
@@ -45,7 +44,11 @@ export default function UserMenu() {
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="h-auto p-0 hover:bg-transparent">
               <Avatar>
-                <AvatarImage src="./avatar.jpg" alt="Profile image" />
+                <AvatarImage
+                  src={data?.data?.picture}
+                  referrerPolicy="no-referrer"
+                  alt="Profile image"
+                />
                 <AvatarFallback>{data?.data?.name?.[0]}</AvatarFallback>
               </Avatar>
             </Button>
