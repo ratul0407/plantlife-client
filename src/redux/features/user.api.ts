@@ -9,6 +9,21 @@ export const userApi = baseApi.injectEndpoints({
       }),
       providesTags: ["USER"],
     }),
+    myWishlist: builder.query({
+      query: () => ({
+        url: "/user/my-wishlist",
+        method: "GET",
+      }),
+      providesTags: ["WISHLIST"],
+    }),
+    removePlantFromWishlist: builder.mutation({
+      query: (data) => ({
+        url: "/user/remove-from-wishlist",
+        method: "PATCH",
+        data,
+      }),
+      invalidatesTags: ["WISHLIST"],
+    }),
     addToWishlist: builder.mutation({
       query: (data) => ({
         url: "/user/add-to-wishlist",
@@ -57,4 +72,6 @@ export const {
   useMyCartQuery,
   useUpdateCartMutation,
   useRemoveFromCartMutation,
+  useMyWishlistQuery,
+  useRemovePlantFromWishlistMutation,
 } = userApi;

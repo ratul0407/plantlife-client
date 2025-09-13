@@ -87,7 +87,6 @@ export const AllPlantsSection = () => {
           <FilterSideBar
             openFilter={openFilter}
             closeFilterSideBar={closeFilterSideBar}
-            setOverlay={setOverlay}
           />
 
           {/* sort by */}

@@ -6,10 +6,10 @@ import { IoHeart, IoHeartOutline } from "react-icons/io5";
 import {
   useAddToWishlistMutation,
   useGetMeQuery,
+  useRemovePlantFromWishlistMutation,
 } from "@/redux/features/user.api";
 import { toast } from "sonner";
 import AddToCartModal from "../AddToCartModal";
-import { useRemovePlantFromWishlistMutation } from "@/redux/features/plant.api";
 
 export const PlantCard = ({ plant, wishSet, variantImages }: any) => {
   const { name, _id } = plant;
@@ -45,9 +45,13 @@ export const PlantCard = ({ plant, wishSet, variantImages }: any) => {
     }
   };
   const handleRemoveFromWishlist = async () => {
-    console.log(id);
     try {
       const res = await removeFromWishlist({ plant: _id }).unwrap();
+      console.log(res);
+      if (res.success) {
+        toast.success(res.message);
+        setAddedToWishlist(false);
+      }
       console.log(res);
     } catch (error) {
       console.log(error);
