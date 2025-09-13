@@ -8,19 +8,15 @@ import { Reviews } from "@/components/AllPlants/Reviews";
 import { useGetSinglePlantQuery } from "@/redux/features/plant.api";
 import PlantDetailsSkeleton from "@/components/PlantDetailsSkeleton";
 import { Button } from "@/components/ui/button";
-import {
-  useAddToCartMutation,
-  useAddToWishlistMutation,
-  useGetMeQuery,
-  useRemovePlantFromWishlistMutation,
-} from "@/redux/features/user.api";
+import { useGetMeQuery } from "@/redux/features/user.api";
 import { toast } from "sonner";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { openCart } from "@/redux/features/cart/cartSlice";
 import {
-  addToReduxWishlist,
-  removeFromReduxWishlist,
-} from "@/redux/features/wishlist/wishlistSlice";
+  useAddToWishlistMutation,
+  useRemovePlantFromWishlistMutation,
+} from "@/redux/features/wishlist/wishlist.api";
+import { useAddToCartMutation } from "@/redux/features/cart/cart.api";
 
 const features = [
   {
@@ -64,12 +60,6 @@ export const PlantDetails = () => {
   const [quantity, setQuantity] = useState(1);
   const [showControls, setShowControls] = useState(false);
 
-  // location (wishlist state passed here)
-  const location = useLocation();
-  const wishSet = location?.state;
-  const alreadyInWishlist = wishSet?.has(String(plant?._id)) ?? false;
-
-  console.log(wishSet);
   // refs
   const thumbnailsRef = useRef(null);
 
@@ -162,10 +152,10 @@ export const PlantDetails = () => {
       navigate("/login");
       return;
     }
+
     try {
       const res = await addToWishList({ plant: data?.data?._id }).unwrap();
       if (res.success) {
-        dispatch(addToReduxWishlist(plant._id));
         toast.success("Added to wishlist");
       }
     } catch (error: any) {
@@ -175,12 +165,10 @@ export const PlantDetails = () => {
   const handleRemoveFromWishlist = async () => {
     try {
       const res = await removeFromWishlist({ plant: data?.data?._id }).unwrap();
-      console.log(res);
+
       if (res.success) {
-        dispatch(removeFromReduxWishlist(plant?._id));
         toast.success(res.message);
       }
-      console.log(res);
     } catch (error) {
       console.log(error);
     }

@@ -3,7 +3,8 @@ import {
   useMyCartQuery,
   useRemoveFromCartMutation,
   useUpdateCartMutation,
-} from "@/redux/features/user.api";
+} from "@/redux/features/cart/cart.api";
+
 import { Minus, Plus, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router";

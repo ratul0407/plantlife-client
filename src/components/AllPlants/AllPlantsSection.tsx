@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { useEffect } from "react";
 import { PlantCard } from "./PlantCard";
 import { BsFilterLeft } from "react-icons/bs";
@@ -22,13 +22,6 @@ export const AllPlantsSection = () => {
       dispatch(setReduxWishlist(ids));
     }
   }, [userData, dispatch]);
-
-  // const [wishlist, setWishlist] = useState(userData?.data?.wishlist ?? []);
-
-  // const wishSet = useMemo(
-  //   () => new Set(wishlist.map((w: any) => w.plant)),
-  //   [wishlist],
-  // );
 
   const [overlay, setOverlay] = useState(false);
   const { lenisRef } = useLenis();

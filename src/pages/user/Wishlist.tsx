@@ -1,24 +1,28 @@
 import AddToCartModal from "@/components/AddToCartModal";
 import { Button } from "@/components/ui/button";
-
+import { useAddToCartMutation } from "@/redux/features/cart/cart.api";
 import {
-  useAddToCartMutation,
   useMyWishlistQuery,
   useRemovePlantFromWishlistMutation,
-} from "@/redux/features/user.api";
+} from "@/redux/features/wishlist/wishlist.api";
+
 import { Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
 const Wishlist = () => {
   const { data } = useMyWishlistQuery(undefined);
   const [addToCart, { isLoading: addToCartLoading }] = useAddToCartMutation();
+
   const [removeFromWishlist, { isLoading }] =
     useRemovePlantFromWishlistMutation();
   const handleRemoveFromWishlist = async (id: string) => {
     console.log(id);
     try {
-      const res = await removeFromWishlist({ id: id }).unwrap();
-      console.log(res);
+      const res = await removeFromWishlist({ plant: id }).unwrap();
+
+      if (res.success) {
+        toast.success(res.message);
+      }
     } catch (error) {
       console.log(error);
     }

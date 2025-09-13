@@ -1,32 +1,26 @@
 import { useNavigate } from "react-router";
 import { motion } from "motion/react";
 import { BsCart } from "react-icons/bs";
-import { useState } from "react";
+
 import { IoHeart, IoHeartOutline } from "react-icons/io5";
-import {
-  useAddToWishlistMutation,
-  useGetMeQuery,
-  useRemovePlantFromWishlistMutation,
-} from "@/redux/features/user.api";
+import { useGetMeQuery } from "@/redux/features/user.api";
 import { toast } from "sonner";
 import AddToCartModal from "../AddToCartModal";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { useAppSelector } from "@/redux/hooks";
 import {
-  addToReduxWishlist,
-  removeFromReduxWishlist,
-} from "@/redux/features/wishlist/wishlistSlice";
+  useAddToWishlistMutation,
+  useRemovePlantFromWishlistMutation,
+} from "@/redux/features/wishlist/wishlist.api";
 
 export const PlantCard = ({ plant, wishSet, variantImages }: any) => {
-  const dispatch = useAppDispatch();
   const wishlist = useAppSelector((state) => state.wishlist.items);
 
   const inWishlist = wishlist.includes(plant._id);
+  console.log(inWishlist);
 
   const { name, _id } = plant;
   const { data: userData } = useGetMeQuery(undefined);
 
-  // const alreadyInWishlist = wishSet.has(_id);
-  // const [addedToWishlist, setAddedToWishlist] = useState(alreadyInWishlist);
   const [addToWishList] = useAddToWishlistMutation();
   const [removeFromWishlist] = useRemovePlantFromWishlistMutation();
   const navigate = useNavigate();
@@ -46,11 +40,10 @@ export const PlantCard = ({ plant, wishSet, variantImages }: any) => {
       navigate("/login");
       return;
     }
-    // setAddedToWishlist(true);
+
     try {
       const res = await addToWishList({ plant: _id }).unwrap();
       if (res.success) {
-        dispatch(addToReduxWishlist(plant._id));
         toast.success("Added to wishlist");
       }
     } catch (error: any) {
@@ -60,13 +53,10 @@ export const PlantCard = ({ plant, wishSet, variantImages }: any) => {
   const handleRemoveFromWishlist = async () => {
     try {
       const res = await removeFromWishlist({ plant: _id }).unwrap();
-      console.log(res);
+
       if (res.success) {
-        dispatch(removeFromReduxWishlist(plant._id));
         toast.success(res.message);
-        // setAddedToWishlist(false);
       }
-      console.log(res);
     } catch (error) {
       console.log(error);
     }

@@ -2,16 +2,17 @@ import { useEffect, useState } from "react";
 import { BsCart } from "react-icons/bs";
 import { IoClose } from "react-icons/io5";
 import { Button } from "./ui/button";
-import {
-  useMyCartQuery,
-  useRemoveFromCartMutation,
-  useUpdateCartMutation,
-} from "@/redux/features/user.api";
+
 import { Link } from "react-router";
 import { Minus, Plus, X } from "lucide-react";
 import { toast } from "sonner";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { openCart } from "@/redux/features/cart/cartSlice";
+import {
+  useMyCartQuery,
+  useRemoveFromCartMutation,
+  useUpdateCartMutation,
+} from "@/redux/features/cart/cart.api";
 
 export function Cart() {
   const dispatch = useAppDispatch();

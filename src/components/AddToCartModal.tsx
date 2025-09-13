@@ -11,8 +11,9 @@ import {
 import { Button } from "./ui/button";
 import { Check, Minus, Plus } from "lucide-react";
 import { useState } from "react";
-import { useAddToCartMutation } from "@/redux/features/user.api";
+
 import { toast } from "sonner";
+import { useAddToCartMutation } from "@/redux/features/cart/cart.api";
 
 const addToCartVariants = {
   initial: { bottom: "-2.5rem", opacity: 0 },
@@ -36,10 +37,6 @@ const AddToCartModal = ({ plant, children }) => {
 
   const handleAddToCart = async () => {
     const variant = plant?.variants?.find((v) => v.sku === selectedVariant);
-    console.log({
-      variant,
-      quantity,
-    });
     try {
       const res = await addToCart({
         plant: plant?._id,
@@ -84,7 +81,7 @@ const AddToCartModal = ({ plant, children }) => {
         <div className="flex items-center justify-center gap-3">
           {plant?.variants?.map((variant) => {
             const isSelected = selectedVariant === variant.sku;
-            console.log(variant);
+
             return (
               <div
                 key={variant.id}

@@ -7,7 +7,7 @@ import NavbarUi from "@/components/NavbarUi";
 import {
   useMyCartQuery,
   useUpdateCartMutation,
-} from "@/redux/features/user.api";
+} from "@/redux/features/cart/cart.api";
 
 type CartItem = {
   id: string;
