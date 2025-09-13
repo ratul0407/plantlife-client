@@ -10,9 +10,17 @@ import {
 import { Link } from "react-router";
 import { Minus, Plus, X } from "lucide-react";
 import { toast } from "sonner";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { openCart } from "@/redux/features/cart/cartSlice";
 
 export function Cart() {
-  const [isOpen, setIsOpen] = useState(false);
+  const dispatch = useAppDispatch();
+  const open = useAppSelector((state) => state.cart.open);
+
+  const handleSetOpen = (cartState: boolean) => {
+    dispatch(openCart(cartState));
+  };
+  // const [isOpen, setIsOpen] = useState(false);
   const [amount, setAmount] = useState(0);
   const { data } = useMyCartQuery(undefined);
   console.log(data);
@@ -38,9 +46,9 @@ export function Cart() {
     }
   }, [data]);
 
-  const handleRemoveFromCart = async (plantId: string) => {
+  const handleRemoveFromCart = async (sku: string) => {
     try {
-      const res = await removeFromCart({ plant: plantId }).unwrap();
+      const res = await removeFromCart({ sku: sku }).unwrap();
       if (res.success) {
         toast.success(res.message);
       }
@@ -54,20 +62,21 @@ export function Cart() {
     if (current >= max) return;
     updateCart({ quantity: current + 1, sku });
   };
-  const handleDecrement = async (current: number, sku: string, id: string) => {
+  const handleDecrement = async (current: number, sku: string) => {
     console.log(current);
     if (current <= 1) {
-      handleRemoveFromCart(id);
+      handleRemoveFromCart(sku);
       return;
     }
     updateCart({ quantity: current - 1, sku });
   };
+  console.log(open);
   return (
     <>
       {/* Cart button */}
       <Button
         variant="outline"
-        onClick={() => setIsOpen((s) => !s)}
+        onClick={() => handleSetOpen(!open)}
         className="relative h-8 w-8 rounded-full text-center"
       >
         <BsCart
@@ -84,21 +93,21 @@ export function Cart() {
       {/* overlay */}
       <div
         className={`fixed inset-0 z-90 bg-black transition-opacity duration-300 ${
-          isOpen
+          open
             ? "pointer-events-auto opacity-50"
             : "pointer-events-none opacity-0"
         }`}
-        onClick={() => setIsOpen(false)}
+        onClick={() => handleSetOpen(false)}
       />
 
       {/* drawer */}
       <aside
-        className={`fixed top-0 right-0 z-[90] h-full w-full max-w-md transform bg-gray-50 shadow-xl transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "translate-x-full"}`}
-        aria-hidden={!isOpen}
+        className={`fixed top-0 right-0 z-[90] h-full w-full max-w-md transform bg-gray-50 shadow-xl transition-transform duration-300 ease-in-out ${open ? "translate-x-0" : "translate-x-full"}`}
+        aria-hidden={!open}
       >
         <div className="flex items-center justify-between border-b p-4">
           <h2 className="text-lg font-semibold">Your Cart</h2>
-          <Button variant="ghost" onClick={() => setIsOpen(false)}>
+          <Button variant="ghost" onClick={() => handleSetOpen(false)}>
             <IoClose className="h-5 w-5" />
           </Button>
         </div>
@@ -106,8 +115,8 @@ export function Cart() {
         <div className="flex-1 overflow-y-auto">
           {/* cart items */}
           <div className="space-y-4">
-            {data?.data?.[0]?.cart?.length ? (
-              data?.data?.[0]?.cart?.map((item, index: number) => {
+            {cart?.length ? (
+              cart?.map((item, index: number) => {
                 const plant = item?.plantDetails?.variants?.find(
                   (p) => p.sku === item?.sku,
                 );
@@ -119,7 +128,7 @@ export function Cart() {
                     <div className="flex items-center gap-3">
                       <Link
                         to={`/plants/${item?.plantDetails?._id}`}
-                        onClick={() => setIsOpen(false)}
+                        onClick={() => handleSetOpen(false)}
                       >
                         <img className="size-24" src={plant?.image} />
                       </Link>
@@ -134,11 +143,7 @@ export function Cart() {
                             variant="ghost"
                             size="sm"
                             onClick={() =>
-                              handleDecrement(
-                                item?.quantity,
-                                plant?.sku,
-                                item?.plantDetails?._id,
-                              )
+                              handleDecrement(item?.quantity, plant?.sku)
                             }
                           >
                             <Minus className="h-4 w-4" />
@@ -165,9 +170,7 @@ export function Cart() {
                     </div>
                     <div className="flex flex-col items-end justify-end gap-3">
                       <button
-                        onClick={() =>
-                          handleRemoveFromCart(item?.plantDetails?._id)
-                        }
+                        onClick={() => handleRemoveFromCart(plant?.sku)}
                         disabled={removeFromCartLoading}
                         className="cursor-pointer"
                       >

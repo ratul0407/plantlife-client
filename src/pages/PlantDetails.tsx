@@ -10,6 +10,8 @@ import PlantDetailsSkeleton from "@/components/PlantDetailsSkeleton";
 import { Button } from "@/components/ui/button";
 import { useAddToCartMutation } from "@/redux/features/user.api";
 import { toast } from "sonner";
+import { useAppDispatch } from "@/redux/hooks";
+import { openCart } from "@/redux/features/cart/cartSlice";
 
 const features = [
   {
@@ -34,6 +36,7 @@ export const PlantDetails = () => {
   // get params
   const { id } = useParams();
 
+  const dispatch = useAppDispatch();
   //get plant from db
   const { data, isLoading } = useGetSinglePlantQuery({ id });
   const plant = data?.data;
@@ -137,6 +140,7 @@ export const PlantDetails = () => {
       }).unwrap();
       if (res.success) {
         toast.success("Plant added to cart");
+        dispatch(openCart(true));
       }
       console.log(res);
     } catch (error) {
