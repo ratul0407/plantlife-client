@@ -86,9 +86,9 @@ export const Login = () => {
           </p>
         </div>
         <div className="space-x-4">
-          <Button disabled={isLoading} onClick={handleSuperAdminLogin}>
+          {/* <Button disabled={isLoading} onClick={handleSuperAdminLogin}>
             Admin Login
-          </Button>
+          </Button> */}
           <Button disabled={isLoading} onClick={handleUserLogin}>
             User Login
           </Button>

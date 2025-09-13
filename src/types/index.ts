@@ -7,6 +7,7 @@ export interface ISidebarItems {
     title: string;
     url: string;
     component: ComponentType;
+    icon: ComponentType;
   }[];
 }
 export type TRole =

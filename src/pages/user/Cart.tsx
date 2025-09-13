@@ -1,17 +1,21 @@
 import { Button } from "@/components/ui/button";
 import {
   useMyCartQuery,
+  useRemoveFromCartMutation,
   useUpdateCartMutation,
 } from "@/redux/features/user.api";
 import { Minus, Plus, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
+import { Link } from "react-router";
+import { toast } from "sonner";
 
 const Cart = () => {
   const [amount, setAmount] = useState(0);
   const { data } = useMyCartQuery(undefined);
-  const [updateCart, isLoading] = useUpdateCartMutation();
+  const [updateCart] = useUpdateCartMutation();
+  const [removeFromCart] = useRemoveFromCartMutation();
   const cart = data?.data?.[0]?.cart;
-  // console.log(cart);
+  console.log(data);
   const currentPrice = cart?.[0]?.plantDetails?.variants?.find(
     (i) => i.sku === cart?.[0]?.sku,
   );
@@ -20,20 +24,51 @@ const Cart = () => {
 
   useEffect(() => {
     if (cart?.length) {
+      const variants = cart?.map((cartItem) =>
+        cartItem?.plantDetails?.variants?.find((v) => v.sku === cartItem.sku),
+      );
+      console.log(variants);
       let total = 0;
-      cart?.map((item) => {
-        total += item?.plantDetails?.variants?.[0]?.price * item?.quantity;
+      cart?.map((item, index: number) => {
+        total += variants?.[index]?.price * item?.quantity;
       });
+      console.log(total);
       total.toString(2);
       setAmount(total);
     }
   }, [data]);
+
+  const handleRemoveFromCart = async (sku: string) => {
+    try {
+      const res = await removeFromCart({ sku: sku }).unwrap();
+      if (res.success) {
+        toast.success(res.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleIncrement = (max: number, current: number, sku: string) => {
+    console.log(max, current);
+    if (current >= max) return;
+    updateCart({ quantity: current + 1, sku });
+  };
+  const handleDecrement = async (current: number, sku: string) => {
+    console.log(current);
+    if (current <= 1) {
+      handleRemoveFromCart(sku);
+      return;
+    }
+    updateCart({ quantity: current - 1, sku });
+  };
   return (
-    <div className="max-w-3xl space-y-6 p-4">
+    <div className="space-y-6 p-4">
       <h1 className="text-2xl font-bold">Your Cart</h1>
 
-      {cart?.length === 0 ? (
-        <p className="text-muted-foreground">Your cart is empty.</p>
+      {!data?.data?.length ? (
+        <div className="font-roboto flex min-h-[70vh] items-center justify-center text-5xl text-gray-300">
+          <p>Your Cart is Empty</p>
+        </div>
       ) : (
         <>
           <div className="space-y-4">
@@ -98,6 +133,7 @@ const Cart = () => {
                       ${(plant?.price * item?.quantity).toFixed(2)}
                     </p>
                     <Button
+                      onClick={() => handleRemoveFromCart(plant?.sku)}
                       variant="ghost"
                       size="icon"
                       // onClick={() => removeItem(item.id)}
@@ -117,7 +153,9 @@ const Cart = () => {
           </div>
 
           {/* Checkout button */}
-          <Button className="w-full">Proceed to Checkout</Button>
+          <Link to="/checkout">
+            <Button className="w-full">Proceed to Checkout</Button>
+          </Link>
         </>
       )}
     </div>

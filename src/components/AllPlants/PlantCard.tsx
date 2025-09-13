@@ -9,6 +9,7 @@ import {
 } from "@/redux/features/user.api";
 import { toast } from "sonner";
 import AddToCartModal from "../AddToCartModal";
+import { useRemovePlantFromWishlistMutation } from "@/redux/features/plant.api";
 
 export const PlantCard = ({ plant, wishSet, variantImages }: any) => {
   const { name, _id } = plant;
@@ -17,7 +18,7 @@ export const PlantCard = ({ plant, wishSet, variantImages }: any) => {
   const alreadyInWishlist = wishSet.has(_id);
   const [addedToWishlist, setAddedToWishlist] = useState(alreadyInWishlist);
   const [addToWishList] = useAddToWishlistMutation();
-
+  const [removeFromWishlist] = useRemovePlantFromWishlistMutation();
   const navigate = useNavigate();
 
   const addToCartVariants = {
@@ -43,7 +44,15 @@ export const PlantCard = ({ plant, wishSet, variantImages }: any) => {
       toast.error(error?.data?.message);
     }
   };
-
+  const handleRemoveFromWishlist = async () => {
+    console.log(id);
+    try {
+      const res = await removeFromWishlist({ plant: _id }).unwrap();
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className="max-w-3xs overflow-hidden bg-white p-4 xl:max-w-xs">
       <div className="relative rounded-xl">
@@ -68,13 +77,6 @@ export const PlantCard = ({ plant, wishSet, variantImages }: any) => {
             className="absolute inset-0 h-full w-full object-cover opacity-0 transition-all duration-500 group-hover:scale-110 group-hover:opacity-100"
           />
 
-          {/* add to cart */}
-          {/* <motion.button
-            variants={addToCartVariants}
-            className="absolute left-1/2 z-50 flex w-full -translate-x-1/2 items-center justify-center gap-2 rounded-b-xl bg-black py-1.5 text-center text-white uppercase"
-          >
-            <BsCart /> Add to cart
-          </motion.button> */}
           <AddToCartModal plant={plant}>
             <motion.button
               variants={addToCartVariants}
@@ -90,7 +92,11 @@ export const PlantCard = ({ plant, wishSet, variantImages }: any) => {
             className="absolute top-4 cursor-pointer"
           >
             {addedToWishlist ? (
-              <IoHeart fill={"#c1121f"} size={30} />
+              <IoHeart
+                fill={"#c1121f"}
+                size={30}
+                onClick={handleRemoveFromWishlist}
+              />
             ) : (
               <IoHeartOutline size={30} onClick={handleAddToWishlist} />
             )}

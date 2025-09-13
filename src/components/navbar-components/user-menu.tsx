@@ -1,14 +1,4 @@
-import {
-  BoltIcon,
-  BookOpenIcon,
-  Box,
-  Heart,
-  Layers2Icon,
-  LogOutIcon,
-  PinIcon,
-  ShoppingCart,
-  UserPenIcon,
-} from "lucide-react";
+import { Box, Heart, LogOutIcon, ShoppingCart } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -27,7 +17,7 @@ import { useAppDispatch } from "@/redux/hooks";
 import { Link } from "react-router";
 
 export default function UserMenu() {
-  const { data } = useGetMeQuery(undefined);
+  const { data, isLoading } = useGetMeQuery(undefined);
 
   const [logout] = useLogOutMutation();
   const dispatch = useAppDispatch();
@@ -67,14 +57,20 @@ export default function UserMenu() {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <Link to="/user/wishlist" className="flex items-center gap-2">
+              <DropdownMenuItem className="py-0">
+                <Link
+                  to="/user/wishlist"
+                  className="flex h-full w-full items-center gap-2 py-1.5"
+                >
                   <Heart size={16} className="opacity-60" aria-hidden="true" />
                   <span>Wishlist</span>
                 </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Link to="/user/wishlist" className="flex items-center gap-2">
+              <DropdownMenuItem className="py-0">
+                <Link
+                  to="/user/cart"
+                  className="flex h-full w-full items-center gap-2 py-1.5"
+                >
                   <ShoppingCart
                     size={16}
                     className="opacity-60"
@@ -83,29 +79,18 @@ export default function UserMenu() {
                   <span>Cart</span>
                 </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Link to="/user/wishlist" className="flex items-center gap-2">
+              <DropdownMenuItem className="py-0">
+                <Link
+                  to="/user/orders"
+                  className="flex h-full w-full items-center gap-2 py-1.5"
+                >
                   <Box size={16} className="opacity-60" aria-hidden="true" />
                   <span>Orders</span>
                 </Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            {/* <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <PinIcon size={16} className="opacity-60" aria-hidden="true" />
-                <span>Option 4</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <UserPenIcon
-                  size={16}
-                  className="opacity-60"
-                  aria-hidden="true"
-                />
-                <span>Option 5</span>
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator /> */}
+
             <DropdownMenuItem onClick={handleLogout}>
               <LogOutIcon size={16} className="opacity-60" aria-hidden="true" />
               <span>Logout</span>
@@ -113,7 +98,7 @@ export default function UserMenu() {
           </DropdownMenuContent>
         </DropdownMenu>
       ) : (
-        <Button variant={"outline"}>
+        <Button variant={"outline"} disabled={isLoading}>
           <Link to="/login">Log In</Link>
         </Button>
       )}

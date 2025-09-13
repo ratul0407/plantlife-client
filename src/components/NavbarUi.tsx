@@ -20,7 +20,7 @@ export default function NavbarUi() {
 
   const navigationLinks = [
     { href: "/", label: "Home" },
-    { href: "/plants", label: "All Plants" },
+    { href: "/plants", label: "Plants" },
     { href: "/about", label: "About" },
     { href: "/contact", label: "Contact" },
   ];

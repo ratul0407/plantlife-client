@@ -71,7 +71,7 @@ export const AllPlantsSection = () => {
 
   return (
     <>
-      <div className="space-y-10 md:space-y-20 2xl:mx-80">
+      <div className="container mx-auto space-y-10 md:space-y-20 2xl:mx-80">
         <div className="flex items-center justify-between lg:justify-end">
           {/* filter */}
           <button
