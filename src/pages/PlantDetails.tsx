@@ -15,8 +15,12 @@ import {
   useRemovePlantFromWishlistMutation,
 } from "@/redux/features/user.api";
 import { toast } from "sonner";
-import { useAppDispatch } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { openCart } from "@/redux/features/cart/cartSlice";
+import {
+  addToReduxWishlist,
+  removeFromReduxWishlist,
+} from "@/redux/features/wishlist/wishlistSlice";
 
 const features = [
   {
@@ -42,21 +46,22 @@ export const PlantDetails = () => {
   const { id } = useParams();
   const { data: userData } = useGetMeQuery(undefined);
   const navigate = useNavigate();
-  const { state } = useLocation();
-  console.log(state);
+
   const dispatch = useAppDispatch();
+  const wishlist = useAppSelector((state) => state.wishlist.items);
+
   //get plant from db
   const { data, isLoading } = useGetSinglePlantQuery({ id });
   const [addToWishList] = useAddToWishlistMutation();
   const [removeFromWishlist] = useRemovePlantFromWishlistMutation();
   const plant = data?.data;
+  const inWishlist = wishlist.includes(plant?._id);
 
   const [addToCart] = useAddToCartMutation();
   // state
   const [imgIndex, setImgIndex] = useState(0);
   const [currentVariant, setCurrentVariant] = useState(null);
   const [quantity, setQuantity] = useState(1);
-  const [addedToWishlist, setAddedToWishlist] = useState(false);
   const [showControls, setShowControls] = useState(false);
 
   // location (wishlist state passed here)
@@ -64,6 +69,7 @@ export const PlantDetails = () => {
   const wishSet = location?.state;
   const alreadyInWishlist = wishSet?.has(String(plant?._id)) ?? false;
 
+  console.log(wishSet);
   // refs
   const thumbnailsRef = useRef(null);
 
@@ -83,13 +89,6 @@ export const PlantDetails = () => {
       setCurrentVariant(plant.variants[0]);
     }
   }, [plant]);
-
-  // sync wishlist
-  useEffect(() => {
-    if (plant?._id) {
-      setAddedToWishlist(alreadyInWishlist);
-    }
-  }, [alreadyInWishlist, plant?._id]);
 
   // prevent stock > currentVariant.stock
   useEffect(() => {
@@ -139,7 +138,6 @@ export const PlantDetails = () => {
     setQuantity(quantity - 1);
   };
 
-  console.log(currentVariant);
   //handle add to cart
   const handleAddToCart = async () => {
     try {
@@ -164,10 +162,12 @@ export const PlantDetails = () => {
       navigate("/login");
       return;
     }
-    setAddedToWishlist(true);
     try {
       const res = await addToWishList({ plant: data?.data?._id }).unwrap();
-      if (res.success) toast.success("Added to wishlist");
+      if (res.success) {
+        dispatch(addToReduxWishlist(plant._id));
+        toast.success("Added to wishlist");
+      }
     } catch (error: any) {
       toast.error(error?.data?.message);
     }
@@ -177,8 +177,8 @@ export const PlantDetails = () => {
       const res = await removeFromWishlist({ plant: data?.data?._id }).unwrap();
       console.log(res);
       if (res.success) {
+        dispatch(removeFromReduxWishlist(plant?._id));
         toast.success(res.message);
-        setAddedToWishlist(false);
       }
       console.log(res);
     } catch (error) {
@@ -346,11 +346,8 @@ export const PlantDetails = () => {
                   Add to cart
                 </Button>
               </div>
-              <button
-                onClick={() => setAddedToWishlist(!addedToWishlist)}
-                className="cursor-pointer rounded-full border border-slate-200 p-1"
-              >
-                {addedToWishlist ? (
+              <button className="cursor-pointer rounded-full border border-slate-200 p-1">
+                {inWishlist ? (
                   <IoHeart
                     onClick={handleRemoveFromWishlist}
                     fill={"#c1121f"}

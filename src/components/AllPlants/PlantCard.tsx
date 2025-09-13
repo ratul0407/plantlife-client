@@ -10,13 +10,23 @@ import {
 } from "@/redux/features/user.api";
 import { toast } from "sonner";
 import AddToCartModal from "../AddToCartModal";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import {
+  addToReduxWishlist,
+  removeFromReduxWishlist,
+} from "@/redux/features/wishlist/wishlistSlice";
 
 export const PlantCard = ({ plant, wishSet, variantImages }: any) => {
+  const dispatch = useAppDispatch();
+  const wishlist = useAppSelector((state) => state.wishlist.items);
+
+  const inWishlist = wishlist.includes(plant._id);
+
   const { name, _id } = plant;
   const { data: userData } = useGetMeQuery(undefined);
 
-  const alreadyInWishlist = wishSet.has(_id);
-  const [addedToWishlist, setAddedToWishlist] = useState(alreadyInWishlist);
+  // const alreadyInWishlist = wishSet.has(_id);
+  // const [addedToWishlist, setAddedToWishlist] = useState(alreadyInWishlist);
   const [addToWishList] = useAddToWishlistMutation();
   const [removeFromWishlist] = useRemovePlantFromWishlistMutation();
   const navigate = useNavigate();
@@ -36,10 +46,13 @@ export const PlantCard = ({ plant, wishSet, variantImages }: any) => {
       navigate("/login");
       return;
     }
-    setAddedToWishlist(true);
+    // setAddedToWishlist(true);
     try {
       const res = await addToWishList({ plant: _id }).unwrap();
-      if (res.success) toast.success("Added to wishlist");
+      if (res.success) {
+        dispatch(addToReduxWishlist(plant._id));
+        toast.success("Added to wishlist");
+      }
     } catch (error: any) {
       toast.error(error?.data?.message);
     }
@@ -49,8 +62,9 @@ export const PlantCard = ({ plant, wishSet, variantImages }: any) => {
       const res = await removeFromWishlist({ plant: _id }).unwrap();
       console.log(res);
       if (res.success) {
+        dispatch(removeFromReduxWishlist(plant._id));
         toast.success(res.message);
-        setAddedToWishlist(false);
+        // setAddedToWishlist(false);
       }
       console.log(res);
     } catch (error) {
@@ -95,7 +109,7 @@ export const PlantCard = ({ plant, wishSet, variantImages }: any) => {
             variants={whishListVariants}
             className="absolute top-4 cursor-pointer"
           >
-            {addedToWishlist ? (
+            {inWishlist ? (
               <IoHeart
                 fill={"#c1121f"}
                 size={30}

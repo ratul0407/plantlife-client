@@ -9,15 +9,26 @@ import { useGetAllPlantsQuery } from "@/redux/features/plant.api";
 import { useGetMeQuery } from "@/redux/features/user.api";
 import { PlantCardSkeleton } from "../PlantCardSkeleton";
 import FilterDesktop from "../FilterDesktop";
+import { useAppDispatch } from "@/redux/hooks";
+import { setReduxWishlist } from "@/redux/features/wishlist/wishlistSlice";
 
 export const AllPlantsSection = () => {
   const { data: userData } = useGetMeQuery(undefined);
-  const wishlist = userData?.data?.wishlist ?? [];
+  const dispatch = useAppDispatch();
 
-  const wishSet = useMemo(
-    () => new Set(wishlist.map((w: any) => w.plant)),
-    [wishlist],
-  );
+  useEffect(() => {
+    if (userData?.data?.wishlist) {
+      const ids = userData?.data?.wishlist?.map((w) => w.plant);
+      dispatch(setReduxWishlist(ids));
+    }
+  }, [userData, dispatch]);
+
+  // const [wishlist, setWishlist] = useState(userData?.data?.wishlist ?? []);
+
+  // const wishSet = useMemo(
+  //   () => new Set(wishlist.map((w: any) => w.plant)),
+  //   [wishlist],
+  // );
 
   const [overlay, setOverlay] = useState(false);
   const { lenisRef } = useLenis();
@@ -119,7 +130,7 @@ export const AllPlantsSection = () => {
                         key={index}
                         plant={plant}
                         variantImages={variantImages[index]}
-                        wishSet={wishSet}
+                        // wishSet={wishSet}
                       />
                     );
                   })}
