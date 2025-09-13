@@ -17,7 +17,7 @@ import UserMenu from "./navbar-components/user-menu";
 
 export default function NavbarUi() {
   const { pathname } = useLocation();
-  console.log(pathname);
+
   const navigationLinks = [
     { href: "/", label: "Home" },
     { href: "/plants", label: "All Plants" },

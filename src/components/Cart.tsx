@@ -20,12 +20,19 @@ export function Cart() {
     useRemoveFromCartMutation();
   const [updateCart, { isLoading: updateCartLoading }] =
     useUpdateCartMutation();
+  const cart = data?.data?.[0]?.cart;
+
   useEffect(() => {
-    if (data?.data?.[0]?.cart?.length) {
+    if (cart?.length) {
+      const variants = cart?.map((cartItem) =>
+        cartItem?.plantDetails?.variants?.find((v) => v.sku === cartItem.sku),
+      );
+      console.log(variants);
       let total = 0;
-      data?.data?.[0]?.cart?.map((item) => {
-        total += item?.plantDetails?.variants?.[0]?.price * item?.quantity;
+      cart?.map((item, index: number) => {
+        total += variants?.[index]?.price * item?.quantity;
       });
+      console.log(total);
       total.toString(2);
       setAmount(total);
     }
@@ -101,7 +108,6 @@ export function Cart() {
           <div className="space-y-4">
             {data?.data?.[0]?.cart?.length ? (
               data?.data?.[0]?.cart?.map((item, index: number) => {
-                console.log(item, "from cart component");
                 const plant = item?.plantDetails?.variants?.find(
                   (p) => p.sku === item?.sku,
                 );
@@ -168,11 +174,7 @@ export function Cart() {
                         <X className="size-4 text-gray-700" />
                       </button>
                       <p className="font-semibold">
-                        $
-                        {(
-                          item?.plantDetails?.variants?.[0]?.price *
-                          item?.quantity
-                        ).toFixed(2)}
+                        ${(plant?.price * item?.quantity).toFixed(2)}
                       </p>
                     </div>
                   </div>
