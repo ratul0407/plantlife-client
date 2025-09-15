@@ -39,6 +39,7 @@ const wishlistState = createSlice({
       }
     },
     removeFromReduxWishlist: (state, action: PayloadAction<string>) => {
+      console.log(action.payload);
       state.items = state.items.filter((id) => id !== action.payload);
       saveWishlistToStorage(state.items);
     },

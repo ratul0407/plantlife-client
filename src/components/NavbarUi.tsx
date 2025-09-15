@@ -14,7 +14,6 @@ import SearchBar from "./navbar-components/SearchBar";
 import UserMenu from "./navbar-components/user-menu";
 import { Button } from "./ui/button";
 import { Heart } from "lucide-react";
-import { getLocalWishlist } from "@/utils/wishlist";
 import { useAppSelector } from "@/redux/hooks";
 
 // Navigation links array to be used in both desktop and mobile menus
@@ -59,13 +58,13 @@ export default function NavbarUi() {
               className="relative size-8 rounded-full text-center"
             >
               <Heart
-                className={`relative size-4 text-gray-600 ${wishlist.length ? "left-0" : "left-1"}`}
+                className={`relative size-4 text-gray-600 ${wishlist?.length ? "left-0" : "left-1"}`}
               />
               {/* badge */}
               <span
-                className={`${wishlist.length && "absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-green-800 text-xs text-white"}`}
+                className={`${wishlist?.length && "absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-green-800 text-xs text-white"}`}
               >
-                {wishlist?.length ? wishlist.length : ""}
+                {wishlist?.length ? wishlist?.length : ""}
               </span>
             </Button>
           </Link>

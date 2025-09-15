@@ -12,11 +12,6 @@ import {
   useRemovePlantFromWishlistMutation,
 } from "@/redux/features/wishlist/wishlist.api";
 import {
-  addLocalWishlist,
-  getLocalWishlist,
-  removeLocalWishlist,
-} from "@/utils/wishlist";
-import {
   addToReduxWishlist,
   removeFromReduxWishlist,
 } from "@/redux/features/wishlist/wishlistSlice";
@@ -46,7 +41,6 @@ export const PlantCard = ({ plant, wishSet, variantImages }: any) => {
 
   const handleAddToWishlist = async () => {
     if (!userData) {
-      dispatch(addToReduxWishlist(_id));
       toast.success("Added to wishlist");
       return;
     }
@@ -54,7 +48,6 @@ export const PlantCard = ({ plant, wishSet, variantImages }: any) => {
       const res = await addToWishList({ plant: _id }).unwrap();
       if (res.success) {
         toast.success("Added to wishlist");
-        dispatch(addToReduxWishlist(_id)); // keep redux in sync with server
       }
     } catch (error: any) {
       toast.error(error?.data?.message);
@@ -63,7 +56,6 @@ export const PlantCard = ({ plant, wishSet, variantImages }: any) => {
 
   const handleRemoveFromWishlist = async () => {
     if (!userData) {
-      dispatch(removeFromReduxWishlist(_id));
       toast.success("Removed from wishlist");
       return;
     }
@@ -71,7 +63,6 @@ export const PlantCard = ({ plant, wishSet, variantImages }: any) => {
       const res = await removeFromWishlist({ plant: _id }).unwrap();
       if (res.success) {
         toast.success(res.message);
-        dispatch(removeFromReduxWishlist(_id)); // keep redux in sync
       }
     } catch (error) {
       console.log(error);

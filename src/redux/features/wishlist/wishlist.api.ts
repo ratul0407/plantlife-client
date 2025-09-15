@@ -1,5 +1,9 @@
 import { baseApi } from "../../baseApi";
-import { addToReduxWishlist, removeFromReduxWishlist } from "./wishlistSlice";
+import {
+  addToReduxWishlist,
+  removeFromReduxWishlist,
+  setReduxWishlist,
+} from "./wishlistSlice";
 
 export const wishlistApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -9,6 +13,12 @@ export const wishlistApi = baseApi.injectEndpoints({
         method: "GET",
       }),
       providesTags: ["WISHLIST"],
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(setReduxWishlist(data?.items));
+        } catch {}
+      },
     }),
     removePlantFromWishlist: builder.mutation({
       query: (data) => ({
@@ -17,6 +27,7 @@ export const wishlistApi = baseApi.injectEndpoints({
         data,
       }),
       async onQueryStarted({ plant }, { dispatch, queryFulfilled }) {
+        console.log(plant);
         dispatch(removeFromReduxWishlist(plant));
         try {
           await queryFulfilled;
