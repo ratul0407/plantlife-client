@@ -18,7 +18,7 @@ import { userSidebarItems } from "./userSidebarItems";
 import About from "@/pages/About";
 
 import { lazy } from "react";
-import Contact from "@/pages/Contact";
+import Blogs from "@/pages/Blogs";
 
 const Checkout = lazy(() => import("@/pages/Checkout"));
 export const router = createBrowserRouter([
@@ -39,8 +39,8 @@ export const router = createBrowserRouter([
         Component: Checkout,
       },
       {
-        path: "/contact",
-        Component: Contact,
+        path: "/blogs",
+        Component: Blogs,
       },
     ],
   },

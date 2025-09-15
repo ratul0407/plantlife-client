@@ -1,27 +1,35 @@
 import AddToCartModal from "@/components/AddToCartModal";
 import { Button } from "@/components/ui/button";
 import { useAddToCartMutation } from "@/redux/features/cart/cart.api";
+import { useGetMeQuery } from "@/redux/features/user.api";
 import {
   useMyWishlistQuery,
   useRemovePlantFromWishlistMutation,
 } from "@/redux/features/wishlist/wishlist.api";
+import { removeFromReduxWishlist } from "@/redux/features/wishlist/wishlistSlice";
+import { useAppDispatch } from "@/redux/hooks";
 
 import { Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
 const Wishlist = () => {
   const { data } = useMyWishlistQuery(undefined);
+  const { data: userData } = useGetMeQuery(undefined);
   const [addToCart, { isLoading: addToCartLoading }] = useAddToCartMutation();
-
+  const dispatch = useAppDispatch();
   const [removeFromWishlist, { isLoading }] =
     useRemovePlantFromWishlistMutation();
   const handleRemoveFromWishlist = async (id: string) => {
-    console.log(id);
+    if (!userData) {
+      dispatch(removeFromReduxWishlist(id));
+      toast.success("Removed from wishlist");
+      return;
+    }
     try {
       const res = await removeFromWishlist({ plant: id }).unwrap();
-
       if (res.success) {
         toast.success(res.message);
+        dispatch(removeFromReduxWishlist(id));
       }
     } catch (error) {
       console.log(error);

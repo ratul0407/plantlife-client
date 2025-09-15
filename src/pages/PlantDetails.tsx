@@ -195,7 +195,7 @@ export const PlantDetails = () => {
     <div className="pt-10 2xl:container 2xl:mx-auto">
       <div className="flex flex-col gap-4 lg:flex-row">
         {/* images + thumbnails */}
-        <div className="flex w-full flex-col-reverse items-center lg:w-[50%] lg:flex-row lg:items-start 2xl:justify-start">
+        <div className="flex w-full flex-col-reverse items-center lg:w-[50%] lg:flex-row lg:items-start lg:gap-4 2xl:justify-start">
           {/* thumbnails */}
           <div className="relative min-w-full lg:flex lg:min-w-auto lg:flex-col">
             <button
@@ -213,10 +213,10 @@ export const PlantDetails = () => {
                 <button
                   key={index}
                   onClick={() => handleSetImgIndex(index)}
-                  className={`${imgIndex === index ? "border-2 border-slate-600" : ""}`}
+                  className={`${imgIndex === index ? "border border-slate-400" : ""}`}
                 >
                   <img
-                    className="object-cover lg:h-[180px]"
+                    className="object-cover lg:size-20"
                     src={img}
                     height={100}
                     width={100}

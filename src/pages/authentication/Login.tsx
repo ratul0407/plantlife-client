@@ -18,12 +18,15 @@ import { Button } from "@/components/ui/button";
 import { useLoginMutation } from "@/redux/features/auth.api";
 import config from "@/config";
 import { toast } from "sonner";
+import { getLocalWishlist } from "@/utils/wishlist";
+import { useAddManyToWishlistMutation } from "@/redux/features/wishlist/wishlist.api";
 const loginSchema = z.object({
   email: z.string(),
   password: z.string().min(8, { error: "Min 8 characters required" }),
 });
 export const Login = () => {
   const navigate = useNavigate();
+  const [addManyToWishlist] = useAddManyToWishlistMutation();
   const [login, { isLoading }] = useLoginMutation();
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -46,20 +49,20 @@ export const Login = () => {
       console.log(error);
     }
   };
-  const handleSuperAdminLogin = async () => {
-    try {
-      const res = await login({
-        email: config.super_admin_email,
-        password: config.super_admin_password,
-      }).unwrap();
-      if (res.success) {
-        toast.success("Logged in as super admin");
-        navigate("/admin/overview");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const handleSuperAdminLogin = async () => {
+  //   try {
+  //     const res = await login({
+  //       email: config.super_admin_email,
+  //       password: config.super_admin_password,
+  //     }).unwrap();
+  //     if (res.success) {
+  //       toast.success("Logged in as super admin");
+  //       navigate("/admin/overview");
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
   const handleUserLogin = async () => {
     try {
       const res = await login({
@@ -68,6 +71,15 @@ export const Login = () => {
       }).unwrap();
       if (res.success) {
         toast.success("Logged in as user");
+
+        //save local wishlist to db
+        const localWishlist = getLocalWishlist();
+        if (localWishlist.length > 0) {
+          const response = await addManyToWishlist({
+            plants: localWishlist,
+          }).unwrap();
+          console.log(response);
+        }
         navigate("/plants");
       }
     } catch (error) {

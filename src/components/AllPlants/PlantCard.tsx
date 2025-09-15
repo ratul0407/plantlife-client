@@ -26,13 +26,7 @@ export const PlantCard = ({ plant, wishSet, variantImages }: any) => {
   const dispatch = useAppDispatch();
   const { name, _id } = plant;
   const { data: userData } = useGetMeQuery(undefined);
-  let inWishlist;
-  if (userData) {
-    inWishlist = wishlist.includes(plant._id);
-  } else {
-    const local = getLocalWishlist();
-    inWishlist = local.includes(plant._id);
-  }
+  let inWishlist = wishlist.includes(plant?._id);
 
   console.log(inWishlist);
 

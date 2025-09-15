@@ -12,17 +12,21 @@ import { Menu } from "./Home/menu/Menu";
 
 import SearchBar from "./navbar-components/SearchBar";
 import UserMenu from "./navbar-components/user-menu";
+import { Button } from "./ui/button";
+import { Heart } from "lucide-react";
+import { getLocalWishlist } from "@/utils/wishlist";
+import { useAppSelector } from "@/redux/hooks";
 
 // Navigation links array to be used in both desktop and mobile menus
 
 export default function NavbarUi() {
   const { pathname } = useLocation();
-
+  const wishlist = useAppSelector((state) => state.wishlist.items);
   const navigationLinks = [
     { href: "/", label: "Home" },
     { href: "/plants", label: "Plants" },
     { href: "/about", label: "About" },
-    { href: "/contact", label: "Contact" },
+    { href: "/blogs", label: "Blogs" },
   ];
 
   return (
@@ -48,6 +52,24 @@ export default function NavbarUi() {
         {/* Right side */}
         <div className="relative z-[100] flex flex-1 items-center justify-end gap-4">
           {/* User menu */}
+          {/* wishlist */}
+          <Link to="/user/wishlist">
+            <Button
+              variant="outline"
+              className="relative size-8 rounded-full text-center"
+            >
+              <Heart
+                className={`relative size-4 text-gray-600 ${wishlist.length ? "left-0" : "left-1"}`}
+              />
+              {/* badge */}
+              <span
+                className={`${wishlist.length && "absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-green-800 text-xs text-white"}`}
+              >
+                {wishlist?.length ? wishlist.length : ""}
+              </span>
+            </Button>
+          </Link>
+          {/* cart */}
           <Cart />
           <UserMenu />
         </div>

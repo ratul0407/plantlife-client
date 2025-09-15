@@ -42,6 +42,14 @@ export const wishlistApi = baseApi.injectEndpoints({
       },
       invalidatesTags: ["WISHLIST"],
     }),
+    addManyToWishlist: builder.mutation({
+      query: (data) => ({
+        url: "/user/add-many-to-wishlist",
+        method: "PATCH",
+        data,
+      }),
+      invalidatesTags: ["WISHLIST"],
+    }),
   }),
 });
 
@@ -49,4 +57,5 @@ export const {
   useAddToWishlistMutation,
   useMyWishlistQuery,
   useRemovePlantFromWishlistMutation,
+  useAddManyToWishlistMutation,
 } = wishlistApi;
