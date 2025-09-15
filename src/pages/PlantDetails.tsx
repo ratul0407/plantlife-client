@@ -17,6 +17,11 @@ import {
   useRemovePlantFromWishlistMutation,
 } from "@/redux/features/wishlist/wishlist.api";
 import { useAddToCartMutation } from "@/redux/features/cart/cart.api";
+import {
+  addToReduxWishlist,
+  removeFromReduxWishlist,
+} from "@/redux/features/wishlist/wishlistSlice";
+import { getLocalWishlist } from "@/utils/wishlist";
 
 const features = [
   {
@@ -41,7 +46,6 @@ export const PlantDetails = () => {
   // get params
   const { id } = useParams();
   const { data: userData } = useGetMeQuery(undefined);
-  const navigate = useNavigate();
 
   const dispatch = useAppDispatch();
   const wishlist = useAppSelector((state) => state.wishlist.items);
@@ -51,8 +55,13 @@ export const PlantDetails = () => {
   const [addToWishList] = useAddToWishlistMutation();
   const [removeFromWishlist] = useRemovePlantFromWishlistMutation();
   const plant = data?.data;
-  const inWishlist = wishlist.includes(plant?._id);
-
+  let inWishlist;
+  if (userData) {
+    inWishlist = wishlist.includes(plant?._id);
+  } else {
+    const local = getLocalWishlist();
+    inWishlist = local.includes(plant?._id);
+  }
   const [addToCart] = useAddToCartMutation();
   // state
   const [imgIndex, setImgIndex] = useState(0);
@@ -64,7 +73,7 @@ export const PlantDetails = () => {
   const thumbnailsRef = useRef(null);
 
   // destructure plant
-  const { name, category, description, variants, additionalImages } =
+  const { name, _id, category, description, variants, additionalImages } =
     plant || {};
 
   // images = all variants + additional
@@ -149,25 +158,32 @@ export const PlantDetails = () => {
 
   const handleAddToWishlist = async () => {
     if (!userData) {
-      navigate("/login");
+      dispatch(addToReduxWishlist(_id));
+      toast.success("Added to wishlist");
       return;
     }
-
     try {
-      const res = await addToWishList({ plant: data?.data?._id }).unwrap();
+      const res = await addToWishList({ plant: _id }).unwrap();
       if (res.success) {
         toast.success("Added to wishlist");
+        dispatch(addToReduxWishlist(_id)); // keep redux in sync with server
       }
     } catch (error: any) {
       toast.error(error?.data?.message);
     }
   };
-  const handleRemoveFromWishlist = async () => {
-    try {
-      const res = await removeFromWishlist({ plant: data?.data?._id }).unwrap();
 
+  const handleRemoveFromWishlist = async () => {
+    if (!userData) {
+      dispatch(removeFromReduxWishlist(_id));
+      toast.success("Removed from wishlist");
+      return;
+    }
+    try {
+      const res = await removeFromWishlist({ plant: _id }).unwrap();
       if (res.success) {
         toast.success(res.message);
+        dispatch(removeFromReduxWishlist(_id)); // keep redux in sync
       }
     } catch (error) {
       console.log(error);

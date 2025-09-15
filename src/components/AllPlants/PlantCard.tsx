@@ -6,20 +6,35 @@ import { IoHeart, IoHeartOutline } from "react-icons/io5";
 import { useGetMeQuery } from "@/redux/features/user.api";
 import { toast } from "sonner";
 import AddToCartModal from "../AddToCartModal";
-import { useAppSelector } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import {
   useAddToWishlistMutation,
   useRemovePlantFromWishlistMutation,
 } from "@/redux/features/wishlist/wishlist.api";
+import {
+  addLocalWishlist,
+  getLocalWishlist,
+  removeLocalWishlist,
+} from "@/utils/wishlist";
+import {
+  addToReduxWishlist,
+  removeFromReduxWishlist,
+} from "@/redux/features/wishlist/wishlistSlice";
 
 export const PlantCard = ({ plant, wishSet, variantImages }: any) => {
   const wishlist = useAppSelector((state) => state.wishlist.items);
-
-  const inWishlist = wishlist.includes(plant._id);
-  console.log(inWishlist);
-
+  const dispatch = useAppDispatch();
   const { name, _id } = plant;
   const { data: userData } = useGetMeQuery(undefined);
+  let inWishlist;
+  if (userData) {
+    inWishlist = wishlist.includes(plant._id);
+  } else {
+    const local = getLocalWishlist();
+    inWishlist = local.includes(plant._id);
+  }
+
+  console.log(inWishlist);
 
   const [addToWishList] = useAddToWishlistMutation();
   const [removeFromWishlist] = useRemovePlantFromWishlistMutation();
@@ -37,25 +52,32 @@ export const PlantCard = ({ plant, wishSet, variantImages }: any) => {
 
   const handleAddToWishlist = async () => {
     if (!userData) {
-      navigate("/login");
+      dispatch(addToReduxWishlist(_id));
+      toast.success("Added to wishlist");
       return;
     }
-
     try {
       const res = await addToWishList({ plant: _id }).unwrap();
       if (res.success) {
         toast.success("Added to wishlist");
+        dispatch(addToReduxWishlist(_id)); // keep redux in sync with server
       }
     } catch (error: any) {
       toast.error(error?.data?.message);
     }
   };
+
   const handleRemoveFromWishlist = async () => {
+    if (!userData) {
+      dispatch(removeFromReduxWishlist(_id));
+      toast.success("Removed from wishlist");
+      return;
+    }
     try {
       const res = await removeFromWishlist({ plant: _id }).unwrap();
-
       if (res.success) {
         toast.success(res.message);
+        dispatch(removeFromReduxWishlist(_id)); // keep redux in sync
       }
     } catch (error) {
       console.log(error);

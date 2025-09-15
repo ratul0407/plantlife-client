@@ -21,7 +21,7 @@ export function Cart() {
   const handleSetOpen = (cartState: boolean) => {
     dispatch(openCart(cartState));
   };
-  // const [isOpen, setIsOpen] = useState(false);
+
   const [amount, setAmount] = useState(0);
   const { data } = useMyCartQuery(undefined);
   console.log(data);
