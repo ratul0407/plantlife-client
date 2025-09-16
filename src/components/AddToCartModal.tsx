@@ -86,12 +86,12 @@ const AddToCartModal = ({ plant, children }) => {
         </DialogHeader>
 
         <div className="flex items-center justify-center gap-3">
-          {plant?.variants?.map((variant) => {
+          {plant?.variants?.map((variant, index) => {
             const isSelected = selectedVariant === variant.sku;
 
             return (
               <div
-                key={variant.id}
+                key={index}
                 className={`relative cursor-pointer rounded-lg border p-2 transition hover:shadow-md ${
                   isSelected ? "border-green-500 ring-2 ring-green-400" : ""
                 }`}
