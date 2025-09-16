@@ -24,6 +24,13 @@ export const plantApi = baseApi.injectEndpoints({
         data,
       }),
     }),
+    getLocalCartPlants: builder.mutation({
+      query: (data) => ({
+        url: "/plant/get-local-cart-plants",
+        method: "POST",
+        data,
+      }),
+    }),
   }),
 });
 
@@ -31,4 +38,5 @@ export const {
   useGetAllPlantsQuery,
   useGetSinglePlantQuery,
   useAddPlantsMutation,
+  useGetLocalCartPlantsMutation,
 } = plantApi;

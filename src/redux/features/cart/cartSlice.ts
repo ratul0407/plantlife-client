@@ -1,7 +1,12 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-const initialState = {
+interface ICartState {
+  open: boolean;
+  items: string[];
+}
+const initialState: ICartState = {
   open: false,
+  items: [],
 };
 const cartSlice = createSlice({
   name: "cartOpen",
@@ -9,6 +14,9 @@ const cartSlice = createSlice({
   reducers: {
     openCart: (state, action) => {
       state.open = action.payload;
+    },
+    addItems: (state, action: PayloadAction<string>) => {
+      state.items.push(action.payload);
     },
   },
 });

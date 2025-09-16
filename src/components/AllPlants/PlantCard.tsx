@@ -11,10 +11,6 @@ import {
   useAddToWishlistMutation,
   useRemovePlantFromWishlistMutation,
 } from "@/redux/features/wishlist/wishlist.api";
-import {
-  addToReduxWishlist,
-  removeFromReduxWishlist,
-} from "@/redux/features/wishlist/wishlistSlice";
 
 export const PlantCard = ({ plant, wishSet, variantImages }: any) => {
   const wishlist = useAppSelector((state) => state.wishlist.items);
@@ -22,8 +18,6 @@ export const PlantCard = ({ plant, wishSet, variantImages }: any) => {
   const { name, _id } = plant;
   const { data: userData } = useGetMeQuery(undefined);
   let inWishlist = wishlist.includes(plant?._id);
-
-  console.log(inWishlist);
 
   const [addToWishList] = useAddToWishlistMutation();
   const [removeFromWishlist] = useRemovePlantFromWishlistMutation();

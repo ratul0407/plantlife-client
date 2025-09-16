@@ -14,6 +14,9 @@ import { useState } from "react";
 
 import { toast } from "sonner";
 import { useAddToCartMutation } from "@/redux/features/cart/cart.api";
+import { useGetMeQuery } from "@/redux/features/user.api";
+import { addToLocalCart } from "@/utils/cartLocal";
+import { useAddToCart } from "@/hooks/useCart";
 
 const addToCartVariants = {
   initial: { bottom: "-2.5rem", opacity: 0 },
@@ -21,11 +24,12 @@ const addToCartVariants = {
 };
 
 const AddToCartModal = ({ plant, children }) => {
+  const { data: userData } = useGetMeQuery(undefined);
   const [open, setOpen] = useState(false);
   const [addToCart, { isLoading }] = useAddToCartMutation();
   const [selectedVariant, setSelectedVariant] = useState<string | null>(null);
   const [quantity, setQuantity] = useState(1);
-
+  // const addToCartLocal = useAddToCart();
   const handleSelectVariant = (id: string) => {
     // toggle selection: if clicking the same, unselect
     setSelectedVariant((prev) => (prev === id ? null : id));
@@ -37,20 +41,23 @@ const AddToCartModal = ({ plant, children }) => {
 
   const handleAddToCart = async () => {
     const variant = plant?.variants?.find((v) => v.sku === selectedVariant);
+
+    const item = {
+      plant: plant?._id,
+      sku: variant?.sku,
+      quantity: quantity,
+      img: variant?.image,
+    };
+    console.log(item);
     try {
-      const res = await addToCart({
-        plant: plant?._id,
-        sku: variant?.sku,
-        quantity: quantity,
-      }).unwrap();
-      if (res.success) {
+      const res = await addToCart(item).unwrap();
+      if (res?.success) {
         toast.success("Plant added to cart");
         setOpen(false);
       }
-      console.log(res);
     } catch (error) {
       console.log(error);
-      toast.error(error?.data?.message);
+      toast.error(error?.data?.message || "Failed to add");
     }
   };
   const handleIncrementStock = () => {

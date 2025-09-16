@@ -22,8 +22,7 @@ export default function UserMenu() {
   const [logout] = useLogOutMutation();
   const dispatch = useAppDispatch();
   const handleLogout = async () => {
-    const res = await logout(undefined);
-    console.log(res);
+    await logout(undefined);
     dispatch(authApi.util.resetApiState());
   };
   console.log(data?.data?.picture);
