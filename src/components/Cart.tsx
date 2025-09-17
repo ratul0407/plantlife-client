@@ -13,8 +13,11 @@ import {
   useRemoveFromCartMutation,
   useUpdateCartMutation,
 } from "@/redux/features/cart/cart.api";
+import { useAuth } from "@/hooks/useAuth";
+import { getLocalCart } from "@/utils/cartLocal";
 
 export function Cart() {
+  const { isAuthenticated } = useAuth();
   const dispatch = useAppDispatch();
   const open = useAppSelector((state) => state.cart.open);
 
@@ -29,7 +32,13 @@ export function Cart() {
     useRemoveFromCartMutation();
   const [updateCart, { isLoading: updateCartLoading }] =
     useUpdateCartMutation();
-  const cart = data?.data?.[0]?.cart;
+
+  let cart;
+  if (isAuthenticated) {
+    cart = data?.data?.[0]?.cart;
+  } else {
+    cart = getLocalCart();
+  }
 
   useEffect(() => {
     if (cart?.length) {
@@ -131,7 +140,7 @@ export function Cart() {
                         to={`/plants/${item?.plantDetails?._id}`}
                         onClick={() => handleSetOpen(false)}
                       >
-                        <img className="size-24" src={plant?.image} />
+                        <img className="size-24" src={item?.img} />
                       </Link>
                       <div className="space-y-2">
                         <p className="font-medium">{plant?.variantName}</p>

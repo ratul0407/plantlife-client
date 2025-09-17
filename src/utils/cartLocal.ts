@@ -12,26 +12,29 @@ export const getLocalCart = () => {
 };
 
 export const addToLocalCart = async (
-  newItem: { plant: string; sku: string; quantity: number },
-  variantDetails?: any,
+  newItem: { plant: string; sku: string; quantity: number; img: string },
+  // variantDetails?: any,
 ) => {
-  // variantDetails: { variantName, price, image, stock } – fetch this in add handler if not passed
-  const enrichedItem = {
-    ...newItem,
-    // Enrich with details for offline display
-    ...(variantDetails || {}),
-  };
+  // const enrichedItem = {
+  //   ...newItem,
+  //   // ...(variantDetails || {}),
+  // };
   const cart = getLocalCart();
-  const existingItem = cart.find((item: any) => item.sku === enrichedItem.sku);
+  console.log(cart);
+  console.log(newItem);
+  const existingItem = cart.find((item: any) => item.sku === newItem.sku);
+  console.log(existingItem);
   let updatedCart;
-
+  console.log(newItem.quantity, "from add to cart local");
   if (existingItem) {
-    existingItem.quantity += enrichedItem.quantity;
+    existingItem.quantity += newItem.quantity;
+    console.log(existingItem.quantity);
+    console.log("I was here");
     // Update other details if newer (e.g., price change, but assume static)
-    Object.assign(existingItem, enrichedItem); // Merge details
+    // Object.assign(existingItem, newItem); // Merge details
     updatedCart = [...cart];
   } else {
-    updatedCart = [...cart, enrichedItem];
+    updatedCart = [...cart, newItem];
   }
 
   localStorage.setItem(CART_KEY, JSON.stringify(updatedCart));

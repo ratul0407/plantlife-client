@@ -14,9 +14,10 @@ import { useState } from "react";
 
 import { toast } from "sonner";
 import { useAddToCartMutation } from "@/redux/features/cart/cart.api";
-import { useGetMeQuery } from "@/redux/features/user.api";
+
 import { addToLocalCart } from "@/utils/cartLocal";
 import { useAddToCart } from "@/hooks/useCart";
+import { useAuth } from "@/hooks/useAuth";
 
 const addToCartVariants = {
   initial: { bottom: "-2.5rem", opacity: 0 },
@@ -24,12 +25,12 @@ const addToCartVariants = {
 };
 
 const AddToCartModal = ({ plant, children }) => {
-  const { data: userData } = useGetMeQuery(undefined);
+  const { isAuthenticated } = useAuth();
   const [open, setOpen] = useState(false);
   const [addToCart, { isLoading }] = useAddToCartMutation();
   const [selectedVariant, setSelectedVariant] = useState<string | null>(null);
   const [quantity, setQuantity] = useState(1);
-  // const addToCartLocal = useAddToCart();
+  console.log(quantity, "from add to cart modal");
   const handleSelectVariant = (id: string) => {
     // toggle selection: if clicking the same, unselect
     setSelectedVariant((prev) => (prev === id ? null : id));
@@ -48,6 +49,10 @@ const AddToCartModal = ({ plant, children }) => {
       quantity: quantity,
       img: variant?.image,
     };
+
+    if (!isAuthenticated) {
+      return addToLocalCart(item);
+    }
     console.log(item);
     try {
       const res = await addToCart(item).unwrap();
