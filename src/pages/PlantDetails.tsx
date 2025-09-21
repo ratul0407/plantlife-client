@@ -68,7 +68,7 @@ export const PlantDetails = () => {
   const [currentVariant, setCurrentVariant] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [showControls, setShowControls] = useState(false);
-
+  console.log(currentVariant);
   // refs
   const thumbnailsRef = useRef(null);
 
@@ -143,7 +143,11 @@ export const PlantDetails = () => {
       const res = await addToCart({
         plant: plant?._id,
         sku: currentVariant?.sku,
+        img: currentVariant?.image,
         quantity: quantity,
+        price: currentVariant?.price,
+        stock: currentVariant?.stock,
+        name: currentVariant?.variantName,
       }).unwrap();
       if (res.success) {
         toast.success("Plant added to cart");
@@ -272,26 +276,21 @@ export const PlantDetails = () => {
         </div>
 
         {/* plant details */}
-        <div className="flex w-full flex-col justify-around gap-7 lg:w-[50%]">
-          <p className="w-fit rounded-full bg-green-700 px-4 text-white">
-            {category?.toLowerCase()} plants
-          </p>
-          <h3 className="text-7xl font-bold">{name}</h3>
+        <div className="flex w-full flex-col justify-around lg:w-[50%]">
+          <div>
+            <h3 className="text-3xl font-bold">{name}</h3>
+            <p className="w-fit rounded-full font-bold text-gray-500">
+              {category?.toLowerCase()} plants
+            </p>
 
-          {/* review placeholder */}
-          <div>⭐⭐⭐⭐⭐ 0 Reviews</div>
-
-          {/* price & stock */}
-          <p className="text-3xl font-bold text-green-950">
-            <span>${currentVariant?.price}</span>
-            <span className="text-base">
-              {" "}
-              ({currentVariant?.stock}) in stock
-            </span>
-          </p>
+            {/* price  */}
+            <p className="text-3xl font-bold text-green-950">
+              <span>${currentVariant?.price}</span>
+            </p>
+          </div>
 
           {/* description */}
-          <p className="text-gray-700">{description}</p>
+          <p className="text-lg leading-7 text-gray-700">{description}</p>
 
           {/* variants */}
           <div className="space-y-4">
