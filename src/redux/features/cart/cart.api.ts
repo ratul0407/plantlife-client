@@ -4,31 +4,31 @@ const cartApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     addToCart: builder.mutation({
       query: (data) => ({
-        url: "/user/add-to-cart",
-        method: "PATCH",
+        url: "/cart",
+        method: "POST",
         data,
       }),
       invalidatesTags: ["CART"],
     }),
     myCart: builder.query({
       query: () => ({
-        url: "/user/my-cart",
+        url: "/cart",
         method: "GET",
       }),
       providesTags: ["CART"],
     }),
     updateCart: builder.mutation({
       query: (data) => ({
-        url: "/user/update-cart",
-        method: "PATCH",
+        url: "/cart/update",
+        method: "POST",
         data,
       }),
       invalidatesTags: ["CART"],
     }),
     removeFromCart: builder.mutation({
       query: (data) => ({
-        url: "/user/remove-from-cart",
-        method: "PATCH",
+        url: "/cart/remove",
+        method: "POST",
         data,
       }),
       invalidatesTags: ["CART"],

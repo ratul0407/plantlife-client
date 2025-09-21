@@ -13,11 +13,8 @@ import {
   useRemoveFromCartMutation,
   useUpdateCartMutation,
 } from "@/redux/features/cart/cart.api";
-import { useAuth } from "@/hooks/useAuth";
-import { getLocalCart } from "@/utils/cartLocal";
 
 export function Cart() {
-  const { isAuthenticated } = useAuth();
   const dispatch = useAppDispatch();
   const open = useAppSelector((state) => state.cart.open);
 
@@ -27,38 +24,20 @@ export function Cart() {
 
   const [amount, setAmount] = useState(0);
   const { data } = useMyCartQuery(undefined);
-  console.log(data);
+
   const [removeFromCart, { isLoading: removeFromCartLoading }] =
     useRemoveFromCartMutation();
   const [updateCart, { isLoading: updateCartLoading }] =
     useUpdateCartMutation();
 
   let cart;
-  if (isAuthenticated) {
-    cart = data?.data?.[0]?.cart;
-  } else {
-    cart = getLocalCart();
-  }
-
-  useEffect(() => {
-    if (cart?.length) {
-      const variants = cart?.map((cartItem) =>
-        cartItem?.plantDetails?.variants?.find((v) => v.sku === cartItem.sku),
-      );
-      console.log(variants);
-      let total = 0;
-      cart?.map((item, index: number) => {
-        total += variants?.[index]?.price * item?.quantity;
-      });
-      console.log(total);
-      total.toString(2);
-      setAmount(total);
-    }
-  }, [data]);
+  cart = data?.data;
 
   const handleRemoveFromCart = async (sku: string) => {
     try {
       const res = await removeFromCart({ sku: sku }).unwrap();
+      console.log(sku);
+      console.log(res);
       if (res.success) {
         toast.success(res.message);
       }
@@ -68,19 +47,17 @@ export function Cart() {
   };
 
   const handleIncrement = (max: number, current: number, sku: string) => {
-    console.log(max, current);
     if (current >= max) return;
     updateCart({ quantity: current + 1, sku });
   };
   const handleDecrement = async (current: number, sku: string) => {
-    console.log(current);
     if (current <= 1) {
       handleRemoveFromCart(sku);
       return;
     }
     updateCart({ quantity: current - 1, sku });
   };
-  console.log(open);
+
   return (
     <>
       {/* Cart button */}
@@ -90,13 +67,13 @@ export function Cart() {
         className="relative h-8 w-8 rounded-full text-center"
       >
         <BsCart
-          className={`relative h-5 w-5 text-gray-600 ${data?.data?.[0]?.cart?.length ? "left-0" : "left-1"}`}
+          className={`relative h-5 w-5 text-gray-600 ${cart?.length ? "left-0" : "left-1"}`}
         />
         {/* badge */}
         <span
-          className={`${data?.data?.[0]?.cart?.length && "absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-green-800 text-xs text-white"}`}
+          className={`${cart?.length && "absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-green-800 text-xs text-white"}`}
         >
-          {data?.data?.[0]?.cart?.length}
+          {cart?.length > 0 ? cart?.length : ""}
         </span>
       </Button>
 
@@ -127,9 +104,6 @@ export function Cart() {
           <div className="space-y-4">
             {cart?.length ? (
               cart?.map((item, index: number) => {
-                const plant = item?.plantDetails?.variants?.find(
-                  (p) => p.sku === item?.sku,
-                );
                 return (
                   <div
                     key={index}
@@ -137,13 +111,13 @@ export function Cart() {
                   >
                     <div className="flex items-center gap-3">
                       <Link
-                        to={`/plants/${item?.plantDetails?._id}`}
+                        to={`/plants/${item?.plant}`}
                         onClick={() => handleSetOpen(false)}
                       >
                         <img className="size-24" src={item?.img} />
                       </Link>
                       <div className="space-y-2">
-                        <p className="font-medium">{plant?.variantName}</p>
+                        <p className="font-medium">{item?.name}</p>
                         <p className="text-sm text-gray-500">
                           Qty: {item?.quantity}
                         </p>
@@ -153,7 +127,7 @@ export function Cart() {
                             variant="ghost"
                             size="sm"
                             onClick={() =>
-                              handleDecrement(item?.quantity, plant?.sku)
+                              handleDecrement(item?.quantity, item?.sku)
                             }
                           >
                             <Minus className="h-4 w-4" />
@@ -167,9 +141,9 @@ export function Cart() {
                             size="sm"
                             onClick={() =>
                               handleIncrement(
-                                plant?.stock,
+                                item?.stock,
                                 item?.quantity,
-                                plant?.sku,
+                                item?.sku,
                               )
                             }
                           >
@@ -180,14 +154,14 @@ export function Cart() {
                     </div>
                     <div className="flex flex-col items-end justify-end gap-3">
                       <button
-                        onClick={() => handleRemoveFromCart(plant?.sku)}
+                        onClick={() => handleRemoveFromCart(item?.sku)}
                         disabled={removeFromCartLoading}
                         className="cursor-pointer"
                       >
                         <X className="size-4 text-gray-700" />
                       </button>
                       <p className="font-semibold">
-                        ${(plant?.price * item?.quantity).toFixed(2)}
+                        ${(item?.price * item?.quantity).toFixed(2)}
                       </p>
                     </div>
                   </div>

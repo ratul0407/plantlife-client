@@ -16,7 +16,7 @@ import { toast } from "sonner";
 import { useAddToCartMutation } from "@/redux/features/cart/cart.api";
 
 import { addToLocalCart } from "@/utils/cartLocal";
-import { useAddToCart } from "@/hooks/useCart";
+
 import { useAuth } from "@/hooks/useAuth";
 
 const addToCartVariants = {
@@ -30,7 +30,7 @@ const AddToCartModal = ({ plant, children }) => {
   const [addToCart, { isLoading }] = useAddToCartMutation();
   const [selectedVariant, setSelectedVariant] = useState<string | null>(null);
   const [quantity, setQuantity] = useState(1);
-  console.log(quantity, "from add to cart modal");
+
   const handleSelectVariant = (id: string) => {
     // toggle selection: if clicking the same, unselect
     setSelectedVariant((prev) => (prev === id ? null : id));
@@ -44,16 +44,19 @@ const AddToCartModal = ({ plant, children }) => {
     const variant = plant?.variants?.find((v) => v.sku === selectedVariant);
 
     const item = {
+      name: variant?.variantName,
       plant: plant?._id,
       sku: variant?.sku,
       quantity: quantity,
       img: variant?.image,
+      price: variant?.price,
+      stock: variant?.stock,
     };
 
-    if (!isAuthenticated) {
-      return addToLocalCart(item);
-    }
-    console.log(item);
+    // if (!isAuthenticated) {
+    //   return addToLocalCart(item);
+    // }
+
     try {
       const res = await addToCart(item).unwrap();
       if (res?.success) {
@@ -66,7 +69,6 @@ const AddToCartModal = ({ plant, children }) => {
     }
   };
   const handleIncrementStock = () => {
-    console.log(selectedVariant, "I was clicked");
     const currentVariant = plant?.variants?.find(
       (p) => p.sku === selectedVariant,
     );
