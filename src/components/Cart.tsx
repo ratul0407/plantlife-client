@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { BsCart } from "react-icons/bs";
 import { IoClose } from "react-icons/io5";
 import { Button } from "./ui/button";
@@ -32,6 +32,7 @@ export function Cart() {
 
   let cart;
   cart = data?.data;
+  console.log(cart);
 
   const handleRemoveFromCart = async (sku: string) => {
     try {
