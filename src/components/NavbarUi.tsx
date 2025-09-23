@@ -15,6 +15,8 @@ import UserMenu from "./navbar-components/user-menu";
 import { Button } from "./ui/button";
 import { Heart } from "lucide-react";
 import { useAppSelector } from "@/redux/hooks";
+import Logo from "@/Logo";
+// import Logo from "./navbar-components/logo";
 
 // Navigation links array to be used in both desktop and mobile menus
 
@@ -39,7 +41,9 @@ export default function NavbarUi() {
           </div>
           <div className="flex items-center">
             <h3 className="font-metal text-4xl">
-              <Link to="/">PlantLife</Link>
+              <Link to="/">
+                <Logo />
+              </Link>
             </h3>
           </div>
         </div>
@@ -52,7 +56,7 @@ export default function NavbarUi() {
         <div className="relative z-[100] flex flex-1 items-center justify-end gap-4">
           {/* User menu */}
           {/* wishlist */}
-          <Link to="/user/wishlist">
+          <Link to="/wishlist">
             <Button
               variant="outline"
               className="relative size-8 rounded-full text-center"

@@ -1,3 +1,4 @@
+import Logo from "@/Logo";
 import React from "react";
 import { FaFacebook, FaInstagram, FaLinkedin, FaTwitter } from "react-icons/fa";
 
@@ -87,9 +88,10 @@ const Footer = ({
           <div className="flex w-full flex-col justify-between gap-6 lg:items-start">
             {/* Logo */}
             <div className="flex items-center gap-2 lg:justify-start">
-              <h2 className="font-metal text-xl font-semibold italic md:text-3xl lg:text-4xl">
+              {/* <h2 className="font-metal text-xl font-semibold italic md:text-3xl lg:text-4xl">
                 {logo.title}
-              </h2>
+              </h2> */}
+              <Logo />
             </div>
             <p className="text-muted-foreground max-w-[70%] text-sm">
               {description}
