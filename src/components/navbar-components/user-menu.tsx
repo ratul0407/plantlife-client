@@ -58,7 +58,7 @@ export default function UserMenu() {
             <DropdownMenuGroup>
               <DropdownMenuItem className="py-0">
                 <Link
-                  to="/user/wishlist"
+                  to="/wishlist"
                   className="flex h-full w-full items-center gap-2 py-1.5"
                 >
                   <Heart size={16} className="opacity-60" aria-hidden="true" />
@@ -67,7 +67,7 @@ export default function UserMenu() {
               </DropdownMenuItem>
               <DropdownMenuItem className="py-0">
                 <Link
-                  to="/user/cart"
+                  to="/cart"
                   className="flex h-full w-full items-center gap-2 py-1.5"
                 >
                   <ShoppingCart
@@ -80,7 +80,7 @@ export default function UserMenu() {
               </DropdownMenuItem>
               <DropdownMenuItem className="py-0">
                 <Link
-                  to="/user/orders"
+                  to="/orders"
                   className="flex h-full w-full items-center gap-2 py-1.5"
                 >
                   <Box size={16} className="opacity-60" aria-hidden="true" />

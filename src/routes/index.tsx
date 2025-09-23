@@ -19,6 +19,9 @@ import About from "@/pages/About";
 
 import { lazy } from "react";
 import Blogs from "@/pages/Blogs";
+import Cart from "@/pages/user/Cart";
+import Wishlist from "@/pages/user/Wishlist";
+import Orders from "@/pages/user/Orders";
 
 const Checkout = lazy(() => import("@/pages/Checkout"));
 export const router = createBrowserRouter([
@@ -41,6 +44,18 @@ export const router = createBrowserRouter([
       {
         path: "/blogs",
         Component: Blogs,
+      },
+      {
+        path: "/cart",
+        Component: Cart,
+      },
+      {
+        path: "/wishlist",
+        Component: Wishlist,
+      },
+      {
+        path: "/orders",
+        Component: Orders,
       },
     ],
   },
@@ -78,15 +93,15 @@ export const router = createBrowserRouter([
       ...generateRoute(adminSidebarItems),
     ],
   },
-  {
-    path: "/user",
-    Component: withAuth(DashboardLayout, role.user as TRole),
-    children: [
-      {
-        index: true,
-        element: <Navigate to="/user/wishlist" />,
-      },
-      ...generateRoute(userSidebarItems),
-    ],
-  },
+  // {
+  //   path: "/user",
+  //   Component: withAuth(DashboardLayout, role.user as TRole),
+  //   children: [
+  //     {
+  //       index: true,
+  //       element: <Navigate to="/user/wishlist" />,
+  //     },
+  //     ...generateRoute(userSidebarItems),
+  //   ],
+  // },
 ]);

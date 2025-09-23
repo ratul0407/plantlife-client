@@ -7,14 +7,12 @@ import { CuratedPlants } from "@/components/Home/CuratedPlants";
 import { PowerOfPlant } from "@/components/Home/PowerOfPlant";
 import { PopularPlants } from "@/components/Home/PopularPlants";
 import { PlantsCollection } from "@/components/Home/PlantsCollection";
-import NavbarUi from "@/components/NavbarUi";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 export const Home = () => {
   return (
     <div className="font-roboto">
-      <NavbarUi />
       <Banner />
 
       <main className="space-y-20 px-4 py-12 sm:px-6 md:space-y-12 lg:space-y-32 2xl:container 2xl:mx-auto">

@@ -63,8 +63,10 @@ const Cart = () => {
     updateCart({ quantity: current - 1, sku });
   };
   return (
-    <div className="space-y-6 p-4">
-      <h1 className="text-2xl font-bold">Your Cart</h1>
+    <div className="space-y-6">
+      <h1 className="bg-green-700 py-6 text-center text-2xl font-bold text-white lg:text-5xl">
+        Your Cart
+      </h1>
 
       {!data?.data?.length ? (
         <div className="font-roboto flex min-h-[70vh] items-center justify-center text-5xl text-gray-300">

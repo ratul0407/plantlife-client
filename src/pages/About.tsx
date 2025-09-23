@@ -5,11 +5,10 @@ import aboutImg2 from "../assets/static/about-img-2.jpg";
 import secondBigImg from "../assets/store-img/store2.jpg";
 import aboutImg3 from "../assets/static/about-img-3.jpg";
 import aboutImg4 from "../assets/static/about-img-4.jpg";
-import NavbarUi from "@/components/NavbarUi";
+
 export default function About() {
   return (
     <>
-      <NavbarUi />
       <div className="mx-auto max-w-6xl space-y-16 p-6">
         {/* Header */}
         <header className="space-y-4 text-center">

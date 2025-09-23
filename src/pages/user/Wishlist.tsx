@@ -46,7 +46,9 @@ const Wishlist = () => {
   console.log(data?.data ? "what" : "the hell");
   return (
     <div className="font-roboto space-y-12">
-      <h1 className="text-2xl font-bold">My Wishlist</h1>
+      <h1 className="bg-green-700 py-6 text-center text-2xl font-bold text-white lg:text-5xl">
+        Your Wishlist
+      </h1>
       {data?.data?.length ? (
         <div className="flex flex-col gap-8">
           {wishlist?.map((item: any, index: number) => (
