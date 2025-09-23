@@ -28,15 +28,12 @@ export const Nav = ({ closeMenu }) => {
       href: "/about",
     },
     {
-      title: "Contact Us",
-      href: "/contact",
+      title: "blogs",
+      href: "/blogs",
     },
-    {
+    userRole.admin === "admin" && {
       title: "Dashboard",
-      href:
-        userRole === role.admin || userRole === role.superAdmin
-          ? "/admin"
-          : "/user",
+      href: "/admin",
     },
   ];
   return (

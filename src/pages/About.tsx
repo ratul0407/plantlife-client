@@ -19,7 +19,7 @@ export default function About() {
         </header>
 
         {/* First Fancy Grid */}
-        <section className="grid h-[400px] grid-cols-1 gap-4 md:h-[500px] md:grid-cols-3">
+        <section className="grid grid-cols-1 gap-4 md:h-[500px] md:grid-cols-3">
           <div className="flex flex-col gap-4">
             <img
               src={aboutImg1}
@@ -42,7 +42,7 @@ export default function About() {
         </section>
 
         {/* Paragraphs */}
-        <section className="space-y-8 text-lg leading-relaxed">
+        <section className="text-lg lg:space-y-8 lg:leading-relaxed">
           <p>
             At PlantLife, we believe that every home and workspace deserves the
             calming touch of greenery. Our mission is to make it easy for
@@ -64,7 +64,7 @@ export default function About() {
         </section>
 
         {/* Second Fancy Grid (flipped layout) */}
-        <section className="grid h-[400px] grid-cols-1 gap-4 md:h-[500px] md:grid-cols-3">
+        <section className="grid grid-cols-1 gap-4 md:h-[500px] md:grid-cols-3">
           <div className="md:col-span-2">
             <img
               src={secondBigImg}
