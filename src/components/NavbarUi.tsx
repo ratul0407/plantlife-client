@@ -39,12 +39,10 @@ export default function NavbarUi() {
           <div className="md:hidden">
             <Menu />
           </div>
-          <div className="flex items-center">
-            <h3 className="font-metal text-4xl">
-              <Link to="/">
-                <Logo />
-              </Link>
-            </h3>
+          <div className="hidden items-center md:flex">
+            <Link to="/">
+              <Logo />
+            </Link>
           </div>
         </div>
         {/* Middle area */}

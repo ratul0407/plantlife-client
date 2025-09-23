@@ -6,7 +6,7 @@ import { IoHeart, IoHeartOutline } from "react-icons/io5";
 import { useGetMeQuery } from "@/redux/features/user.api";
 import { toast } from "sonner";
 import AddToCartModal from "../AddToCartModal";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { useAppSelector } from "@/redux/hooks";
 import {
   useAddToWishlistMutation,
   useRemovePlantFromWishlistMutation,
@@ -14,7 +14,7 @@ import {
 
 export const PlantCard = ({ plant, wishSet, variantImages }: any) => {
   const wishlist = useAppSelector((state) => state.wishlist.items);
-  const dispatch = useAppDispatch();
+
   const { name, _id } = plant;
   const { data: userData } = useGetMeQuery(undefined);
   let inWishlist = wishlist.includes(plant?._id);
@@ -63,7 +63,7 @@ export const PlantCard = ({ plant, wishSet, variantImages }: any) => {
     }
   };
   return (
-    <div className="max-w-3xs overflow-hidden bg-white p-4 xl:max-w-xs">
+    <div className="overflow-hidden bg-white xl:max-w-xs">
       <div className="relative rounded-xl">
         {/* motion wrapper ONLY on image container */}
         <motion.div

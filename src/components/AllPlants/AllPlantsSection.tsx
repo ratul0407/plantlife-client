@@ -75,7 +75,7 @@ export const AllPlantsSection = () => {
 
   return (
     <>
-      <div className="container mx-auto space-y-10 md:space-y-20 2xl:mx-80">
+      <div className="container mx-auto space-y-10 p-8 md:space-y-20 2xl:mx-80">
         <div className="flex items-center justify-between lg:justify-end">
           {/* filter */}
           <button
@@ -112,7 +112,7 @@ export const AllPlantsSection = () => {
             <div className="hidden min-h-screen basis-1/4 bg-slate-50/50 lg:block">
               <FilterDesktop />
             </div>
-            <div className="grid basis-3/4 grid-cols-2 md:grid-cols-3">
+            <div className="grid basis-3/4 grid-cols-1 items-center sm:grid-cols-2 md:grid-cols-3">
               {isLoading
                 ? Array.from({ length: 6 }).map((_, i) => (
                     <PlantCardSkeleton key={i} />
@@ -133,7 +133,7 @@ export const AllPlantsSection = () => {
         {/* </div> */}
       </div>
       <div
-        className={`${overlay ? "block" : "hidden"} overlay | absolute top-0 z-10 min-h-screen w-[96.3vw] cursor-pointer bg-black/20`}
+        className={`${overlay ? "block" : "hidden"} overlay | absolute top-0 z-[90] min-h-screen w-[96.3vw] cursor-pointer bg-black/20`}
       ></div>
     </>
   );

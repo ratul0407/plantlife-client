@@ -22,6 +22,7 @@ import {
   removeFromReduxWishlist,
 } from "@/redux/features/wishlist/wishlistSlice";
 import { getLocalWishlist } from "@/utils/wishlist";
+import MobileSlider from "@/components/MobileSlider";
 
 const features = [
   {
@@ -196,10 +197,10 @@ export const PlantDetails = () => {
   if (isLoading) return <PlantDetailsSkeleton />;
 
   return (
-    <div className="pt-10 2xl:container 2xl:mx-auto">
+    <div className="px-4 2xl:container 2xl:mx-auto">
       <div className="flex flex-col gap-4 lg:flex-row">
         {/* images + thumbnails */}
-        <div className="flex w-full flex-col-reverse items-center lg:w-[50%] lg:flex-row lg:items-start lg:gap-4 2xl:justify-start">
+        <div className="hidden w-full flex-col-reverse items-center md:flex lg:w-[50%] lg:flex-row lg:items-start lg:gap-4 2xl:justify-start">
           {/* thumbnails */}
           <div className="relative min-w-full lg:flex lg:min-w-auto lg:flex-col">
             <button
@@ -232,7 +233,7 @@ export const PlantDetails = () => {
               onClick={goToNextImg}
               className="absolute top-2 -right-4 flex cursor-pointer justify-center transition-all duration-300 hover:bg-slate-100 active:scale-90 sm:top-10 sm:bg-slate-50 lg:static"
             >
-              <IoChevronUp className="h-10 w-10 rotate-180" />
+              <IoChevronUp className="h-10 w-10 -rotate-270 lg:rotate-180" />
             </button>
           </div>
 
@@ -273,6 +274,9 @@ export const PlantDetails = () => {
               <IoChevronUp className="h-10 w-10 rotate-90" />
             </button>
           </div>
+        </div>
+        <div className="block md:hidden">
+          <MobileSlider images={images} />
         </div>
 
         {/* plant details */}

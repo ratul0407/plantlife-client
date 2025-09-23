@@ -18,6 +18,7 @@ import { useAddToCartMutation } from "@/redux/features/cart/cart.api";
 import { addToLocalCart } from "@/utils/cartLocal";
 
 import { useAuth } from "@/hooks/useAuth";
+import { DialogOverlay } from "@radix-ui/react-dialog";
 
 const addToCartVariants = {
   initial: { bottom: "-2.5rem", opacity: 0 },
@@ -84,7 +85,8 @@ const AddToCartModal = ({ plant, children }) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="sm:max-w-lg">
+      <DialogOverlay className="fixed inset-0 z-[90] bg-black/50" />
+      <DialogContent className="z-90 sm:max-w-lg">
         <DialogHeader>
           <DialogTitle>Select a Variant</DialogTitle>
           <DialogDescription>

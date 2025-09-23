@@ -1,4 +1,10 @@
-import { Box, Heart, LogOutIcon, ShoppingCart } from "lucide-react";
+import {
+  Box,
+  Heart,
+  LayoutDashboard,
+  LogOutIcon,
+  ShoppingCart,
+} from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -15,6 +21,7 @@ import { useGetMeQuery } from "@/redux/features/user.api";
 import { authApi, useLogOutMutation } from "@/redux/features/auth.api";
 import { useAppDispatch } from "@/redux/hooks";
 import { Link } from "react-router";
+import { role } from "@/constants/role";
 
 export default function UserMenu() {
   const { data, isLoading } = useGetMeQuery(undefined);
@@ -56,6 +63,23 @@ export default function UserMenu() {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
+              {data?.data?.role === role.superAdmin && (
+                <>
+                  <DropdownMenuItem className="py-0">
+                    <Link
+                      to="/admin/overview"
+                      className="flex h-full w-full items-center gap-2 py-1.5"
+                    >
+                      <LayoutDashboard
+                        size={16}
+                        className="opacity-60"
+                        aria-hidden="true"
+                      />
+                      <span>Dashboard</span>
+                    </Link>
+                  </DropdownMenuItem>
+                </>
+              )}
               <DropdownMenuItem className="py-0">
                 <Link
                   to="/wishlist"
