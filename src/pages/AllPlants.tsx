@@ -8,7 +8,7 @@ export const AllPlants = () => {
       <div className="relative">
         <NavbarUi />
 
-        <main className="sm:p-8">
+        <main>
           <Outlet />
         </main>
         <Footer />

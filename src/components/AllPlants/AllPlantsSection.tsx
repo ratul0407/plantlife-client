@@ -11,7 +11,7 @@ import { PlantCardSkeleton } from "../PlantCardSkeleton";
 import FilterDesktop from "../FilterDesktop";
 import { useAppDispatch } from "@/redux/hooks";
 import { setReduxWishlist } from "@/redux/features/wishlist/wishlistSlice";
-
+import plantsBanner from "../../assets/static/plants-banner.jpg";
 export const AllPlantsSection = () => {
   const { data: userData } = useGetMeQuery(undefined);
   const dispatch = useAppDispatch();
@@ -75,7 +75,12 @@ export const AllPlantsSection = () => {
 
   return (
     <>
-      <div className="container mx-auto space-y-10 px-8 py-12 sm:py-8 md:space-y-20 2xl:mx-80">
+      <div className="bg-plants-banner flex h-60 items-center justify-center bg-cover bg-center bg-no-repeat">
+        <h1 className="font-metal text-center text-5xl font-bold text-white italic">
+          Connect with nature
+        </h1>
+      </div>
+      <div className="container mx-auto space-y-10 px-8 py-12 sm:p-8 sm:py-8 md:space-y-20 2xl:mx-80">
         <div className="flex items-center justify-between lg:justify-end">
           {/* filter */}
           <button

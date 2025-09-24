@@ -12,6 +12,7 @@
   --background-image-banner: url("./assets/static/banner.jpg");
   --background-image-popular-plant: url("./assets/static/popular-plant.jpg");
   --color-nav: #264027;
+  --background-image-plants-banner: url("./assets/static/plants-banner.jpg");
 }
 
 @layer components {
