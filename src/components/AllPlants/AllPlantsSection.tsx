@@ -75,7 +75,7 @@ export const AllPlantsSection = () => {
 
   return (
     <>
-      <div className="container mx-auto space-y-10 p-8 md:space-y-20 2xl:mx-80">
+      <div className="container mx-auto space-y-10 px-8 py-12 sm:py-8 md:space-y-20 2xl:mx-80">
         <div className="flex items-center justify-between lg:justify-end">
           {/* filter */}
           <button
@@ -95,7 +95,7 @@ export const AllPlantsSection = () => {
 
           {/* sort by */}
           <div className="flex items-center gap-4">
-            <span>Sort By:</span>
+            <span className="hidden sm:block">Sort By:</span>
             <div className="rounded-sm border border-gray-300 py-1">
               <select name="sort" id="id" className="cursor-pointer">
                 <option value="all">Default</option>
@@ -112,7 +112,7 @@ export const AllPlantsSection = () => {
             <div className="hidden min-h-screen basis-1/4 bg-slate-50/50 lg:block">
               <FilterDesktop />
             </div>
-            <div className="grid basis-3/4 grid-cols-1 items-center sm:grid-cols-2 md:grid-cols-3 lg:gap-6">
+            <div className="grid basis-3/4 grid-cols-1 items-center gap-12 sm:grid-cols-2 sm:gap-6 md:grid-cols-3 2xl:grid-cols-4">
               {isLoading
                 ? Array.from({ length: 6 }).map((_, i) => (
                     <PlantCardSkeleton key={i} />

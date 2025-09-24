@@ -73,9 +73,12 @@ export const PlantCard = ({ plant, wishSet, variantImages }: any) => {
         >
           {/* images */}
           <img
+            onClick={() => {
+              navigate(`/plants/${plant?._id}`, { state: wishSet });
+            }}
             src={variantImages[0]}
             alt={name}
-            className="h-full w-full object-cover transition-opacity duration-500 group-hover:opacity-0"
+            className="mx-auto h-72 w-72 rounded-xl object-cover transition-opacity duration-500 group-hover:opacity-0 sm:h-full sm:w-full"
           />
           <img
             onClick={() => {

@@ -17,11 +17,11 @@ const SearchResultCard = ({
   onClick,
 }: SearchResultCardProps) => {
   return (
-    <Card className="w-full max-w-sm cursor-pointer rounded-none shadow-md transition-all lg:max-w-xl">
+    <Card className="w-full cursor-pointer rounded-none p-0 shadow-md transition-all sm:max-w-sm lg:max-w-xl">
       <Link to={`/plants/${id}`} onClick={onClick}>
         <CardContent className="flex items-center justify-between gap-4 p-4">
           {/* image */}
-          <div className="h-20 w-20 flex-shrink-0 overflow-hidden">
+          <div className="h-20 w-20 flex-shrink-0 overflow-hidden lg:size-32 lg:object-cover">
             <img
               src={image}
               alt={name}

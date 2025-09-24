@@ -1,4 +1,4 @@
-import { useId } from "react";
+import { useId, useState } from "react";
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -13,7 +13,7 @@ import { Menu } from "./Home/menu/Menu";
 import SearchBar from "./navbar-components/SearchBar";
 import UserMenu from "./navbar-components/user-menu";
 import { Button } from "./ui/button";
-import { Heart } from "lucide-react";
+import { Heart, SearchIcon } from "lucide-react";
 import { useAppSelector } from "@/redux/hooks";
 import Logo from "@/Logo";
 // import Logo from "./navbar-components/logo";
@@ -22,6 +22,7 @@ import Logo from "@/Logo";
 
 export default function NavbarUi() {
   const { pathname } = useLocation();
+  const [openSearchBar, setOpenSearchBar] = useState(false);
   const wishlist = useAppSelector((state) => state.wishlist.items);
   const navigationLinks = [
     { href: "/", label: "Home" },
@@ -29,10 +30,10 @@ export default function NavbarUi() {
     { href: "/about", label: "About" },
     { href: "/blogs", label: "Blogs" },
   ];
-
+  console.log(openSearchBar);
   return (
     <header className="font-roboto sticky top-0 z-[90] border-b bg-white px-4 pb-4 text-black md:px-6">
-      <div className="flex h-16 items-center justify-between gap-4">
+      <div className="relative flex h-16 items-center justify-between gap-4">
         {/* Left side */}
         <div className="flex flex-1 items-center gap-2">
           {/* Mobile menu trigger */}
@@ -46,14 +47,24 @@ export default function NavbarUi() {
           </div>
         </div>
         {/* Middle area */}
+        {/* Search form */}
         <div className="grow">
-          {/* Search form */}
-          <SearchBar />
+          <SearchBar
+            openSearchBar={openSearchBar}
+            setOpenSearchBar={setOpenSearchBar}
+          />
         </div>
         {/* Right side */}
         <div className="relative z-[100] flex flex-1 items-center justify-end gap-4">
           {/* User menu */}
           {/* wishlist */}
+          <Button
+            onClick={() => setOpenSearchBar(!openSearchBar)}
+            variant={"outline"}
+            className="size-8 rounded-full text-center sm:hidden"
+          >
+            <SearchIcon className="text-gray-600" />
+          </Button>
           <Link to="/wishlist">
             <Button
               variant="outline"

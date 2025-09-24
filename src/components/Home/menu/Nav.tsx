@@ -31,7 +31,7 @@ export const Nav = ({ closeMenu }) => {
       title: "blogs",
       href: "/blogs",
     },
-    userRole.admin === "admin" && {
+    userRole?.admin === "admin" && {
       title: "Dashboard",
       href: "/admin",
     },

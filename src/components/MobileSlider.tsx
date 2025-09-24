@@ -17,7 +17,7 @@ const MobileSlider = ({ images }) => {
       >
         {images.map((img) => (
           <SwiperSlide className="min-h-full">
-            <img className="h-full" src={img} />
+            <img className="h-[400px] w-full object-cover" src={img} />
           </SwiperSlide>
         ))}
       </Swiper>

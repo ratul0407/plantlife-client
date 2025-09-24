@@ -197,7 +197,7 @@ export const PlantDetails = () => {
   if (isLoading) return <PlantDetailsSkeleton />;
 
   return (
-    <div className="px-4 2xl:container 2xl:mx-auto">
+    <div className="p-4 2xl:container 2xl:mx-auto">
       <div className="flex flex-col gap-4 lg:flex-row">
         {/* images + thumbnails */}
         <div className="hidden w-full flex-col-reverse items-center md:flex lg:w-[50%] lg:flex-row lg:items-start lg:gap-4 2xl:justify-start">
@@ -243,14 +243,14 @@ export const PlantDetails = () => {
             onMouseLeave={() => setShowControls(false)}
             className="relative flex h-[350px] w-full overflow-hidden md:h-[600px] lg:h-[700px] lg:w-full"
           >
-            <button
+            {/* <button
               onClick={goToPreviousImg}
               className={`absolute left-0 z-40 h-full w-10 cursor-pointer bg-white/20 transition-all duration-300 md:w-20 ${
                 showControls ? "opacity-100" : "opacity-0"
               }`}
             >
               <IoChevronUp className="h-10 w-10 -rotate-90" />
-            </button>
+            </button> */}
 
             {images?.map((img, index) => (
               <div
@@ -265,14 +265,30 @@ export const PlantDetails = () => {
               </div>
             ))}
 
-            <button
+            {/* <button
               onClick={goToNextImg}
               className={`absolute right-0 z-40 h-full w-10 cursor-pointer bg-white/20 transition-all duration-300 md:w-20 ${
                 showControls ? "opacity-100" : "opacity-0"
               }`}
             >
               <IoChevronUp className="h-10 w-10 rotate-90" />
-            </button>
+            </button> */}
+            <div className="absolute right-5 bottom-5 z-50 flex h-10 w-20 rounded-full bg-white">
+              <Button
+                onClick={goToPreviousImg}
+                variant={"outline"}
+                className="h-10 rounded-full border-none"
+              >
+                <IoChevronUp className="h-10 w-10 rotate-270" />
+              </Button>
+              <Button
+                onClick={goToNextImg}
+                variant={"outline"}
+                className="h-10 rounded-full border-none"
+              >
+                <IoChevronUp className="h-10 w-10 rotate-90" />
+              </Button>
+            </div>
           </div>
         </div>
         <div className="block md:hidden">
