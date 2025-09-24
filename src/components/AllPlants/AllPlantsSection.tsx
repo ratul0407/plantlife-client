@@ -112,7 +112,7 @@ export const AllPlantsSection = () => {
             <div className="hidden min-h-screen basis-1/4 bg-slate-50/50 lg:block">
               <FilterDesktop />
             </div>
-            <div className="grid basis-3/4 grid-cols-1 items-center sm:grid-cols-2 md:grid-cols-3">
+            <div className="grid basis-3/4 grid-cols-1 items-center sm:grid-cols-2 md:grid-cols-3 lg:gap-6">
               {isLoading
                 ? Array.from({ length: 6 }).map((_, i) => (
                     <PlantCardSkeleton key={i} />
