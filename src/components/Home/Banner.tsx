@@ -1,8 +1,9 @@
 import { useEffect } from "react";
-import { Navbar } from "./Navbar";
+
 import { IoArrowDown } from "react-icons/io5";
 import { useRef } from "react";
 import gsap from "gsap";
+import { Link } from "react-router";
 
 export const Banner = () => {
   const titleRef = useRef(null);
@@ -25,15 +26,17 @@ export const Banner = () => {
             >
               Bring ..<span className="font-metal italic">nature</span>.. home.
             </h1>
-            <button className="btn">Shop Now</button>
+            <Link to="/plants">
+              <button className="btn">Shop Now</button>
+            </Link>
           </div>
           {/*  main footer*/}
           <div className="absolute bottom-10 text-lg uppercase lg:flex lg:min-w-full lg:items-center lg:justify-between lg:px-4">
             <div className="hidden basis-1/3 lg:block">
               <p>We offer a handpick selection of plants!</p>
-              <a href="#" className="underline">
+              <Link to="/about" className="underline">
                 Learn More
-              </a>
+              </Link>
             </div>
             <div className="basis-1/3 space-y-4 text-center">
               <p>(Scroll Down)</p>

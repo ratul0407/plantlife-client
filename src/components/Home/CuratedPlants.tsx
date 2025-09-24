@@ -1,35 +1,40 @@
-import fiddleLeaf from "../../assets/plant4.jpg";
-import monster from "../../assets/plant5.jpg";
-import african from "../../assets/plant7.jpg";
-import snake from "../../assets/plant2.jpg";
+import img1 from "../../assets/curated/img-1.jpg";
+import img2 from "../../assets/curated/img-2.jpg";
+import img3 from "../../assets/curated/img-3.jpg";
+import img4 from "../../assets/curated/img-4.png";
 import { PlantCard } from "./PlantCard";
 
 const plants = [
   {
     id: 1,
-    name: "Monster Deliciosa",
-    img: monster,
-    price: 45,
-    new: true,
+    name: "String of Pearls",
+    img: img1,
+    price: 39.99,
+    new: false,
+    link: "/plants/68bd7524047fe570a31a1ba9",
   },
   {
     id: 2,
-    name: "Snake Plant",
-    img: snake,
-    price: 30,
+    name: "Ponytail Palm",
+    img: img2,
+    price: 24.99,
+    new: true,
+    link: "/plants/68d2d25a6f8926a6ac7ed364",
   },
   {
     id: 3,
-    name: "Fiddle LeafFlag",
-    img: fiddleLeaf,
-    price: 55,
+    name: "Pothos",
+    img: img3,
+    price: 28.99,
+    link: "/plants/68bd77a631480498d0f261f8",
   },
   {
     id: 4,
-    name: "African Mask",
-    img: african,
-    price: 20,
+    name: "Anthurium",
+    img: img4,
+    price: 39.99,
     new: true,
+    link: "/plants/68d2d410a2fd5553c911df64",
   },
 ];
 

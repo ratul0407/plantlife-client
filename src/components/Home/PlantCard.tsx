@@ -1,5 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import { motion } from "motion/react";
+import { Link } from "react-router";
 
 export const PlantCard = ({ plant }) => {
   const addToCartVariants = {
@@ -31,21 +32,29 @@ export const PlantCard = ({ plant }) => {
           NEW!
         </p>
       )}
-      <div className="font-medium uppercase">
-        <motion.p variants={infoVariants} className="absolute bottom-2 left-2">
-          {plant.name}
+      <Link to={plant.link}>
+        <div className="font-medium uppercase">
+          <motion.p
+            variants={infoVariants}
+            className="absolute bottom-2 left-2"
+          >
+            {plant.name}
+          </motion.p>
+          <motion.p
+            variants={infoVariants}
+            className="absolute right-2 bottom-2"
+          >
+            ${plant.price}.00
+          </motion.p>
+        </div>
+        <motion.p
+          variants={addToCartVariants}
+          className={`absolute -bottom-10 left-1/2 w-full -translate-x-1/2 bg-black py-1.5 text-center text-white uppercase underline`}
+        >
+          Add to cart{" "}
         </motion.p>
-        <motion.p variants={infoVariants} className="absolute right-2 bottom-2">
-          ${plant.price}.00
-        </motion.p>
-      </div>
-      <motion.p
-        variants={addToCartVariants}
-        className={`absolute -bottom-10 left-1/2 w-full -translate-x-1/2 bg-black py-1.5 text-center text-white uppercase underline`}
-      >
-        Add to cart{" "}
-      </motion.p>
-      <img src={plant.img} className="min-h-full object-cover" />
+        <img src={plant.img} className="min-h-full object-cover" />
+      </Link>
     </motion.div>
   );
 };

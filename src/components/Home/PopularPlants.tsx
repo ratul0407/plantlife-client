@@ -1,6 +1,7 @@
 // eslint-disable-next-line no-unused-vars
-import { motion } from "motion/react";
-import plantImg2 from "../../assets/popular-plant2.jpg";
+
+import { Link } from "react-router";
+import plantImg from "../../assets/popular-plant.jpg";
 import { useRef } from "react";
 export const PopularPlants = () => {
   const container = useRef(null);
@@ -14,12 +15,18 @@ export const PopularPlants = () => {
       </div>
       <div ref={container} className="relative basis-1/2">
         <div className="relative">
-          <div className="absolute top-5 left-32 flex h-30 w-30 cursor-pointer items-center justify-center rounded-full bg-[#BBD8A3]">
-            <p className="translate-x-1/6 font-bold uppercase underline">
+          <div className="absolute top-0 left-52 flex h-30 w-30 cursor-pointer items-center justify-center rounded-full bg-[#BBD8A3]">
+            <Link
+              to="/plants/68bd7486047fe570a31a1ba2"
+              className="translate-x-1/6 font-bold uppercase underline"
+            >
               View this product
-            </p>
+            </Link>
           </div>
-          <img src={plantImg2} className="h-[400px] rounded-lg" />
+          <img
+            src={plantImg}
+            className="h-[400px] max-w-72 rounded-lg object-cover"
+          />
         </div>
       </div>
       <p className="absolute bottom-10 left-1/2 mx-auto hidden max-w-[100ch] -translate-x-1/2 text-center font-bold uppercase md:block">
