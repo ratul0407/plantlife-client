@@ -1,55 +1,66 @@
-import { useForm } from "react-hook-form";
-import { Form, FormControl, FormField, FormItem, FormLabel } from "./ui/form";
+"use client";
 
-import { Checkbox } from "./ui/checkbox";
+import { useEffect } from "react";
+import { useForm, useWatch } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+} from "@/components/ui/form";
 import { plantCategories } from "@/constants/plantCategories";
 
+const formSchema = z.object({
+  categories: z.array(z.string()).optional(),
+});
+
 const FilterDesktop = () => {
-  const form = useForm();
-  const onSubmit = (data) => {
-    console.log(data);
-  };
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: { categories: [] },
+  });
+
   return (
-    <div>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
-          <div className="space-y-2">
-            {Object.entries(plantCategories).map(([key, value]) => (
-              <FormField
-                key={key}
-                control={form.control}
-                name="items"
-                render={({ field }) => {
-                  return (
-                    <FormItem
-                      key={key}
-                      className="flex flex-row items-center gap-2"
-                    >
-                      <FormControl>
-                        <Checkbox
-                          checked={field.value?.includes(key)}
-                          onCheckedChange={(checked) => {
-                            return checked
-                              ? field.onChange([...field.value, key])
-                              : field.onChange(
-                                  field.value?.filter((value) => value !== key),
-                                );
-                          }}
-                        />
-                      </FormControl>
-                      <FormLabel className="text-sm font-normal">
-                        {key}
-                      </FormLabel>
-                    </FormItem>
-                  );
-                }}
-              />
-            ))}
-          </div>
-        </form>
-      </Form>
-    </div>
+    <Form {...form}>
+      <form className="space-y-4">
+        <div className="space-y-2">
+          {Object.entries(plantCategories).map(([label, value]) => (
+            <FormField
+              key={value}
+              control={form.control}
+              name="categories"
+              render={({ field }) => {
+                return (
+                  <FormItem
+                    key={value}
+                    className="flex flex-row items-center space-x-2"
+                  >
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value?.includes(value)}
+                        onCheckedChange={(checked) => {
+                          return checked
+                            ? field.onChange([...field.value, value])
+                            : field.onChange(
+                                field.value?.filter((v: string) => v !== value),
+                              );
+                        }}
+                      />
+                    </FormControl>
+                    <FormLabel className="font-normal">{label}</FormLabel>
+                  </FormItem>
+                );
+              }}
+            />
+          ))}
+        </div>
+      </form>
+    </Form>
   );
 };
-
 export default FilterDesktop;

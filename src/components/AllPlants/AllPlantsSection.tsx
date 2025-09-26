@@ -11,7 +11,7 @@ import { PlantCardSkeleton } from "../PlantCardSkeleton";
 import FilterDesktop from "../FilterDesktop";
 import { useAppDispatch } from "@/redux/hooks";
 import { setReduxWishlist } from "@/redux/features/wishlist/wishlistSlice";
-import plantsBanner from "../../assets/static/plants-banner.jpg";
+
 export const AllPlantsSection = () => {
   const { data: userData } = useGetMeQuery(undefined);
   const dispatch = useAppDispatch();
