@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -14,6 +13,7 @@ import {
   FormLabel,
 } from "@/components/ui/form";
 import { plantCategories } from "@/constants/plantCategories";
+import { useEffect } from "react";
 
 const formSchema = z.object({
   categories: z.array(z.string()).optional(),
@@ -25,6 +25,11 @@ const FilterDesktop = () => {
     defaultValues: { categories: [] },
   });
 
+  const categories = useWatch({
+    control: form.control,
+    name: "categories",
+  });
+  useEffect(() => {}, [categories]);
   return (
     <Form {...form}>
       <form className="space-y-4">

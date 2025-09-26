@@ -11,8 +11,11 @@ import { PlantCardSkeleton } from "../PlantCardSkeleton";
 import FilterDesktop from "../FilterDesktop";
 import { useAppDispatch } from "@/redux/hooks";
 import { setReduxWishlist } from "@/redux/features/wishlist/wishlistSlice";
+import { useSearchParams } from "react-router";
 
 export const AllPlantsSection = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const { data: userData } = useGetMeQuery(undefined);
   const dispatch = useAppDispatch();
 
@@ -34,7 +37,9 @@ export const AllPlantsSection = () => {
     }
   }, [openFilter]);
 
-  const { data, isLoading } = useGetAllPlantsQuery(undefined);
+  const { data, isLoading } = useGetAllPlantsQuery({
+    category: searchParams.getAll("category") || undefined,
+  });
 
   const plants = data?.data?.data;
   const variantImages = plants?.map((item) =>
