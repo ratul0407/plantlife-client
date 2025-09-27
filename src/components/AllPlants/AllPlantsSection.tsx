@@ -6,7 +6,7 @@ import { FilterSideBar } from "./FilterSideBar";
 
 import { useLenis } from "../../hooks/useLenis";
 import { useGetAllPlantsQuery } from "@/redux/features/plant.api";
-import { useGetMeQuery } from "@/redux/features/user.api";
+
 import { PlantCardSkeleton } from "../PlantCardSkeleton";
 import FilterDesktop from "../FilterDesktop";
 import { useAppDispatch } from "@/redux/hooks";
@@ -40,7 +40,7 @@ export const AllPlantsSection = () => {
     }
   }, [openFilter]);
 
-  const { data, isLoading } = useGetAllPlantsQuery({
+  const { data, isLoading, isFetching } = useGetAllPlantsQuery({
     category: category,
   });
 
@@ -83,6 +83,7 @@ export const AllPlantsSection = () => {
     };
   }, [closeFilterSideBar]);
 
+  console.log("Loading", isLoading);
   return (
     <>
       <div className="bg-plants-banner flex h-60 items-center justify-center bg-cover bg-center bg-no-repeat">
@@ -130,8 +131,8 @@ export const AllPlantsSection = () => {
                 searchParams={searchParams}
               />
             </div>
-            <div className="grid basis-3/4 grid-cols-1 items-center gap-12 sm:grid-cols-2 sm:gap-6 md:grid-cols-3 2xl:grid-cols-4">
-              {isLoading
+            <div className="grid basis-3/4 grid-cols-1 gap-12 sm:grid-cols-2 sm:gap-6 md:grid-cols-3 lg:pl-6 2xl:grid-cols-4">
+              {isLoading || isFetching
                 ? Array.from({ length: 6 }).map((_, i) => (
                     <PlantCardSkeleton key={i} />
                   ))
