@@ -12,19 +12,22 @@ import FilterDesktop from "../FilterDesktop";
 import { useAppDispatch } from "@/redux/hooks";
 import { setReduxWishlist } from "@/redux/features/wishlist/wishlistSlice";
 import { useSearchParams } from "react-router";
+import { useAuth } from "@/hooks/useAuth";
 
 export const AllPlantsSection = () => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const category = searchParams.getAll("category") || undefined;
 
-  const { data: userData } = useGetMeQuery(undefined);
+  const { user } = useAuth();
+  console.log(user);
   const dispatch = useAppDispatch();
-
+  console.log(category);
   useEffect(() => {
-    if (userData?.data?.wishlist) {
-      const ids = userData?.data?.wishlist?.map((w) => w.plant);
+    if (user?.data?.wishlist) {
+      const ids = user?.data?.wishlist?.map((w) => w.plant);
       dispatch(setReduxWishlist(ids));
     }
-  }, [userData, dispatch]);
+  }, [user, dispatch]);
 
   const [overlay, setOverlay] = useState(false);
   const { lenisRef } = useLenis();
@@ -38,8 +41,10 @@ export const AllPlantsSection = () => {
   }, [openFilter]);
 
   const { data, isLoading } = useGetAllPlantsQuery({
-    category: searchParams.getAll("category") || undefined,
+    category: category,
   });
+
+  console.log(searchParams.getAll("category"));
 
   const plants = data?.data?.data;
   const variantImages = plants?.map((item) =>
@@ -120,7 +125,10 @@ export const AllPlantsSection = () => {
         {
           <div className="lg:flex">
             <div className="hidden min-h-screen basis-1/4 bg-slate-50/50 lg:block">
-              <FilterDesktop />
+              <FilterDesktop
+                setSearchParams={setSearchParams}
+                searchParams={searchParams}
+              />
             </div>
             <div className="grid basis-3/4 grid-cols-1 items-center gap-12 sm:grid-cols-2 sm:gap-6 md:grid-cols-3 2xl:grid-cols-4">
               {isLoading

@@ -1,9 +1,6 @@
-"use client";
-
 import { useForm, useWatch } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
@@ -14,22 +11,41 @@ import {
 } from "@/components/ui/form";
 import { plantCategories } from "@/constants/plantCategories";
 import { useEffect } from "react";
+import { SetURLSearchParams } from "react-router-dom"; // Note the change here
 
 const formSchema = z.object({
   categories: z.array(z.string()).optional(),
 });
 
-const FilterDesktop = () => {
+const FilterDesktop = ({
+  searchParams,
+  setSearchParams,
+}: {
+  searchParams: URLSearchParams;
+  setSearchParams: SetURLSearchParams;
+}) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: { categories: [] },
+    defaultValues: {
+      categories: searchParams.getAll("category") || [], // Initialize with existing categories from URL
+    },
   });
 
   const categories = useWatch({
     control: form.control,
     name: "categories",
   });
-  useEffect(() => {}, [categories]);
+
+  // Sync URL with selected categories
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams);
+    params.delete("category"); // Clear existing category params
+    categories.forEach((category) => {
+      params.append("category", category); // Append each selected category
+    });
+    setSearchParams(params, { replace: true }); // Update URL without page reload
+  }, [categories, setSearchParams, searchParams]);
+
   return (
     <Form {...form}>
       <form className="space-y-4">
@@ -39,28 +55,27 @@ const FilterDesktop = () => {
               key={value}
               control={form.control}
               name="categories"
-              render={({ field }) => {
-                return (
-                  <FormItem
-                    key={value}
-                    className="flex flex-row items-center space-x-2"
-                  >
-                    <FormControl>
-                      <Checkbox
-                        checked={field.value?.includes(value)}
-                        onCheckedChange={(checked) => {
-                          return checked
-                            ? field.onChange([...field.value, value])
-                            : field.onChange(
-                                field.value?.filter((v: string) => v !== value),
-                              );
-                        }}
-                      />
-                    </FormControl>
-                    <FormLabel className="font-normal">{label}</FormLabel>
-                  </FormItem>
-                );
-              }}
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-center space-x-2">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value?.includes(value)}
+                      onCheckedChange={(checked) => {
+                        if (checked) {
+                          // Add category to the form state
+                          field.onChange([...(field.value || []), value]);
+                        } else {
+                          // Remove category from the form state
+                          field.onChange(
+                            field.value?.filter((v: string) => v !== value),
+                          );
+                        }
+                      }}
+                    />
+                  </FormControl>
+                  <FormLabel className="font-normal">{label}</FormLabel>
+                </FormItem>
+              )}
             />
           ))}
         </div>
@@ -68,4 +83,5 @@ const FilterDesktop = () => {
     </Form>
   );
 };
+
 export default FilterDesktop;

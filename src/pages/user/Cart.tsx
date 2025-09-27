@@ -16,24 +16,22 @@ const Cart = () => {
   const [updateCart] = useUpdateCartMutation();
   const [removeFromCart] = useRemoveFromCartMutation();
   const cart = data?.data?.[0]?.cart;
-  console.log(data);
+
   const currentPrice = cart?.[0]?.plantDetails?.variants?.find(
     (i) => i.sku === cart?.[0]?.sku,
   );
-  console.log(cart?.[0]?.sku, cart?.[0]?.plantDetails?.variants?.[0]?.sku);
-  console.log(currentPrice);
 
   useEffect(() => {
     if (cart?.length) {
       const variants = cart?.map((cartItem) =>
         cartItem?.plantDetails?.variants?.find((v) => v.sku === cartItem.sku),
       );
-      console.log(variants);
+
       let total = 0;
       cart?.map((item, index: number) => {
         total += variants?.[index]?.price * item?.quantity;
       });
-      console.log(total);
+
       total.toString(2);
       setAmount(total);
     }
@@ -50,12 +48,10 @@ const Cart = () => {
     }
   };
   const handleIncrement = (max: number, current: number, sku: string) => {
-    console.log(max, current);
     if (current >= max) return;
     updateCart({ quantity: current + 1, sku });
   };
   const handleDecrement = async (current: number, sku: string) => {
-    console.log(current);
     if (current <= 1) {
       handleRemoveFromCart(sku);
       return;

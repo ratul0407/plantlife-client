@@ -32,7 +32,6 @@ export function Cart() {
 
   let cart;
   cart = data?.data;
-  console.log(cart);
 
   const handleRemoveFromCart = async (sku: string) => {
     try {
