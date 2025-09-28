@@ -19,14 +19,14 @@ import { useLoginMutation } from "@/redux/features/auth.api";
 import config from "@/config";
 import { toast } from "sonner";
 import { getLocalWishlist } from "@/utils/wishlist";
-import { useAddManyToWishlistMutation } from "@/redux/features/wishlist/wishlist.api";
+// import { useAddManyToWishlistMutation } from "@/redux/features/wishlist/wishlist.api";
 const loginSchema = z.object({
   email: z.string(),
   password: z.string().min(8, { error: "Min 8 characters required" }),
 });
 export const Login = () => {
   const navigate = useNavigate();
-  const [addManyToWishlist] = useAddManyToWishlistMutation();
+  // const [addManyToWishlist] = useAddManyToWishlistMutation();
   const [login, { isLoading }] = useLoginMutation();
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),

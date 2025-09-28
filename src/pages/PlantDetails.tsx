@@ -12,15 +12,15 @@ import { useGetMeQuery } from "@/redux/features/user.api";
 import { toast } from "sonner";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { openCart } from "@/redux/features/cart/cartSlice";
-import {
-  useAddToWishlistMutation,
-  useRemovePlantFromWishlistMutation,
-} from "@/redux/features/wishlist/wishlist.api";
+// import {
+//   useAddToWishlistMutation,
+//   useRemovePlantFromWishlistMutation,
+// } from "@/redux/features/wishlist/wishlist.api";
 import { useAddToCartMutation } from "@/redux/features/cart/cart.api";
-import {
-  addToReduxWishlist,
-  removeFromReduxWishlist,
-} from "@/redux/features/wishlist/wishlistSlice";
+// import {
+//   addToReduxWishlist,
+//   removeFromReduxWishlist,
+// } from "@/redux/features/wishlist/wishlistSlice";
 import { getLocalWishlist } from "@/utils/wishlist";
 import MobileSlider from "@/components/MobileSlider";
 
@@ -53,8 +53,8 @@ export const PlantDetails = () => {
 
   //get plant from db
   const { data, isLoading } = useGetSinglePlantQuery({ id });
-  const [addToWishList] = useAddToWishlistMutation();
-  const [removeFromWishlist] = useRemovePlantFromWishlistMutation();
+  // const [addToWishList] = useAddToWishlistMutation();
+  // const [removeFromWishlist] = useRemovePlantFromWishlistMutation();
   const plant = data?.data;
   let inWishlist;
   if (userData) {
@@ -162,20 +162,20 @@ export const PlantDetails = () => {
   };
 
   const handleAddToWishlist = async () => {
-    if (!userData) {
-      dispatch(addToReduxWishlist(_id));
-      toast.success("Added to wishlist");
-      return;
-    }
-    try {
-      const res = await addToWishList({ plant: _id }).unwrap();
-      if (res.success) {
-        toast.success("Added to wishlist");
-        dispatch(addToReduxWishlist(_id)); // keep redux in sync with server
-      }
-    } catch (error: any) {
-      toast.error(error?.data?.message);
-    }
+    // if (!userData) {
+    //   // dispatch(addToReduxWishlist(_id));
+    //   toast.success("Added to wishlist");
+    //   return;
+    // }
+    // try {
+    //   // const res = await addToWishList({ plant: _id }).unwrap();
+    //   // if (res.success) {
+    //     // toast.success("Added to wishlist");
+    //     // dispatch(addToReduxWishlist(_id)); // keep redux in sync with server
+    //   }
+    // } catch (error: any) {
+    //   toast.error(error?.data?.message);
+    // }
   };
 
   const handleRemoveFromWishlist = async () => {

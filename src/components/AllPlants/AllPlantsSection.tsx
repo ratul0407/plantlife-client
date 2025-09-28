@@ -10,7 +10,7 @@ import { useGetAllPlantsQuery } from "@/redux/features/plant.api";
 import { PlantCardSkeleton } from "../PlantCardSkeleton";
 import FilterDesktop from "../FilterDesktop";
 import { useAppDispatch } from "@/redux/hooks";
-import { setReduxWishlist } from "@/redux/features/wishlist/wishlistSlice";
+// import { setReduxWishlist } from "@/redux/features/wishlist/wishlistSlice";
 import { useSearchParams } from "react-router";
 import { useAuth } from "@/hooks/useAuth";
 
@@ -25,7 +25,7 @@ export const AllPlantsSection = () => {
   useEffect(() => {
     if (user?.data?.wishlist) {
       const ids = user?.data?.wishlist?.map((w) => w.plant);
-      dispatch(setReduxWishlist(ids));
+      // dispatch(setReduxWishlist(ids));
     }
   }, [user, dispatch]);
 

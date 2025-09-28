@@ -2,34 +2,34 @@ import AddToCartModal from "@/components/AddToCartModal";
 import { Button } from "@/components/ui/button";
 import { useAddToCartMutation } from "@/redux/features/cart/cart.api";
 import { useGetMeQuery } from "@/redux/features/user.api";
-import {
-  useMyWishlistQuery,
-  useRemovePlantFromWishlistMutation,
-} from "@/redux/features/wishlist/wishlist.api";
+// import {
+//   useMyWishlistQuery,
+//   useRemovePlantFromWishlistMutation,
+// } from "@/redux/features/wishlist/wishlist.api";
 
 import { Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
 const Wishlist = () => {
-  const { data } = useMyWishlistQuery(undefined);
+  // const { data } = useMyWishlistQuery(undefined);
   const { data: userData } = useGetMeQuery(undefined);
   const [addToCart, { isLoading: addToCartLoading }] = useAddToCartMutation();
 
-  const [removeFromWishlist, { isLoading }] =
-    useRemovePlantFromWishlistMutation();
+  // const [removeFromWishlist, { isLoading }] =
+  // useRemovePlantFromWishlistMutation();
   const handleRemoveFromWishlist = async (id: string) => {
-    if (!userData) {
-      toast.success("Removed from wishlist");
-      return;
-    }
-    try {
-      const res = await removeFromWishlist({ plant: id }).unwrap();
-      if (res.success) {
-        toast.success(res.message);
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    // if (!userData) {
+    //   toast.success("Removed from wishlist");
+    //   return;
+    // }
+    // try {
+    //   const res = await removeFromWishlist({ plant: id }).unwrap();
+    //   if (res.success) {
+    //     toast.success(res.message);
+    //   }
+    // } catch (error) {
+    //   console.log(error);
+    // }
   };
 
   const handleAddToCart = async (plant: string) => {
@@ -41,15 +41,15 @@ const Wishlist = () => {
       }
     } catch (error) {}
   };
-  const wishlist = data?.data?.[0]?.wishlist;
-  console.log(data?.data?.[0]?.wishlist);
-  console.log(data?.data ? "what" : "the hell");
+  // const wishlist = data?.data?.[0]?.wishlist;
+  // console.log(data?.data?.[0]?.wishlist);
+  // console.log(data?.data ? "what" : "the hell");
   return (
     <div className="font-roboto space-y-12">
       <h1 className="bg-green-700 py-6 text-center text-2xl font-bold text-white lg:text-5xl">
         Your Wishlist
       </h1>
-      {data?.data?.length ? (
+      {/* {data?.data?.length ? (
         <div className="flex flex-col gap-8">
           {wishlist?.map((item: any, index: number) => (
             <div key={index} className="relative flex items-start gap-8">
@@ -96,7 +96,7 @@ const Wishlist = () => {
         <div className="font-roboto flex min-h-[70vh] items-center justify-center text-5xl text-gray-300">
           <p>Your Wishlist is Empty</p>
         </div>
-      )}
+      )} */}
     </div>
   );
 };

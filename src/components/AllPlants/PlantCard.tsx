@@ -7,10 +7,10 @@ import { useGetMeQuery } from "@/redux/features/user.api";
 import { toast } from "sonner";
 import AddToCartModal from "../AddToCartModal";
 import { useAppSelector } from "@/redux/hooks";
-import {
-  useAddToWishlistMutation,
-  useRemovePlantFromWishlistMutation,
-} from "@/redux/features/wishlist/wishlist.api";
+// import {
+//   useAddToWishlistMutation,
+//   useRemovePlantFromWishlistMutation,
+// } from "@/redux/features/wishlist/wishlist.api";
 
 export const PlantCard = ({ plant, wishSet, variantImages }: any) => {
   const wishlist = useAppSelector((state) => state.wishlist.items);
@@ -19,8 +19,8 @@ export const PlantCard = ({ plant, wishSet, variantImages }: any) => {
   const { data: userData } = useGetMeQuery(undefined);
   let inWishlist = wishlist.includes(plant?._id);
 
-  const [addToWishList] = useAddToWishlistMutation();
-  const [removeFromWishlist] = useRemovePlantFromWishlistMutation();
+  // const [addToWishList] = useAddToWishlistMutation();
+  // const [removeFromWishlist] = useRemovePlantFromWishlistMutation();
   const navigate = useNavigate();
 
   const addToCartVariants = {
@@ -34,33 +34,33 @@ export const PlantCard = ({ plant, wishSet, variantImages }: any) => {
   };
 
   const handleAddToWishlist = async () => {
-    if (!userData) {
-      toast.success("Added to wishlist");
-      return;
-    }
-    try {
-      const res = await addToWishList({ plant: _id }).unwrap();
-      if (res.success) {
-        toast.success("Added to wishlist");
-      }
-    } catch (error: any) {
-      toast.error(error?.data?.message);
-    }
+    // if (!userData) {
+    //   toast.success("Added to wishlist");
+    //   return;
+    // }
+    // try {
+    //   // const res = await addToWishList({ plant: _id }).unwrap();
+    //   if (res.success) {
+    //     toast.success("Added to wishlist");
+    //   }
+    // } catch (error: any) {
+    //   toast.error(error?.data?.message);
+    // }
   };
 
   const handleRemoveFromWishlist = async () => {
-    if (!userData) {
-      toast.success("Removed from wishlist");
-      return;
-    }
-    try {
-      const res = await removeFromWishlist({ plant: _id }).unwrap();
-      if (res.success) {
-        toast.success(res.message);
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    // if (!userData) {
+    //   toast.success("Removed from wishlist");
+    //   return;
+    // }
+    // try {
+    //   const res = await removeFromWishlist({ plant: _id }).unwrap();/
+    //   if (res.success) {
+    //     toast.success(res.message);
+    //   }
+    // } catch (error) {
+    //   console.log(error);
+    // }
   };
   return (
     <div className="overflow-hidden bg-white xl:max-w-xs">
