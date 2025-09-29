@@ -57,26 +57,27 @@ export const router = createBrowserRouter([
         path: "/orders",
         Component: Orders,
       },
+      {
+        path: "plants",
+        Component: AllPlants,
+        children: [
+          {
+            index: true,
+            Component: AllPlantsSection,
+          },
+          {
+            path: "/plants/:id",
+            Component: PlantDetails,
+          },
+        ],
+      },
     ],
   },
   {
     path: "*",
     Component: ErrorPage,
   },
-  {
-    path: "plants",
-    Component: AllPlants,
-    children: [
-      {
-        index: true,
-        Component: AllPlantsSection,
-      },
-      {
-        path: "/plants/:id",
-        Component: PlantDetails,
-      },
-    ],
-  },
+
   {
     path: "/register",
     Component: Register,

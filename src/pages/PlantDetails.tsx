@@ -1,8 +1,8 @@
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
-import { useLocation, useNavigate, useParams } from "react-router";
+import { useParams } from "react-router";
 import { useState, useEffect, useRef } from "react";
 import { PiMinus, PiPlus } from "react-icons/pi";
-import { IoChevronUp, IoHeart, IoHeartOutline } from "react-icons/io5";
+import { IoChevronUp } from "react-icons/io5";
 import { FiGift, FiHeadphones, FiShield, FiTruck } from "react-icons/fi";
 import { Reviews } from "@/components/AllPlants/Reviews";
 import { useGetSinglePlantQuery } from "@/redux/features/plant.api";
@@ -12,17 +12,11 @@ import { useGetMeQuery } from "@/redux/features/user.api";
 import { toast } from "sonner";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { openCart } from "@/redux/features/cart/cartSlice";
-// import {
-//   useAddToWishlistMutation,
-//   useRemovePlantFromWishlistMutation,
-// } from "@/redux/features/wishlist/wishlist.api";
 import { useAddToCartMutation } from "@/redux/features/cart/cart.api";
-// import {
-//   addToReduxWishlist,
-//   removeFromReduxWishlist,
-// } from "@/redux/features/wishlist/wishlistSlice";
+
 import { getLocalWishlist } from "@/utils/wishlist";
 import MobileSlider from "@/components/MobileSlider";
+import WishlistHeart from "@/components/WishlistHeart";
 
 const features = [
   {
@@ -53,8 +47,7 @@ export const PlantDetails = () => {
 
   //get plant from db
   const { data, isLoading } = useGetSinglePlantQuery({ id });
-  // const [addToWishList] = useAddToWishlistMutation();
-  // const [removeFromWishlist] = useRemovePlantFromWishlistMutation();
+
   const plant = data?.data;
   let inWishlist;
   if (userData) {
@@ -161,39 +154,6 @@ export const PlantDetails = () => {
     }
   };
 
-  const handleAddToWishlist = async () => {
-    // if (!userData) {
-    //   // dispatch(addToReduxWishlist(_id));
-    //   toast.success("Added to wishlist");
-    //   return;
-    // }
-    // try {
-    //   // const res = await addToWishList({ plant: _id }).unwrap();
-    //   // if (res.success) {
-    //     // toast.success("Added to wishlist");
-    //     // dispatch(addToReduxWishlist(_id)); // keep redux in sync with server
-    //   }
-    // } catch (error: any) {
-    //   toast.error(error?.data?.message);
-    // }
-  };
-
-  const handleRemoveFromWishlist = async () => {
-    if (!userData) {
-      dispatch(removeFromReduxWishlist(_id));
-      toast.success("Removed from wishlist");
-      return;
-    }
-    try {
-      const res = await removeFromWishlist({ plant: _id }).unwrap();
-      if (res.success) {
-        toast.success(res.message);
-        dispatch(removeFromReduxWishlist(_id)); // keep redux in sync
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
   if (isLoading) return <PlantDetailsSkeleton />;
 
   return (
@@ -370,15 +330,7 @@ export const PlantDetails = () => {
                 </Button>
               </div>
               <button className="cursor-pointer rounded-full border border-slate-200 p-1">
-                {inWishlist ? (
-                  <IoHeart
-                    onClick={handleRemoveFromWishlist}
-                    fill={"#c1121f"}
-                    size={30}
-                  />
-                ) : (
-                  <IoHeartOutline onClick={handleAddToWishlist} size={30} />
-                )}
+                <WishlistHeart plant={plant} />
               </button>
             </div>
           </div>
