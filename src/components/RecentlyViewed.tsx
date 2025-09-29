@@ -37,6 +37,20 @@ const RecentlyViewed = () => {
         spaceBetween={30}
         slidesPerView={4}
         slidesPerGroup={4}
+        breakpoints={{
+          0: {
+            slidesPerView: 1,
+          },
+          640: {
+            slidesPerView: 2,
+          },
+          960: {
+            slidesPerView: 3,
+          },
+          1230: {
+            slidesPerView: 4,
+          },
+        }}
         navigation={{
           nextEl: ".custom-next",
           prevEl: ".custom-prev",
