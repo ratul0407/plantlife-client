@@ -5,7 +5,6 @@ import "swiper/css";
 import "swiper/css/pagination";
 
 const MobileSlider = ({ images }) => {
-  console.log(images);
   return (
     <div className="">
       <Swiper

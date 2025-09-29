@@ -4,19 +4,22 @@ import { useState, useEffect, useRef } from "react";
 import { PiMinus, PiPlus } from "react-icons/pi";
 import { IoChevronUp } from "react-icons/io5";
 import { FiGift, FiHeadphones, FiShield, FiTruck } from "react-icons/fi";
-import { Reviews } from "@/components/AllPlants/Reviews";
-import { useGetSinglePlantQuery } from "@/redux/features/plant.api";
+import {
+  useGetAllPlantsQuery,
+  useGetSinglePlantQuery,
+  useLazyGetAllPlantsQuery,
+} from "@/redux/features/plant.api";
 import PlantDetailsSkeleton from "@/components/PlantDetailsSkeleton";
 import { Button } from "@/components/ui/button";
-import { useGetMeQuery } from "@/redux/features/user.api";
 import { toast } from "sonner";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { openCart } from "@/redux/features/cart/cartSlice";
 import { useAddToCartMutation } from "@/redux/features/cart/cart.api";
 
-import { getLocalWishlist } from "@/utils/wishlist";
 import MobileSlider from "@/components/MobileSlider";
 import WishlistHeart from "@/components/WishlistHeart";
+import { addToRecentSlice } from "@/redux/features/recentlyViewed/recentSlice";
+import RecentlyViewed from "@/components/RecentlyViewed";
 
 const features = [
   {
@@ -40,29 +43,37 @@ const features = [
 export const PlantDetails = () => {
   // get params
   const { id } = useParams();
-  const { data: userData } = useGetMeQuery(undefined);
-
   const dispatch = useAppDispatch();
-  const wishlist = useAppSelector((state) => state.wishlist.items);
 
   //get plant from db
-  const { data, isLoading } = useGetSinglePlantQuery({ id });
-
+  const { data, isSuccess, isLoading } = useGetSinglePlantQuery({ id });
   const plant = data?.data;
-  let inWishlist;
-  if (userData) {
-    inWishlist = wishlist.includes(plant?._id);
-  } else {
-    const local = getLocalWishlist();
-    inWishlist = local.includes(plant?._id);
-  }
+  console.log(plant);
+  const [fetchMorePlants, { data: morePlants }] = useLazyGetAllPlantsQuery();
+
+  useEffect(() => {
+    if (isSuccess && plant?.category) {
+      fetchMorePlants({ category: [plant.category] });
+      dispatch(
+        addToRecentSlice({
+          plantId: plant?._id,
+          name: plant?.name,
+          firstImg: plant?.variants?.[0]?.image,
+          secondImg: plant?.variants?.[1]?.image,
+          price: plant?.variants?.[0]?.price,
+        }),
+      );
+    }
+  }, [isSuccess, plant, fetchMorePlants]);
+
+  console.log(morePlants);
   const [addToCart] = useAddToCartMutation();
   // state
   const [imgIndex, setImgIndex] = useState(0);
   const [currentVariant, setCurrentVariant] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [showControls, setShowControls] = useState(false);
-  console.log(currentVariant);
+
   // refs
   const thumbnailsRef = useRef(null);
 
@@ -147,7 +158,6 @@ export const PlantDetails = () => {
         toast.success("Plant added to cart");
         dispatch(openCart(true));
       }
-      console.log(res);
     } catch (error) {
       console.log(error);
       toast.error(error?.data?.message);
@@ -225,14 +235,6 @@ export const PlantDetails = () => {
               </div>
             ))}
 
-            {/* <button
-              onClick={goToNextImg}
-              className={`absolute right-0 z-40 h-full w-10 cursor-pointer bg-white/20 transition-all duration-300 md:w-20 ${
-                showControls ? "opacity-100" : "opacity-0"
-              }`}
-            >
-              <IoChevronUp className="h-10 w-10 rotate-90" />
-            </button> */}
             <div className="absolute right-5 bottom-5 z-50 flex h-10 w-20 rounded-full bg-white">
               <Button
                 onClick={goToPreviousImg}
@@ -351,10 +353,12 @@ export const PlantDetails = () => {
               </div>
             ))}
           </div>
-
-          <Reviews />
         </div>
       </div>
+      {/* you may also like section */}
+      <section>
+        <RecentlyViewed />
+      </section>
     </div>
   );
 };

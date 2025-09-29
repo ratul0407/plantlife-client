@@ -12,7 +12,6 @@ const WishlistHeart = ({ plant }) => {
   const { data: userData } = useGetMeQuery(undefined);
   const wishlist = useAppSelector((state) => state.wishlist.items);
   let inWishlist = wishlist.find((i) => i?.plantId === plant?._id);
-  console.log(wishlist);
   const plantData = {
     plantId: plant?._id,
     name: plant?.name,

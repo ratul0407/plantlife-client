@@ -10,7 +10,6 @@ export const plantApi = baseApi.injectEndpoints({
             searchParams.append("category", cat);
           });
         }
-
         return {
           url: `/plant/all-plants?${searchParams.toString()}`,
           method: "GET",
@@ -48,4 +47,5 @@ export const {
   useGetSinglePlantQuery,
   useAddPlantsMutation,
   useGetLocalCartPlantsMutation,
+  useLazyGetAllPlantsQuery,
 } = plantApi;
