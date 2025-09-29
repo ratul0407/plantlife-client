@@ -11,10 +11,18 @@ const WishlistHeart = ({ plant }) => {
   const dispatch = useAppDispatch();
   const { data: userData } = useGetMeQuery(undefined);
   const wishlist = useAppSelector((state) => state.wishlist.items);
-  let inWishlist = wishlist.includes(plant?._id);
+  let inWishlist = wishlist.find((i) => i?.plantId === plant?._id);
+  console.log(wishlist);
+  const plantData = {
+    plantId: plant?._id,
+    name: plant?.name,
+    price: plant?.variants?.[0]?.price,
+    category: plant?.category,
+    img: plant?.variants?.[0]?.image,
+  };
   const handleAddToWishlist = async () => {
     if (!userData) {
-      dispatch(addToWishlist(plant?._id));
+      dispatch(addToWishlist(plantData));
       toast.success("Added to wishlist");
       return;
     }
