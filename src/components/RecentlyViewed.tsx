@@ -39,16 +39,20 @@ const RecentlyViewed = () => {
         slidesPerGroup={4}
         breakpoints={{
           0: {
-            slidesPerView: 1,
+            slidesPerView: 2,
+            slidesPerGroup: 2,
           },
           640: {
             slidesPerView: 2,
+            slidesPerGroup: 2,
           },
           960: {
             slidesPerView: 3,
+            slidesPerGroup: 3,
           },
           1230: {
             slidesPerView: 4,
+            slidesPerGroup: 4,
           },
         }}
         navigation={{
@@ -65,7 +69,7 @@ const RecentlyViewed = () => {
               <div className="space-y-3">
                 <div className="xl:max-w-xs">
                   <img
-                    className="size-72 object-cover"
+                    className="size-60 object-cover md:size-72"
                     src={item.firstImg}
                     alt={item.name}
                   />

@@ -4,7 +4,7 @@ import { PlantCard } from "./PlantCard";
 import { BsFilterLeft } from "react-icons/bs";
 import { FilterSideBar } from "./FilterSideBar";
 
-import { useLenis } from "../../hooks/useLenis";
+// import { useLenis } from "../../hooks/useLenis";
 import { useGetAllPlantsQuery } from "@/redux/features/plant.api";
 
 import { PlantCardSkeleton } from "../PlantCardSkeleton";
@@ -30,15 +30,15 @@ export const AllPlantsSection = () => {
   }, [user, dispatch]);
 
   const [overlay, setOverlay] = useState(false);
-  const { lenisRef } = useLenis();
+  // const { lenisRef } = useLenis();
   const [openFilter, setOpenFilter] = useState(false);
-  useEffect(() => {
-    if (openFilter) {
-      lenisRef?.current?.stop();
-    } else {
-      lenisRef?.current?.start();
-    }
-  }, [openFilter]);
+  // useEffect(() => {
+  //   if (openFilter) {
+  //     lenisRef?.current?.stop();
+  //   } else {
+  //     lenisRef?.current?.start();
+  //   }
+  // }, [openFilter]);
 
   const { data, isLoading, isFetching } = useGetAllPlantsQuery({
     category: category,

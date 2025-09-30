@@ -1,18 +1,17 @@
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { useParams } from "react-router";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useLayoutEffect } from "react";
 import { PiMinus, PiPlus } from "react-icons/pi";
 import { IoChevronUp } from "react-icons/io5";
 import { FiGift, FiHeadphones, FiShield, FiTruck } from "react-icons/fi";
 import {
-  useGetAllPlantsQuery,
   useGetSinglePlantQuery,
   useLazyGetAllPlantsQuery,
 } from "@/redux/features/plant.api";
 import PlantDetailsSkeleton from "@/components/PlantDetailsSkeleton";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { useAppDispatch } from "@/redux/hooks";
 import { openCart } from "@/redux/features/cart/cartSlice";
 import { useAddToCartMutation } from "@/redux/features/cart/cart.api";
 
@@ -20,6 +19,8 @@ import MobileSlider from "@/components/MobileSlider";
 import WishlistHeart from "@/components/WishlistHeart";
 import { addToRecentSlice } from "@/redux/features/recentlyViewed/recentSlice";
 import RecentlyViewed from "@/components/RecentlyViewed";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import gsap from "gsap";
 
 const features = [
   {
@@ -41,15 +42,33 @@ const features = [
 ];
 
 export const PlantDetails = () => {
-  // get params
   const { id } = useParams();
   const dispatch = useAppDispatch();
 
-  //get plant from db
   const { data, isSuccess, isLoading } = useGetSinglePlantQuery({ id });
+
   const plant = data?.data;
   console.log(plant);
   const [fetchMorePlants, { data: morePlants }] = useLazyGetAllPlantsQuery();
+  const containerRef = useRef(null);
+  const leftRef = useRef(null);
+
+  console.log(containerRef.current);
+  useLayoutEffect(() => {
+    if (!isSuccess || !containerRef.current || !leftRef.current) return;
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    const st = ScrollTrigger.create({
+      trigger: containerRef.current,
+      start: "top 134px",
+      end: "bottom bottom",
+      pin: leftRef.current,
+      pinSpacing: true,
+    });
+
+    return () => st.kill();
+  }, [isSuccess, plant]);
 
   useEffect(() => {
     if (isSuccess && plant?.category) {
@@ -163,14 +182,15 @@ export const PlantDetails = () => {
       toast.error(error?.data?.message);
     }
   };
-
   if (isLoading) return <PlantDetailsSkeleton />;
-
   return (
     <div className="p-4 2xl:container 2xl:mx-auto">
-      <div className="flex flex-col gap-4 lg:flex-row">
+      <div ref={containerRef} className="flex flex-col gap-4 lg:flex-row">
         {/* images + thumbnails */}
-        <div className="hidden w-full flex-col-reverse items-center md:flex lg:w-[50%] lg:flex-row lg:items-start lg:gap-4 2xl:justify-start">
+        <div
+          ref={leftRef}
+          className="hidden min-h-screen w-full flex-col-reverse items-center md:flex lg:w-[50%] lg:flex-row lg:items-start lg:gap-4 2xl:justify-start"
+        >
           {/* thumbnails */}
           <div className="relative min-w-full lg:flex lg:min-w-auto lg:flex-col">
             <button
@@ -258,104 +278,109 @@ export const PlantDetails = () => {
         </div>
 
         {/* plant details */}
-        <div className="flex w-full flex-col justify-around lg:w-[50%]">
-          <div>
-            <h3 className="text-3xl font-bold">{name}</h3>
-            <p className="w-fit rounded-full font-bold text-gray-500">
-              {category?.toLowerCase()} plants
-            </p>
+        <div className="min-h-screen lg:w-[50%]">
+          <div className="flex min-h-screen w-full flex-col justify-around">
+            <div>
+              <h3 className="text-3xl font-bold">{name}</h3>
+              <p className="w-fit rounded-full font-bold text-gray-500">
+                {category?.toLowerCase()} plants
+              </p>
 
-            {/* price  */}
-            <p className="text-3xl font-bold text-green-950">
-              <span>${currentVariant?.price}</span>
-            </p>
-          </div>
+              {/* price  */}
+              <p className="text-3xl font-bold text-green-950">
+                <span>${currentVariant?.price}</span>
+              </p>
+            </div>
 
-          {/* description */}
-          <p className="text-lg leading-7 text-gray-700">{description}</p>
+            {/* description */}
+            <p className="text-lg leading-7 text-gray-700">{description}</p>
 
-          {/* variants */}
-          <div className="space-y-4">
-            <h4 className="text-xl font-bold text-gray-800">Variants:</h4>
-            <div className="flex gap-2">
-              {variants?.map((variant, index) => (
-                <div key={index} className="w-full">
-                  <input
-                    type="radio"
-                    id={`variant-${index}`}
-                    name="variant"
-                    defaultChecked={index === 0}
-                    className="peer hidden"
-                    onChange={() => {
-                      handleSetImgIndex(index);
-                      setCurrentVariant(variant);
-                      setQuantity(1); // reset quantity
-                    }}
-                  />
-                  <label
-                    htmlFor={`variant-${index}`}
-                    className="inline-block w-full cursor-pointer rounded-full border-2 border-slate-200 bg-slate-200 py-2 text-center font-bold select-none peer-checked:border-green-300 peer-checked:bg-green-300 peer-checked:text-green-950"
+            {/* variants */}
+            <div className="space-y-4">
+              <h4 className="text-xl font-bold text-gray-800">Variants:</h4>
+              <div className="flex gap-2">
+                {variants?.map((variant, index) => (
+                  <div key={index} className="w-full">
+                    <input
+                      type="radio"
+                      id={`variant-${index}`}
+                      name="variant"
+                      defaultChecked={index === 0}
+                      className="peer hidden"
+                      onChange={() => {
+                        handleSetImgIndex(index);
+                        setCurrentVariant(variant);
+                        setQuantity(1); // reset quantity
+                      }}
+                    />
+                    <label
+                      htmlFor={`variant-${index}`}
+                      className="inline-block w-full cursor-pointer rounded-full border-2 border-slate-200 bg-slate-200 py-2 text-center font-bold select-none peer-checked:border-green-300 peer-checked:bg-green-300 peer-checked:text-green-950"
+                    >
+                      {variant.variantName}
+                    </label>
+                  </div>
+                ))}
+              </div>
+
+              {/* cart & wishlist */}
+              <div className="flex items-center gap-2">
+                <div className="flex w-1/3 items-center justify-between rounded-full border border-slate-300 text-center text-sm sm:*:text-xl lg:w-1/4">
+                  <Button
+                    variant={"ghost"}
+                    onClick={handleDecrementStock}
+                    className="cursor-pointer rounded-r-full py-2.5 pr-4 pl-4 hover:bg-slate-200"
                   >
-                    {variant.variantName}
-                  </label>
+                    <PiMinus />
+                  </Button>
+
+                  <span className="text-gray-800">{quantity}</span>
+                  <Button
+                    variant={"ghost"}
+                    onClick={handleIncrementStock}
+                    className="cursor-pointer rounded-l-full py-2.5 pr-4 pl-4 hover:bg-slate-200"
+                  >
+                    <PiPlus />
+                  </Button>
+                </div>
+                <div className="w-[65%] text-center">
+                  <Button
+                    onClick={handleAddToCart}
+                    variant={"ghost"}
+                    className="w-full cursor-pointer rounded-full bg-green-700 py-2.5 font-medium text-white uppercase transition-all duration-300 hover:bg-green-600"
+                  >
+                    Add to cart
+                  </Button>
+                </div>
+                <button className="cursor-pointer rounded-full border border-slate-200 p-1">
+                  <WishlistHeart plant={plant} />
+                </button>
+              </div>
+            </div>
+
+            {/* features */}
+            <div className="grid grid-cols-2 gap-6 rounded-xl bg-green-50/70 lg:grid-cols-4">
+              {features.map((feature, index) => (
+                <div
+                  key={index}
+                  className="flex flex-col items-center text-center transition-all hover:bg-green-50"
+                >
+                  <div className="rounded-full bg-green-100 p-3 text-green-600">
+                    {feature.icon}
+                  </div>
+                  <h3 className="mb-1 font-semibold text-gray-800">
+                    {feature.title}
+                  </h3>
                 </div>
               ))}
             </div>
-
-            {/* cart & wishlist */}
-            <div className="flex items-center gap-2">
-              <div className="flex w-1/3 items-center justify-between rounded-full border border-slate-300 text-center text-sm sm:*:text-xl lg:w-1/4">
-                <Button
-                  variant={"ghost"}
-                  onClick={handleDecrementStock}
-                  className="cursor-pointer rounded-r-full py-2.5 pr-4 pl-4 hover:bg-slate-200"
-                >
-                  <PiMinus />
-                </Button>
-
-                <span className="text-gray-800">{quantity}</span>
-                <Button
-                  variant={"ghost"}
-                  onClick={handleIncrementStock}
-                  className="cursor-pointer rounded-l-full py-2.5 pr-4 pl-4 hover:bg-slate-200"
-                >
-                  <PiPlus />
-                </Button>
-              </div>
-              <div className="w-[65%] text-center">
-                <Button
-                  onClick={handleAddToCart}
-                  variant={"ghost"}
-                  className="w-full cursor-pointer rounded-full bg-green-700 py-2.5 font-medium text-white uppercase transition-all duration-300 hover:bg-green-600"
-                >
-                  Add to cart
-                </Button>
-              </div>
-              <button className="cursor-pointer rounded-full border border-slate-200 p-1">
-                <WishlistHeart plant={plant} />
-              </button>
-            </div>
           </div>
-
-          {/* features */}
-          <div className="grid grid-cols-2 gap-6 rounded-xl bg-green-50/70 lg:grid-cols-4">
-            {features.map((feature, index) => (
-              <div
-                key={index}
-                className="flex flex-col items-center text-center transition-all hover:bg-green-50"
-              >
-                <div className="rounded-full bg-green-100 p-3 text-green-600">
-                  {feature.icon}
-                </div>
-                <h3 className="mb-1 font-semibold text-gray-800">
-                  {feature.title}
-                </h3>
-              </div>
-            ))}
+          <div className="min-h-screen bg-blue-50">
+            <h2>Hello world</h2>
           </div>
         </div>
       </div>
-      {/* you may also like section */}
+      // {/* you may also like section */}
       <section>
         <RecentlyViewed />
       </section>

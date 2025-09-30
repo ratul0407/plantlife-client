@@ -16,10 +16,10 @@ createRoot(document.getElementById("root")!).render(
   <StrictMode>
     {/* <AuthProvider> */}
     <ReduxProvider store={store}>
-      <LenisProvider>
-        <RouterProvider router={router} />
-        <Toaster richColors />
-      </LenisProvider>
+      {/* <LenisProvider> */}
+      <RouterProvider router={router} />
+      <Toaster richColors />
+      {/* </LenisProvider> */}
     </ReduxProvider>
     {/* </AuthProvider> */}
   </StrictMode>,
