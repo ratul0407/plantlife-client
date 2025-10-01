@@ -1,5 +1,5 @@
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
-import { useParams } from "react-router";
+import { Link, useParams } from "react-router";
 import { useState, useEffect, useRef, useLayoutEffect } from "react";
 import { PiMinus, PiPlus } from "react-icons/pi";
 import { IoChevronUp } from "react-icons/io5";
@@ -24,20 +24,28 @@ import gsap from "gsap";
 
 const features = [
   {
-    icon: <FiTruck className="h-6 w-6" />,
+    icon: <FiTruck className="mt-1.5 h-6 w-6 text-green-900" />,
     title: "Enjoy Fast Delivery",
+    description:
+      "Your plants will arrive in happy, healthy condition—guaranteed. If not, we replace them for free. Learn more about our guarantee.",
   },
   {
-    icon: <FiShield className="h-6 w-6" />,
+    icon: <FiShield className="mt-1.5 h-6 w-6 text-green-900" />,
     title: "Quality Guarantee",
+    description:
+      "We offer free standard shipping on all orders $79+. Orders under $79 ship for a flat $15 fee. View our full shipping policy.",
   },
   {
-    icon: <FiGift className="h-6 w-6" />,
+    icon: <FiGift className="mt-1.5 h-6 w-6 text-green-900" />,
     title: "Gift Packaging For your love",
+    description:
+      "The Sill offers a variety of plant care workshops for beginners, experts, & everyone in between! No questions too small or too silly! View upcoming schedule.",
   },
   {
-    icon: <FiHeadphones className="h-6 w-6" />,
+    icon: <FiHeadphones className="mt-1.5 h-6 w-6 text-green-900" />,
     title: "Plant Experts to help you",
+    description:
+      "Chat directly via video with a knowledgeable houseplant expert from The Sill team about plant-specific care, repotting tips and tricks, pest identification, and more. Schedule an appointment today.",
   },
 ];
 
@@ -52,6 +60,7 @@ export const PlantDetails = () => {
   const [fetchMorePlants, { data: morePlants }] = useLazyGetAllPlantsQuery();
   const containerRef = useRef(null);
   const leftRef = useRef(null);
+  const scrollAbleInfo = useRef<HTMLDivElement>(null);
 
   console.log(containerRef.current);
   useLayoutEffect(() => {
@@ -60,11 +69,11 @@ export const PlantDetails = () => {
     gsap.registerPlugin(ScrollTrigger);
 
     const st = ScrollTrigger.create({
-      trigger: containerRef.current,
+      trigger: leftRef.current,
       start: "top 134px",
       end: "bottom bottom",
+      pinSpacing: false,
       pin: leftRef.current,
-      pinSpacing: true,
     });
 
     return () => st.kill();
@@ -183,13 +192,14 @@ export const PlantDetails = () => {
     }
   };
   if (isLoading) return <PlantDetailsSkeleton />;
+  console.log(scrollAbleInfo.current?.clientHeight);
   return (
     <div className="p-4 2xl:container 2xl:mx-auto">
       <div ref={containerRef} className="flex flex-col gap-4 lg:flex-row">
         {/* images + thumbnails */}
         <div
           ref={leftRef}
-          className="hidden min-h-screen w-full flex-col-reverse items-center md:flex lg:w-[50%] lg:flex-row lg:items-start lg:gap-4 2xl:justify-start"
+          className="hidden w-full flex-col-reverse items-center md:flex lg:w-[50%] lg:flex-row lg:items-start lg:gap-4 2xl:justify-start"
         >
           {/* thumbnails */}
           <div className="relative min-w-full lg:flex lg:min-w-auto lg:flex-col">
@@ -278,13 +288,23 @@ export const PlantDetails = () => {
         </div>
 
         {/* plant details */}
-        <div className="min-h-screen lg:w-[50%]">
-          <div className="flex min-h-screen w-full flex-col justify-around">
-            <div>
-              <h3 className="text-3xl font-bold">{name}</h3>
-              <p className="w-fit rounded-full font-bold text-gray-500">
-                {category?.toLowerCase()} plants
-              </p>
+        <div className="space-y-12 lg:w-[50%]">
+          <div className="flex w-full flex-col justify-between gap-12">
+            <div className="space-y-4">
+              <div>
+                <h3 className="text-3xl font-bold">{name}</h3>
+                <Link
+                  to={`/plants?category=${category}`}
+                  className="w-fit cursor-pointer rounded-full font-bold text-gray-600"
+                >
+                  {category
+                    ?.toLowerCase()
+                    .split("_")
+                    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                    .join(" ")}{" "}
+                  plants
+                </Link>
+              </div>
 
               {/* price  */}
               <p className="text-3xl font-bold text-green-950">
@@ -357,30 +377,30 @@ export const PlantDetails = () => {
                 </button>
               </div>
             </div>
-
-            {/* features */}
-            <div className="grid grid-cols-2 gap-6 rounded-xl bg-green-50/70 lg:grid-cols-4">
-              {features.map((feature, index) => (
-                <div
-                  key={index}
-                  className="flex flex-col items-center text-center transition-all hover:bg-green-50"
-                >
-                  <div className="rounded-full bg-green-100 p-3 text-green-600">
-                    {feature.icon}
-                  </div>
-                  <h3 className="mb-1 font-semibold text-gray-800">
-                    {feature.title}
-                  </h3>
-                </div>
-              ))}
-            </div>
           </div>
-          <div className="min-h-screen bg-blue-50">
-            <h2>Hello world</h2>
+          <div ref={scrollAbleInfo}>
+            <div className="space-y-12">
+              <h3 className="font-metal text-2xl text-green-900 italic md:text-3xl lg:text-4xl">
+                Why choose PlantLife?
+              </h3>
+              <div className="space-y-12">
+                {features.map((feature, index) => (
+                  <div key={index} className="flex flex-row items-start gap-3">
+                    <div>{feature.icon}</div>
+                    <div className="">
+                      <h3 className="font-metal text-xl text-green-900 italic sm:text-2xl">
+                        {feature.title}
+                      </h3>
+                      <p className="text-gray-600">{feature.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      // {/* you may also like section */}
+      {/* you may also like section */}
       <section>
         <RecentlyViewed />
       </section>

@@ -13,11 +13,18 @@ import { useAppDispatch } from "@/redux/hooks";
 // import { setReduxWishlist } from "@/redux/features/wishlist/wishlistSlice";
 import { useSearchParams } from "react-router";
 import { useAuth } from "@/hooks/useAuth";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 
 export const AllPlantsSection = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const category = searchParams.getAll("category") || undefined;
-
+  const sort = searchParams.get("sort") || undefined;
   const { user } = useAuth();
   console.log(user);
   const dispatch = useAppDispatch();
@@ -30,18 +37,12 @@ export const AllPlantsSection = () => {
   }, [user, dispatch]);
 
   const [overlay, setOverlay] = useState(false);
-  // const { lenisRef } = useLenis();
+
   const [openFilter, setOpenFilter] = useState(false);
-  // useEffect(() => {
-  //   if (openFilter) {
-  //     lenisRef?.current?.stop();
-  //   } else {
-  //     lenisRef?.current?.start();
-  //   }
-  // }, [openFilter]);
 
   const { data, isLoading, isFetching } = useGetAllPlantsQuery({
     category: category,
+    sort: sort,
   });
 
   console.log(searchParams.getAll("category"));
@@ -112,13 +113,20 @@ export const AllPlantsSection = () => {
           {/* sort by */}
           <div className="flex items-center gap-4">
             <span className="hidden sm:block">Sort By:</span>
-            <div className="rounded-sm border border-gray-300 py-1">
-              <select name="sort" id="id" className="cursor-pointer">
-                <option value="all">Default</option>
-                <option value="asc">Price, low to high</option>
-                <option value="dsc">Price, high to low</option>
-              </select>
-            </div>
+            <Select onValueChange={(value) => setSearchParams({ sort: value })}>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Default" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="variants.0.price">
+                  Price, Low to high
+                </SelectItem>
+                <SelectItem value="-variants.0.price">
+                  Price, High to low
+                </SelectItem>
+                <SelectItem value="title">Alphabetically a-z</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
         </div>
         {/* <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4"> */}
