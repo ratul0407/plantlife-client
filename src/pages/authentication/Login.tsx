@@ -39,7 +39,8 @@ export const Login = () => {
     },
   });
 
-  const [mergeWishlist] = useMergeWishlistMutation();
+  const [mergeWishlist, { isLoading: mergingLoading }] =
+    useMergeWishlistMutation();
   const onSubmit = async (data: z.infer<typeof loginSchema>) => {
     console.log(data);
     try {
@@ -47,8 +48,10 @@ export const Login = () => {
       console.log(res);
       if (res.success) {
         mergeWishlist(wishlist);
-        // navigate("/");
-        toast.success("Logged in successfully!");
+        if (!mergingLoading) {
+          navigate("/");
+          toast.success("Logged in successfully!");
+        }
       }
     } catch (error) {
       console.log(error);

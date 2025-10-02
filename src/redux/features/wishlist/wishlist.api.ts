@@ -4,7 +4,7 @@ export const wishlistAPi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     addWishlist: builder.mutation({
       query: (data) => ({
-        url: "/wishlist/merge",
+        url: "/wishlist/add",
         method: "POST",
         data,
       }),
@@ -23,6 +23,19 @@ export const wishlistAPi = baseApi.injectEndpoints({
         data,
       }),
     }),
+    getUserWishlist: builder.query({
+      query: () => ({
+        url: "/wishlist/user",
+        method: "GET",
+      }),
+    }),
+    deleteWishlist: builder.mutation({
+      query: (data) => ({
+        url: "/wishlist/delete",
+        method: "DELETE",
+        data,
+      }),
+    }),
   }),
 });
 
@@ -30,4 +43,6 @@ export const {
   useMergeWishlistMutation,
   useAddWishlistMutation,
   useGetLocalWishlistMutation,
+  useGetUserWishlistQuery,
+  useDeleteWishlistMutation,
 } = wishlistAPi;

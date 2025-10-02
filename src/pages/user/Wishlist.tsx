@@ -11,7 +11,10 @@ import {
 import { WishlistSkeleton } from "@/components/WishlistSkeleton";
 import { useAddToCartMutation } from "@/redux/features/cart/cart.api";
 import { useGetMeQuery } from "@/redux/features/user.api";
-import { useGetLocalWishlistMutation } from "@/redux/features/wishlist/wishlist.api";
+import {
+  useDeleteWishlistMutation,
+  useGetLocalWishlistMutation,
+} from "@/redux/features/wishlist/wishlist.api";
 import { deleteFromWishlist } from "@/redux/features/wishlist/wishlistSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { X } from "lucide-react";
@@ -29,26 +32,27 @@ const Wishlist = () => {
   const dispatch = useAppDispatch();
   const [getWishlist, { data: wishlistData, isLoading }] =
     useGetLocalWishlistMutation();
+  const [deleteWishlist] = useDeleteWishlistMutation();
 
   console.log(wishlistData, "from line 31");
 
   // const [removeFromWishlist, { isLoading }] =
   // useRemovePlantFromWishlistMutation();
 
-  const handleRemoveFromWishlist = async (id: string) => {
-    if (!userData) {
-      dispatch(deleteFromWishlist(id));
-      toast.success("Removed from wishlist");
-      return;
+  const handleRemoveFromWishlist = async (plant) => {
+    dispatch(deleteFromWishlist(plant));
+    toast.success("Removed from wishlist");
+    if (userData) {
+      try {
+        const res = await deleteWishlist({ plantId: plant }).unwrap();
+        console.log(res);
+        if (res.success) {
+          toast.success(res.message);
+        }
+      } catch (error) {
+        console.log(error);
+      }
     }
-    // try {
-    //   const res = await removeFromWishlist({ plant: _id }).unwrap();/
-    //   if (res.success) {
-    //     toast.success(res.message);
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    // }
   };
 
   const handleAddToCart = async (plant: string) => {
