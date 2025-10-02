@@ -8,11 +8,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { WishlistSkeleton } from "@/components/WishlistSkeleton";
 import { useAddToCartMutation } from "@/redux/features/cart/cart.api";
 import { useGetMeQuery } from "@/redux/features/user.api";
+import { useGetLocalWishlistMutation } from "@/redux/features/wishlist/wishlist.api";
 import { deleteFromWishlist } from "@/redux/features/wishlist/wishlistSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { X } from "lucide-react";
+import { useEffect } from "react";
 import { Link } from "react-router";
 
 import { toast } from "sonner";
@@ -24,6 +27,10 @@ const Wishlist = () => {
   const wishlist = useAppSelector((state) => state.wishlist.items);
   console.log(wishlist);
   const dispatch = useAppDispatch();
+  const [getWishlist, { data: wishlistData, isLoading }] =
+    useGetLocalWishlistMutation();
+
+  console.log(wishlistData, "from line 31");
 
   // const [removeFromWishlist, { isLoading }] =
   // useRemovePlantFromWishlistMutation();
@@ -56,13 +63,21 @@ const Wishlist = () => {
   // const wishlist = data?.data?.[0]?.wishlist;
   // console.log(data?.data?.[0]?.wishlist);
   // console.log(data?.data ? "what" : "the hell");
+  useEffect(() => {
+    if (wishlist.length) {
+      getWishlist(wishlist.map((item) => item.plantId));
+    }
+  }, [wishlist, getWishlist]);
+
   return (
     <div className="font-roboto min-h-screen space-y-12">
       <h1 className="bg-green-700 py-6 text-center text-2xl font-bold text-white lg:text-5xl">
         Your Wishlist
       </h1>
       <div>
-        {wishlist.length ? (
+        {isLoading ? (
+          <WishlistSkeleton />
+        ) : wishlistData?.data?.length ? (
           <div className="mx-auto max-w-4xl">
             <Table>
               <TableHeader>
@@ -76,19 +91,22 @@ const Wishlist = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {wishlist?.map((item) => (
-                  <TableRow>
+                {wishlistData?.data?.map((item) => (
+                  <TableRow key={item._id}>
                     <TableCell>
                       <Button
                         variant={"ghost"}
-                        onClick={() => handleRemoveFromWishlist(item.plantId)}
+                        onClick={() => handleRemoveFromWishlist(item._id)}
                       >
                         <X />
                       </Button>
                     </TableCell>
                     <TableCell>
-                      <Link to={`/plants/${item.plantId}`}>
-                        <img className="size-32 object-cover" src={item?.img} />
+                      <Link to={`/plants/${item._id}`}>
+                        <img
+                          className="size-32 object-cover"
+                          src={item?.variants?.[0]?.image}
+                        />
                       </Link>
                     </TableCell>
                     <TableCell>
@@ -100,7 +118,9 @@ const Wishlist = () => {
                       </h3>
                     </TableCell>
                     <TableCell>
-                      <h3 className="sm:text-lg lg:text-xl">${item?.price}</h3>
+                      <h3 className="sm:text-lg lg:text-xl">
+                        ${item?.variants?.[0]?.price}
+                      </h3>
                     </TableCell>
                     <TableCell>
                       <AddToCartModal plant={item}>

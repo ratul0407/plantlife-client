@@ -19,6 +19,8 @@ import { useLoginMutation } from "@/redux/features/auth.api";
 import config from "@/config";
 import { toast } from "sonner";
 import { getLocalWishlist } from "@/utils/wishlist";
+import { useAppSelector } from "@/redux/hooks";
+import { useMergeWishlistMutation } from "@/redux/features/wishlist/wishlist.api";
 // import { useAddManyToWishlistMutation } from "@/redux/features/wishlist/wishlist.api";
 const loginSchema = z.object({
   email: z.string(),
@@ -26,7 +28,8 @@ const loginSchema = z.object({
 });
 export const Login = () => {
   const navigate = useNavigate();
-  // const [addManyToWishlist] = useAddManyToWishlistMutation();
+  const wishlist = useAppSelector((state) => state.wishlist.items);
+
   const [login, { isLoading }] = useLoginMutation();
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -36,19 +39,22 @@ export const Login = () => {
     },
   });
 
+  const [mergeWishlist] = useMergeWishlistMutation();
   const onSubmit = async (data: z.infer<typeof loginSchema>) => {
     console.log(data);
     try {
       const res = await login(data).unwrap();
       console.log(res);
       if (res.success) {
-        navigate("/");
+        mergeWishlist(wishlist);
+        // navigate("/");
         toast.success("Logged in successfully!");
       }
     } catch (error) {
       console.log(error);
     }
   };
+  console.log(wishlist);
   // const handleSuperAdminLogin = async () => {
   //   try {
   //     const res = await login({
@@ -71,6 +77,7 @@ export const Login = () => {
       }).unwrap();
       if (res.success) {
         toast.success("Logged in as user");
+        mergeWishlist(wishlist);
 
         //save local wishlist to db
         const localWishlist = getLocalWishlist();

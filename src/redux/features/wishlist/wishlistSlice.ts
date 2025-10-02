@@ -3,10 +3,6 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 interface IWishlist {
   items: {
     plantId: string;
-    name: string;
-    img: string;
-    price: number;
-    category: string;
   }[];
 }
 const initialState: IWishlist = {
@@ -36,10 +32,6 @@ const wishlistSlice = createSlice({
       state,
       action: PayloadAction<{
         plantId: string;
-        img: string;
-        price: number;
-        category: string;
-        name: string;
       }>,
     ) => {
       state.items.push(action.payload);

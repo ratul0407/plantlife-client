@@ -1,4 +1,5 @@
 import { useGetMeQuery } from "@/redux/features/user.api";
+import { useAddWishlistMutation } from "@/redux/features/wishlist/wishlist.api";
 import {
   addToWishlist,
   deleteFromWishlist,
@@ -12,12 +13,10 @@ const WishlistHeart = ({ plant }) => {
   const { data: userData } = useGetMeQuery(undefined);
   const wishlist = useAppSelector((state) => state.wishlist.items);
   let inWishlist = wishlist.find((i) => i?.plantId === plant?._id);
+
+  const [addWishlist] = useAddWishlistMutation();
   const plantData = {
     plantId: plant?._id,
-    name: plant?.name,
-    price: plant?.variants?.[0]?.price,
-    category: plant?.category,
-    img: plant?.variants?.[0]?.image,
   };
   const handleAddToWishlist = async () => {
     if (!userData) {
@@ -25,13 +24,14 @@ const WishlistHeart = ({ plant }) => {
       toast.success("Added to wishlist");
       return;
     }
-    // try {
-    //   // const res = await addToWishList({ plant: _id }).unwrap();
-    //   if (res.success) {
-    //   }
-    // } catch (error: any) {
-    //   toast.error(error?.data?.message);
-    // }
+
+    try {
+      const res = await addWishlist({ plantId: plant?._id });
+      if (res.success) {
+      }
+    } catch (error: any) {
+      toast.error(error?.data?.message);
+    }
   };
 
   const handleRemoveFromWishlist = async () => {

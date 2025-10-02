@@ -18,6 +18,7 @@ import { getSidebarItems } from "@/utils/getSidebarItems";
 import { Separator } from "./ui/separator";
 import { Home } from "lucide-react";
 import { PiPlant } from "react-icons/pi";
+import Logo from "@/Logo";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { data: userData } = useGetMeQuery(undefined);
@@ -31,6 +32,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       {/* <SidebarHeader>
         <SearchForm />
       </SidebarHeader> */}
+
+      <Link to="/" className="flex items-center justify-center pt-8">
+        <Logo />
+      </Link>
+
       <SidebarContent>
         {/* We create a SidebarGroup for each parent. */}
         {data.navMain.map((item) => (
@@ -48,19 +54,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 ))}
-                <Separator />
-                <SidebarMenuButton asChild>
-                  <Link to="/">
-                    <Home />
-                    <p>Home</p>
-                  </Link>
-                </SidebarMenuButton>
-                <SidebarMenuButton asChild>
-                  <Link to="/plants">
-                    <PiPlant />
-                    <p>Plants</p>
-                  </Link>
-                </SidebarMenuButton>
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
