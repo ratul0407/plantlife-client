@@ -52,7 +52,7 @@ export const Login = () => {
           navigate("/");
           toast.success("Logged in successfully!");
         }
-      }
+      } 
     } catch (error) {
       console.log(error);
     }

@@ -44,7 +44,7 @@ const Wishlist = () => {
     toast.success("Removed from wishlist");
     if (userData) {
       try {
-        const res = await deleteWishlist({ plantId: plant }).unwrap();
+        const res = await deleteWishlist({ plantId: plant  }).unwrap();
         console.log(res);
         if (res.success) {
           toast.success(res.message);
