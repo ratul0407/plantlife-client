@@ -24,7 +24,6 @@ import { Link } from "react-router";
 import { toast } from "sonner";
 
 const Wishlist = () => {
-  // const { data } = useMyWishlistQuery(undefined);
   const { data: userData } = useGetMeQuery(undefined);
   const [addToCart, { isLoading: addToCartLoading }] = useAddToCartMutation();
   const wishlist = useAppSelector((state) => state.wishlist.items);
@@ -36,15 +35,12 @@ const Wishlist = () => {
 
   console.log(wishlistData, "from line 31");
 
-  // const [removeFromWishlist, { isLoading }] =
-  // useRemovePlantFromWishlistMutation();
-
   const handleRemoveFromWishlist = async (plant) => {
     dispatch(deleteFromWishlist(plant));
     toast.success("Removed from wishlist");
     if (userData) {
       try {
-        const res = await deleteWishlist({ plantId: plant  }).unwrap();
+        const res = await deleteWishlist({ plantId: plant }).unwrap();
         console.log(res);
         if (res.success) {
           toast.success(res.message);

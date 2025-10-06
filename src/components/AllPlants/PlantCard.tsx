@@ -22,7 +22,7 @@ export const PlantCard = ({ plant, wishSet, variantImages }: any) => {
   };
 
   return (
-    <div className="overflow-hidden bg-white xl:max-w-xs">
+    <div className="overflow-hidden rounded-xl bg-white p-4 shadow-sm xl:max-w-xs">
       <div className="relative rounded-xl">
         {/* motion wrapper ONLY on image container */}
         <motion.div

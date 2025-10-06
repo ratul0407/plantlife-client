@@ -56,13 +56,11 @@ export const PlantDetails = () => {
   const { data, isSuccess, isLoading } = useGetSinglePlantQuery({ id });
 
   const plant = data?.data;
-  console.log(plant);
   const [fetchMorePlants, { data: morePlants }] = useLazyGetAllPlantsQuery();
   const containerRef = useRef(null);
   const leftRef = useRef(null);
   const scrollAbleInfo = useRef<HTMLDivElement>(null);
 
-  console.log(containerRef.current);
   useLayoutEffect(() => {
     if (!isSuccess || !containerRef.current || !leftRef.current) return;
 
@@ -79,6 +77,7 @@ export const PlantDetails = () => {
     return () => st.kill();
   }, [isSuccess, plant]);
 
+  console.log("I have rendered");
   useEffect(() => {
     if (isSuccess && plant?.category) {
       fetchMorePlants({ category: [plant.category] });
@@ -94,7 +93,6 @@ export const PlantDetails = () => {
     }
   }, [isSuccess, plant, fetchMorePlants]);
 
-  console.log(morePlants);
   const [addToCart] = useAddToCartMutation();
   // state
   const [imgIndex, setImgIndex] = useState(0);
@@ -187,12 +185,10 @@ export const PlantDetails = () => {
         dispatch(openCart(true));
       }
     } catch (error) {
-      console.log(error);
       toast.error(error?.data?.message);
     }
   };
   if (isLoading) return <PlantDetailsSkeleton />;
-  console.log(scrollAbleInfo.current?.clientHeight);
   return (
     <div className="p-4 2xl:container 2xl:mx-auto">
       <div ref={containerRef} className="flex flex-col gap-4 lg:flex-row">

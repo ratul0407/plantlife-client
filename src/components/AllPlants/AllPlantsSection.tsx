@@ -40,8 +40,9 @@ export const AllPlantsSection = () => {
 
   const [openFilter, setOpenFilter] = useState(false);
 
+  console.log(typeof category);
   const { data, isLoading, isFetching } = useGetAllPlantsQuery({
-    category: category,
+    category,
     sort: sort,
   });
 
@@ -118,13 +119,14 @@ export const AllPlantsSection = () => {
                 <SelectValue placeholder="Default" />
               </SelectTrigger>
               <SelectContent>
+                <SelectItem value="no-value">Default</SelectItem>
                 <SelectItem value="variants.0.price">
                   Price, Low to high
                 </SelectItem>
                 <SelectItem value="-variants.0.price">
                   Price, High to low
                 </SelectItem>
-                <SelectItem value="title">Alphabetically a-z</SelectItem>
+                <SelectItem value="name">Alphabetically a-z</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -133,11 +135,16 @@ export const AllPlantsSection = () => {
 
         {
           <div className="lg:flex">
-            <div className="hidden min-h-screen basis-1/4 bg-slate-50/50 lg:block">
-              <FilterDesktop
-                setSearchParams={setSearchParams}
-                searchParams={searchParams}
-              />
+            <div className="hidden min-h-screen basis-1/4 rounded-xl bg-white p-4 shadow-sm lg:block">
+              <div className="space-y-4 rounded-xl border py-4 *:px-6">
+                <h3 className="font-metal pb-2 text-center text-3xl text-green-900 italic">
+                  Categories
+                </h3>
+                <FilterDesktop
+                  setSearchParams={setSearchParams}
+                  searchParams={searchParams}
+                />
+              </div>
             </div>
             <div className="grid basis-3/4 grid-cols-1 gap-12 sm:grid-cols-2 sm:gap-6 md:grid-cols-3 lg:pl-6 2xl:grid-cols-4">
               {isLoading || isFetching

@@ -23,6 +23,8 @@ const SearchBar = ({
     { skip: !debouncedSearch },
   );
 
+  console.log(data);
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (

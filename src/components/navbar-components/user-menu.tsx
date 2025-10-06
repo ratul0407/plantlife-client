@@ -22,17 +22,19 @@ import { authApi, useLogOutMutation } from "@/redux/features/auth.api";
 import { useAppDispatch } from "@/redux/hooks";
 import { Link } from "react-router";
 import { role } from "@/constants/role";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function UserMenu() {
-  const { data, isLoading } = useGetMeQuery(undefined);
+  const { user: data, isLoading } = useAuth();
 
+  console.log(data);
   const [logout] = useLogOutMutation();
   const dispatch = useAppDispatch();
   const handleLogout = async () => {
     await logout(undefined);
     dispatch(authApi.util.resetApiState());
   };
-  console.log(data?.data?.picture);
+
   return (
     <div>
       {data ? (
@@ -41,11 +43,11 @@ export default function UserMenu() {
             <Button variant="ghost" className="h-auto p-0 hover:bg-transparent">
               <Avatar>
                 <AvatarImage
-                  src={data?.data?.picture}
+                  src={data?.picture}
                   referrerPolicy="no-referrer"
                   alt="Profile image"
                 />
-                <AvatarFallback>{data?.data?.name?.[0]}</AvatarFallback>
+                <AvatarFallback>{data?.name?.[0]}</AvatarFallback>
               </Avatar>
             </Button>
           </DropdownMenuTrigger>
@@ -55,15 +57,15 @@ export default function UserMenu() {
           >
             <DropdownMenuLabel className="flex min-w-0 flex-col">
               <span className="text-foreground truncate text-sm font-medium">
-                {data?.data?.name}
+                {data?.name}
               </span>
               <span className="text-muted-foreground truncate text-xs font-normal">
-                {data?.data?.email}
+                {data?.email}
               </span>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              {data?.data?.role === role.superAdmin && (
+              {data?.role === role.superAdmin && (
                 <>
                   <DropdownMenuItem className="py-0">
                     <Link

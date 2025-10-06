@@ -28,13 +28,16 @@ export const wishlistAPi = baseApi.injectEndpoints({
         url: "/wishlist/user",
         method: "GET",
       }),
+      providesTags: ["WISHLIST"],
     }),
+
     deleteWishlist: builder.mutation({
       query: (data) => ({
         url: "/wishlist/delete",
         method: "DELETE",
         data,
       }),
+      invalidatesTags: ["WISHLIST"],
     }),
   }),
 });

@@ -3,7 +3,7 @@ import { Outlet } from "react-router";
 export const AllPlants = () => {
   return (
     <>
-      <div className="relative">
+      <div className="relative bg-slate-50/50">
         <main>
           <Outlet />
         </main>
