@@ -1,12 +1,12 @@
 import { Outlet } from "react-router";
 import CommonLayout from "./components/layout/CommonLayout";
 import { useAppDispatch } from "./redux/hooks";
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { setWishlist } from "./redux/features/wishlist/wishlistSlice";
 import { useGetUserWishlistQuery } from "./redux/features/wishlist/wishlist.api";
 
 const App = () => {
-  const { data: wishlist, isLoading } = useGetUserWishlistQuery(undefined);
+  const { data: wishlist } = useGetUserWishlistQuery(undefined);
   console.log(wishlist);
   const dispatch = useAppDispatch();
   const mergedWishlist = useMemo(() => {

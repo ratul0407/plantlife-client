@@ -16,7 +16,9 @@ const WishlistHeart = ({ plant }) => {
   const { data: userData } = useGetMeQuery(undefined);
 
   const wishlist = useAppSelector((state) => state.wishlist.items);
-  let inWishlist = wishlist.find((i) => i?.plantId === plant?._id);
+  let inWishlist = wishlist.some(
+    (i) => String(i.plantId) === String(plant._id),
+  );
 
   const [addWishlist] = useAddWishlistMutation();
   const [deleteWishlist] = useDeleteWishlistMutation();
@@ -28,8 +30,7 @@ const WishlistHeart = ({ plant }) => {
     toast.success("Added to wishlist");
     if (userData) {
       try {
-        const res = await addWishlist(plantData).unwrap();
-        console.log(res);
+        await addWishlist(plantData).unwrap();
       } catch (error: any) {
         dispatch(deleteFromWishlist(plant?._id));
         toast.error(error?.data?.message);
@@ -42,12 +43,9 @@ const WishlistHeart = ({ plant }) => {
     toast.success("Removed from wishlist");
     if (userData) {
       try {
-        const res = await deleteWishlist({ plantId: plant?._id }).unwrap();
-        console.log(res);
-        if (res.success) {
-          toast.success(res.message);
-        }
+        await deleteWishlist({ plantId: plant?._id }).unwrap();
       } catch (error) {
+        await addWishlist(plantData);
         console.log(error);
       }
     }
