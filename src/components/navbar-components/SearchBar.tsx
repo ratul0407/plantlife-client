@@ -37,6 +37,7 @@ const SearchBar = ({
   }, [wrapperRef]);
 
   useEffect(() => {
+    if (debouncedSearch === "") setShowResults(false);
     if (debouncedSearch) setShowResults(true);
   }, [debouncedSearch]);
   const inputRef = useRef(null);
@@ -46,6 +47,8 @@ const SearchBar = ({
       inputRef.current.value = "";
     }
   };
+
+  console.log(debouncedSearch);
   return (
     <div ref={wrapperRef}>
       <div className="font-robot relative mx-auto hidden w-full max-w-xl sm:block">
@@ -85,6 +88,7 @@ const SearchBar = ({
       <div
         onClick={() => {
           setOpenSearchBar(false);
+          setShowResults(false);
           handleInputClear();
         }}
         className={`absolute top-28 left-1/2 min-w-screen -translate-x-1/2 md:top-14 md:w-xl md:min-w-auto`}
