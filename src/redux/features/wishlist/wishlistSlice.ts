@@ -33,7 +33,12 @@ const wishlistSlice = createSlice({
         plantId: string;
       }>,
     ) => {
-      state.items.push(action.payload);
+      const exists = state.items.some(
+        (item) => item.plantId === action.payload.plantId,
+      );
+      if (!exists) {
+        state.items.push(action.payload);
+      }
     },
     deleteFromWishlist: (state, action: PayloadAction<string>) => {
       state.items = state.items.filter(

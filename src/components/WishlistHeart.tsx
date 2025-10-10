@@ -45,7 +45,7 @@ const WishlistHeart = ({ plant }) => {
       try {
         await deleteWishlist({ plantId: plant?._id }).unwrap();
       } catch (error) {
-        await addWishlist(plantData);
+        // await addWishlist(plantData);
         console.log(error);
       }
     }

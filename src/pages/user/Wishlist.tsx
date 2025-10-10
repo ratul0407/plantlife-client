@@ -25,6 +25,7 @@ import { toast } from "sonner";
 
 const Wishlist = () => {
   const { data: userData } = useGetMeQuery(undefined);
+
   const [addToCart, { isLoading: addToCartLoading }] = useAddToCartMutation();
   const wishlist = useAppSelector((state) => state.wishlist.items);
   console.log(wishlist);
