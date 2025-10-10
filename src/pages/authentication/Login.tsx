@@ -42,22 +42,21 @@ export const Login = () => {
   const [mergeWishlist, { isLoading: mergingLoading }] =
     useMergeWishlistMutation();
   const onSubmit = async (data: z.infer<typeof loginSchema>) => {
-    console.log(data);
     try {
       const res = await login(data).unwrap();
-      console.log(res);
+
       if (res.success) {
         mergeWishlist(wishlist);
         if (!mergingLoading) {
           navigate("/");
           toast.success("Logged in successfully!");
         }
-      } 
+      }
     } catch (error) {
       console.log(error);
     }
   };
-  console.log(wishlist);
+
   // const handleSuperAdminLogin = async () => {
   //   try {
   //     const res = await login({

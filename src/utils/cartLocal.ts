@@ -29,7 +29,7 @@ export const addToLocalCart = async (
   if (existingItem) {
     existingItem.quantity += newItem.quantity;
     console.log(existingItem.quantity);
-    console.log("I was here");
+
     // Update other details if newer (e.g., price change, but assume static)
     // Object.assign(existingItem, newItem); // Merge details
     updatedCart = [...cart];

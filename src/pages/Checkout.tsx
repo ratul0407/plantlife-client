@@ -69,9 +69,8 @@ export default function Checkout() {
   const [amount, setAmount] = useState(0);
   const [updateCart, { isLoading }] = useUpdateCartMutation();
   const { data } = useMyCartQuery(undefined);
-  console.log(data);
+
   const myCart = data?.data?.[0]?.cart;
-  console.log(myCart);
 
   const updateQuantity = (id: string, qty: number) => {
     if (qty < 1) return;
@@ -103,7 +102,6 @@ export default function Checkout() {
   };
 
   const placeOrder = () => {
-    console.log("Order placed!", { cart, shippingInfo, total });
     alert("Order placed successfully!");
   };
   useEffect(() => {
@@ -118,12 +116,10 @@ export default function Checkout() {
   }, [data]);
 
   const handleIncrement = (max: number, current: number, sku: string) => {
-    console.log(max, current);
     if (current >= max) return;
     updateCart({ quantity: current + 1, sku });
   };
   const handleDecrement = (current: number, sku: string) => {
-    console.log(current);
     if (current <= 1) return;
     updateCart({ quantity: current - 1, sku });
   };

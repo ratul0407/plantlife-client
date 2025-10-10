@@ -36,8 +36,7 @@ export function Cart() {
   const handleRemoveFromCart = async (sku: string) => {
     try {
       const res = await removeFromCart({ sku: sku }).unwrap();
-      console.log(sku);
-      console.log(res);
+
       if (res.success) {
         toast.success(res.message);
       }

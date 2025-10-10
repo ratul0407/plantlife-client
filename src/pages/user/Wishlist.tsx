@@ -20,65 +20,79 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { X } from "lucide-react";
 import { useEffect } from "react";
 import { Link } from "react-router";
-
 import { toast } from "sonner";
 
 const Wishlist = () => {
   const { data: userData } = useGetMeQuery(undefined);
+  const dispatch = useAppDispatch();
+  const wishlist = useAppSelector((state) => state.wishlist.items);
 
   const [addToCart, { isLoading: addToCartLoading }] = useAddToCartMutation();
-  const wishlist = useAppSelector((state) => state.wishlist.items);
-  console.log(wishlist);
-  const dispatch = useAppDispatch();
-  const [getWishlist, { data: wishlistData, isFetching }] =
+  const [getWishlist, { data: wishlistData, isFetching, isLoading }] =
     useLazyGetLocalWishlistQuery();
   const [deleteWishlist] = useDeleteWishlistMutation();
 
-  console.log(wishlistData, "from line 31");
-
-  const handleRemoveFromWishlist = async (plant) => {
-    dispatch(deleteFromWishlist(plant));
+  // ✅ Optimistic remove
+  const handleRemoveFromWishlist = async (plantId: string) => {
+    dispatch(deleteFromWishlist(plantId));
     toast.success("Removed from wishlist");
+
     if (userData) {
       try {
-        const res = await deleteWishlist({ plantId: plant }).unwrap();
-        console.log(res);
+        const res = await deleteWishlist({ plantId }).unwrap();
         if (res.success) {
           toast.success(res.message);
+          // ✅ refetch UI data
+          getWishlist(
+            wishlist.filter((i) => i.plantId !== plantId).map((i) => i.plantId),
+          );
         }
       } catch (error) {
-        console.log(error);
+        console.error(error);
+        toast.error("Failed to remove from wishlist");
       }
     }
   };
 
-  const handleAddToCart = async (plant: string) => {
+  const handleAddToCart = async (plantId: string) => {
     try {
-      const res = await addToCart({ plant: plant, quantity: 1 }).unwrap();
+      const res = await addToCart({ plant: plantId, quantity: 1 }).unwrap();
       if (res.success) {
         toast.success("Product added to cart!");
-        await handleRemoveFromWishlist(plant);
+        await handleRemoveFromWishlist(plantId);
       }
-    } catch (error) {}
-  };
-  useEffect(() => {
-    if (wishlist.length) {
-      getWishlist(wishlist.map((item) => item.plantId));
-    } else {
-      getWishlist([]);
+    } catch (error) {
+      toast.error("Failed to add to cart");
     }
-  }, [wishlist, getWishlist]);
+  };
+
+  // ✅ Only fetch wishlist data when:
+  //    - page first loads OR
+  //    - wishlistData is not yet loaded
+  useEffect(() => {
+    if (!wishlistData && wishlist.length) {
+      getWishlist(wishlist.map((item) => item.plantId));
+    }
+  }, [wishlistData, wishlist, getWishlist]);
+
+  const showSkeleton = isLoading && !wishlistData;
 
   return (
     <div className="font-roboto min-h-screen space-y-12">
       <h1 className="bg-green-700 py-6 text-center text-2xl font-bold text-white lg:text-5xl">
         Your Wishlist
       </h1>
+
       <div>
-        {isFetching ? (
+        {showSkeleton ? (
           <WishlistSkeleton />
         ) : wishlistData?.data?.length ? (
           <div className="mx-auto max-w-4xl">
+            {isFetching && (
+              <p className="mb-2 text-center text-gray-400 italic">
+                Updating...
+              </p>
+            )}
             <Table>
               <TableHeader>
                 <TableRow>
@@ -91,11 +105,11 @@ const Wishlist = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {wishlistData?.data?.map((item) => (
+                {wishlistData.data.map((item) => (
                   <TableRow key={item._id}>
                     <TableCell>
                       <Button
-                        variant={"ghost"}
+                        variant="ghost"
                         onClick={() => handleRemoveFromWishlist(item._id)}
                       >
                         <X />
@@ -106,6 +120,7 @@ const Wishlist = () => {
                         <img
                           className="size-32 object-cover"
                           src={item?.variants?.[0]?.image}
+                          alt={item?.name}
                         />
                       </Link>
                     </TableCell>
@@ -124,7 +139,7 @@ const Wishlist = () => {
                     </TableCell>
                     <TableCell>
                       <AddToCartModal plant={item}>
-                        <Button>Add to cart</Button>
+                        <Button disabled={addToCartLoading}>Add to cart</Button>
                       </AddToCartModal>
                     </TableCell>
                   </TableRow>

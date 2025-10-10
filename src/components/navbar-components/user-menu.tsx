@@ -17,7 +17,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useGetMeQuery } from "@/redux/features/user.api";
 import { authApi, useLogOutMutation } from "@/redux/features/auth.api";
 import { useAppDispatch } from "@/redux/hooks";
 import { Link } from "react-router";
@@ -27,7 +26,6 @@ import { useAuth } from "@/hooks/useAuth";
 export default function UserMenu() {
   const { user: data, isLoading } = useAuth();
 
-  console.log(data);
   const [logout] = useLogOutMutation();
   const dispatch = useAppDispatch();
   const handleLogout = async () => {

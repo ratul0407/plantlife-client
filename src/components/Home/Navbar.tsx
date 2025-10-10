@@ -15,11 +15,11 @@ export const Navbar = () => {
   const dispatch = useAppDispatch();
   const handleLogout = async () => {
     const res = await logout(undefined);
-    console.log(res);
+
     dispatch(authApi.util.resetApiState());
   };
   const user = data?.data;
-  console.log(user);
+
   useEffect(() => {
     const handleScroll = () => {
       const isScrolled = window.scrollY > 400;

@@ -7,7 +7,7 @@ import { useGetUserWishlistQuery } from "./redux/features/wishlist/wishlist.api"
 
 const App = () => {
   const { data: wishlist } = useGetUserWishlistQuery(undefined);
-  console.log(wishlist);
+
   const dispatch = useAppDispatch();
 
   useEffect(() => {

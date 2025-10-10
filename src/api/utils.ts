@@ -1,7 +1,6 @@
 import axios from "axios";
 
 export const saveUser = async (user) => {
-  console.log(user);
   const { data } = await axios.post(
     `${import.meta.env.VITE_API_URL}/users/${user.email}`,
     {

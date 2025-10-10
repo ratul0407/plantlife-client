@@ -1,4 +1,4 @@
-import { useId, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -16,23 +16,45 @@ import { Button } from "./ui/button";
 import { Heart, SearchIcon } from "lucide-react";
 import { useAppSelector } from "@/redux/hooks";
 import Logo from "@/Logo";
+import { useThrottledCallback } from "use-debounce";
 // import Logo from "./navbar-components/logo";
 
 // Navigation links array to be used in both desktop and mobile menus
-
+const navigationLinks = [
+  { href: "/", label: "Home" },
+  { href: "/plants", label: "Plants" },
+  { href: "/about", label: "About" },
+  { href: "/blogs", label: "Blogs" },
+];
 export default function NavbarUi() {
+  const [show, setShow] = useState<boolean>(true);
+  const [lastScrollY, setLastScrollY] = useState<number>(0);
   const { pathname } = useLocation();
   const [openSearchBar, setOpenSearchBar] = useState(false);
   const wishlist = useAppSelector((state) => state.wishlist.items);
-  const navigationLinks = [
-    { href: "/", label: "Home" },
-    { href: "/plants", label: "Plants" },
-    { href: "/about", label: "About" },
-    { href: "/blogs", label: "Blogs" },
-  ];
-  console.log(openSearchBar);
+
+  const openCloseNavbar = useThrottledCallback(() => {
+    if (typeof window !== "undefined") {
+      if (window.scrollY > lastScrollY) {
+        setShow(false);
+      } else {
+        setShow(true);
+      }
+      setLastScrollY(window.scrollY);
+    }
+  }, 100);
+
+  useEffect(() => {
+    window.addEventListener("scroll", openCloseNavbar, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", openCloseNavbar);
+    };
+  }, [lastScrollY]);
+
   return (
-    <header className="font-roboto sticky top-0 z-[90] border-b bg-white px-4 pb-4 text-black md:px-6">
+    <header
+      className={`font-roboto sticky top-0 z-[90] border-b bg-white px-4 pb-4 text-black transition-all duration-200 md:px-6 ${show ? "translate-y-0" : "-translate-y-full"} `}
+    >
       <div className="relative flex h-16 items-center justify-between gap-4">
         {/* Left side */}
         <div className="flex flex-1 items-center gap-2">
@@ -55,7 +77,7 @@ export default function NavbarUi() {
           />
         </div>
         {/* Right side */}
-        <div className="relative z-[100] flex flex-1 items-center justify-end gap-4">
+        <div className="relative z-[100] flex max-w-screen flex-1 items-center justify-end gap-4">
           {/* User menu */}
           {/* wishlist */}
           <Button
@@ -82,7 +104,7 @@ export default function NavbarUi() {
             </Button>
           </Link>
           {/* cart */}
-          <Cart />
+
           <UserMenu />
         </div>
       </div>

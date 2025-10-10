@@ -60,7 +60,6 @@ const AddPlants = () => {
     name: "variants",
   });
   const onSubmit = async (data: z.infer<typeof plantSchema>) => {
-    console.log(data);
     const formData = new FormData();
 
     // Basic fields
@@ -92,7 +91,7 @@ const AddPlants = () => {
     // Send request
     try {
       const res = await addPlant(formData).unwrap();
-      console.log(res);
+
       if (res.success) {
         toast.success("Plant created successfully!");
       }

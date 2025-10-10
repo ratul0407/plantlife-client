@@ -37,7 +37,7 @@ const stores = [
 ];
 export const VisitStore = () => {
   const [modal, setModal] = useState({ active: false, index: 0 });
-  console.log(modal);
+
   return (
     <div className="flex flex-col gap-10 lg:flex-row">
       <div className="flex basis-[30%] flex-col justify-between">

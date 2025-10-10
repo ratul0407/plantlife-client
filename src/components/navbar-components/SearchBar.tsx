@@ -23,8 +23,6 @@ const SearchBar = ({
     { skip: !debouncedSearch },
   );
 
-  console.log(data);
-
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -42,7 +40,6 @@ const SearchBar = ({
     if (debouncedSearch) setShowResults(true);
   }, [debouncedSearch]);
   const inputRef = useRef(null);
-  console.log(inputRef.current?.value);
 
   const handleInputClear = () => {
     if (inputRef?.current?.value) {

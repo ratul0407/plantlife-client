@@ -26,9 +26,9 @@ export const AllPlantsSection = () => {
   const category = searchParams.getAll("category") || undefined;
   const sort = searchParams.get("sort") || undefined;
   const { user } = useAuth();
-  console.log(user);
+
   const dispatch = useAppDispatch();
-  console.log(category);
+
   useEffect(() => {
     if (user?.data?.wishlist) {
       const ids = user?.data?.wishlist?.map((w) => w.plant);
@@ -40,13 +40,10 @@ export const AllPlantsSection = () => {
 
   const [openFilter, setOpenFilter] = useState(false);
 
-  console.log(typeof category);
   const { data, isLoading, isFetching } = useGetAllPlantsQuery({
     category,
     sort: sort,
   });
-
-  console.log(searchParams.getAll("category"));
 
   const plants = data?.data?.data;
   const variantImages = plants?.map((item) =>
@@ -85,7 +82,6 @@ export const AllPlantsSection = () => {
     };
   }, [closeFilterSideBar]);
 
-  console.log("Loading", isLoading);
   return (
     <>
       <div className="bg-plants-banner flex h-60 items-center justify-center bg-cover bg-center bg-no-repeat">
