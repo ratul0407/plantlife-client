@@ -239,15 +239,6 @@ export const PlantDetails = () => {
             onMouseLeave={() => setShowControls(false)}
             className="relative flex h-[350px] w-full overflow-hidden md:h-[600px] lg:h-[700px] lg:w-full"
           >
-            {/* <button
-              onClick={goToPreviousImg}
-              className={`absolute left-0 z-40 h-full w-10 cursor-pointer bg-white/20 transition-all duration-300 md:w-20 ${
-                showControls ? "opacity-100" : "opacity-0"
-              }`}
-            >
-              <IoChevronUp className="h-10 w-10 -rotate-90" />
-            </button> */}
-
             {images?.map((img, index) => (
               <div
                 style={{ translate: `${-100 * imgIndex}%` }}
