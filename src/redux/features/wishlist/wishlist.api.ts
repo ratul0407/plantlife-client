@@ -16,7 +16,7 @@ export const wishlistAPi = baseApi.injectEndpoints({
         data,
       }),
     }),
-    getLocalWishlist: builder.mutation({
+    getLocalWishlist: builder.query({
       query: (data) => ({
         url: "/wishlist/local",
         method: "POST",
@@ -45,7 +45,7 @@ export const wishlistAPi = baseApi.injectEndpoints({
 export const {
   useMergeWishlistMutation,
   useAddWishlistMutation,
-  useGetLocalWishlistMutation,
+  useLazyGetLocalWishlistQuery,
   useGetUserWishlistQuery,
   useDeleteWishlistMutation,
 } = wishlistAPi;

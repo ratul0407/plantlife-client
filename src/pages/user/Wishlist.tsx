@@ -13,7 +13,7 @@ import { useAddToCartMutation } from "@/redux/features/cart/cart.api";
 import { useGetMeQuery } from "@/redux/features/user.api";
 import {
   useDeleteWishlistMutation,
-  useGetLocalWishlistMutation,
+  useLazyGetLocalWishlistQuery,
 } from "@/redux/features/wishlist/wishlist.api";
 import { deleteFromWishlist } from "@/redux/features/wishlist/wishlistSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
@@ -29,8 +29,8 @@ const Wishlist = () => {
   const wishlist = useAppSelector((state) => state.wishlist.items);
   console.log(wishlist);
   const dispatch = useAppDispatch();
-  const [getWishlist, { data: wishlistData, isLoading }] =
-    useGetLocalWishlistMutation();
+  const [getWishlist, { data: wishlistData, isFetching }] =
+    useLazyGetLocalWishlistQuery();
   const [deleteWishlist] = useDeleteWishlistMutation();
 
   console.log(wishlistData, "from line 31");
@@ -60,12 +60,11 @@ const Wishlist = () => {
       }
     } catch (error) {}
   };
-  // const wishlist = data?.data?.[0]?.wishlist;
-  // console.log(data?.data?.[0]?.wishlist);
-  // console.log(data?.data ? "what" : "the hell");
   useEffect(() => {
     if (wishlist.length) {
       getWishlist(wishlist.map((item) => item.plantId));
+    } else {
+      getWishlist([]);
     }
   }, [wishlist, getWishlist]);
 
@@ -75,7 +74,7 @@ const Wishlist = () => {
         Your Wishlist
       </h1>
       <div>
-        {isLoading ? (
+        {isFetching ? (
           <WishlistSkeleton />
         ) : wishlistData?.data?.length ? (
           <div className="mx-auto max-w-4xl">
