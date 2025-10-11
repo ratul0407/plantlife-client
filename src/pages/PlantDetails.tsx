@@ -214,7 +214,8 @@ export const PlantDetails = () => {
                 <button
                   key={index}
                   onClick={() => handleSetImgIndex(index)}
-                  className={`${imgIndex === index ? "border border-slate-400" : ""}`}
+                  onMouseEnter={() => handleSetImgIndex(index)}
+                  className={`${imgIndex === index ? "brightness-80" : ""}`}
                 >
                   <img
                     className="object-cover lg:size-20"
