@@ -27,7 +27,7 @@ const FilterDesktop = ({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      categories: searchParams.getAll("category") || [], // Initialize with existing categories from URL
+      categories: searchParams.getAll("category") || [],
     },
   });
 

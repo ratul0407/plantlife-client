@@ -11,7 +11,7 @@ import { PlantCardSkeleton } from "../PlantCardSkeleton";
 import FilterDesktop from "../FilterDesktop";
 import { useAppDispatch } from "@/redux/hooks";
 // import { setReduxWishlist } from "@/redux/features/wishlist/wishlistSlice";
-import { useSearchParams } from "react-router";
+import { useParams, useSearchParams } from "react-router";
 import { useAuth } from "@/hooks/useAuth";
 import {
   Select,
@@ -23,11 +23,20 @@ import {
 
 export const AllPlantsSection = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const category = searchParams.getAll("category") || undefined;
+  const categoryParams = searchParams.getAll("category");
   const sort = searchParams.get("sort") || undefined;
   const { user } = useAuth();
 
   const dispatch = useAppDispatch();
+
+  const category =
+    categoryParams.length === 1
+      ? categoryParams[0]
+      : categoryParams.length > 1
+        ? [...categoryParams]
+        : undefined;
+
+  console.log([...categoryParams]);
 
   useEffect(() => {
     if (user?.data?.wishlist) {
@@ -40,7 +49,7 @@ export const AllPlantsSection = () => {
 
   const [openFilter, setOpenFilter] = useState(false);
 
-  console.log(searchParams);
+  console.log(searchParams.getAll("category"));
   const { data, isLoading, isFetching } = useGetAllPlantsQuery({
     category,
     sort: sort,
@@ -91,7 +100,7 @@ export const AllPlantsSection = () => {
         </h1>
       </div>
       <div className="container mx-auto space-y-10 px-8 py-12 sm:p-8 sm:py-8 md:space-y-20 2xl:mx-80">
-        <div className="flex items-center justify-between lg:justify-end">
+        <div className="flex items-start justify-between lg:justify-end">
           {/* filter */}
           <button
             onClick={openFilterSideBar}
@@ -131,7 +140,7 @@ export const AllPlantsSection = () => {
         {/* <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4"> */}
 
         {
-          <div className="lg:flex">
+          <div className="lg:flex lg:items-start">
             <div className="hidden min-h-screen basis-1/4 rounded-xl bg-white p-4 shadow-sm lg:block">
               <div className="space-y-4 rounded-xl border py-4 *:px-6">
                 <h3 className="font-metal pb-2 text-center text-3xl text-green-900 italic">
