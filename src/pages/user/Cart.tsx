@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import {
-  useMyCartQuery,
   useRemoveFromCartMutation,
   useUpdateCartMutation,
 } from "@/redux/features/cart/cart.api";

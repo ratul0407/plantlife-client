@@ -1,19 +1,10 @@
-import { useGetMeQuery } from "@/redux/features/user.api";
-import { useMemo } from "react";
+import { AuthContext } from "@/providers/AuthProvider";
+import { useContext } from "react";
 
 export const useAuth = () => {
-  const { data, isLoading, error, isError } = useGetMeQuery(undefined);
-
-  const user = data?.data || null;
-
-  console.log(data);
-  const isAuthenticated = useMemo(() => !!user, [user]); // ✅ fix
-
-  return {
-    user,
-    isAuthenticated,
-    isLoading,
-    error,
-    isError,
-  };
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
+  return context;
 };

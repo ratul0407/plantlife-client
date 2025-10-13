@@ -51,7 +51,7 @@ export const PlantCard = ({ plant, wishSet, variantImages }: any) => {
           <AddToCartModal plant={plant}>
             <motion.button
               variants={addToCartVariants}
-              className="absolute left-1/2 z-50 flex w-full -translate-x-1/2 items-center justify-center gap-2 rounded-b-xl bg-black py-1.5 text-center text-white uppercase"
+              className="absolute left-1/2 z-20 flex w-full -translate-x-1/2 items-center justify-center gap-2 rounded-b-xl bg-black py-1.5 text-center text-white uppercase"
             >
               <BsCart /> Add to cart
             </motion.button>

@@ -9,8 +9,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { WishlistSkeleton } from "@/components/WishlistSkeleton";
+import { useAuth } from "@/hooks/useAuth";
 import { useAddToCartMutation } from "@/redux/features/cart/cart.api";
-import { useGetMeQuery } from "@/redux/features/user.api";
 import {
   useDeleteWishlistMutation,
   useLazyGetLocalWishlistQuery,
@@ -23,12 +23,12 @@ import { Link } from "react-router";
 import { toast } from "sonner";
 
 const Wishlist = () => {
-  const { data: userData } = useGetMeQuery(undefined);
+  const { user } = useAuth();
   const dispatch = useAppDispatch();
   const wishlist = useAppSelector((state) => state.wishlist.items);
 
   const [addToCart, { isLoading: addToCartLoading }] = useAddToCartMutation();
-  const [getWishlist, { data: wishlistData, isFetching, isLoading }] =
+  const [getWishlist, { data: wishlistData, isLoading }] =
     useLazyGetLocalWishlistQuery();
   const [deleteWishlist] = useDeleteWishlistMutation();
 
@@ -37,11 +37,10 @@ const Wishlist = () => {
     dispatch(deleteFromWishlist(plantId));
     toast.success("Removed from wishlist");
 
-    if (userData) {
+    if (user) {
       try {
         const res = await deleteWishlist({ plantId }).unwrap();
         if (res.success) {
-          toast.success(res.message);
           // ✅ refetch UI data
           getWishlist(
             wishlist.filter((i) => i.plantId !== plantId).map((i) => i.plantId),
@@ -70,7 +69,7 @@ const Wishlist = () => {
   //    - page first loads OR
   //    - wishlistData is not yet loaded
   useEffect(() => {
-    if (!wishlistData && wishlist.length) {
+    if (wishlist) {
       getWishlist(wishlist.map((item) => item.plantId));
     }
   }, [wishlistData, wishlist, getWishlist]);
@@ -88,11 +87,6 @@ const Wishlist = () => {
           <WishlistSkeleton />
         ) : wishlistData?.data?.length ? (
           <div className="mx-auto max-w-4xl">
-            {isFetching && (
-              <p className="mb-2 text-center text-gray-400 italic">
-                Updating...
-              </p>
-            )}
             <Table>
               <TableHeader>
                 <TableRow>
@@ -148,7 +142,7 @@ const Wishlist = () => {
             </Table>
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center gap-12">
+          <div className="flex flex-col items-center justify-center gap-12 pt-40">
             <h3 className="font-metal text-gray-300 italic sm:text-xl md:text-2xl lg:text-4xl xl:text-6xl">
               Your Wishlist is Empty
             </h3>

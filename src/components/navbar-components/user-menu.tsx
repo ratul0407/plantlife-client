@@ -24,12 +24,12 @@ import { role } from "@/constants/role";
 import { useAuth } from "@/hooks/useAuth";
 
 export default function UserMenu() {
-  const { user: data, isLoading } = useAuth();
-
+  const { logOut: setAuthUser, user: data, isLoading } = useAuth();
   const [logout] = useLogOutMutation();
   const dispatch = useAppDispatch();
   const handleLogout = async () => {
     await logout(undefined);
+    setAuthUser();
     dispatch(authApi.util.resetApiState());
   };
 

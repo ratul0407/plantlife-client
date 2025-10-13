@@ -25,6 +25,7 @@ const wishlistSlice = createSlice({
         }[]
       >,
     ) => {
+      console.log(action.payload, "from wishlist slices");
       state.items = action.payload;
     },
     addToWishlist: (
@@ -36,14 +37,17 @@ const wishlistSlice = createSlice({
       const exists = state.items.some(
         (item) => item.plantId === action.payload.plantId,
       );
+
       if (!exists) {
         state.items.push(action.payload);
+        localStorage.setItem("wishlist", JSON.stringify(state.items));
       }
     },
     deleteFromWishlist: (state, action: PayloadAction<string>) => {
       state.items = state.items.filter(
         (plant) => plant.plantId !== action.payload,
       );
+      localStorage.setItem("wishlist", JSON.stringify(state.items));
       console.log(state.items);
     },
   },

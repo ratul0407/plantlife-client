@@ -4,16 +4,17 @@ const cartApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     addToCart: builder.mutation({
       query: (data) => ({
-        url: "/cart",
+        url: "/cart/add-to-cart",
         method: "POST",
         data,
       }),
       invalidatesTags: ["CART"],
     }),
     myCart: builder.query({
-      query: () => ({
-        url: "/cart",
-        method: "GET",
+      query: (data) => ({
+        url: "/cart/get-cart",
+        method: "POST",
+        data,
       }),
       providesTags: ["CART"],
     }),
@@ -38,7 +39,7 @@ const cartApi = baseApi.injectEndpoints({
 
 export const {
   useAddToCartMutation,
-  useMyCartQuery,
+  useLazyMyCartQuery,
   useUpdateCartMutation,
   useRemoveFromCartMutation,
 } = cartApi;

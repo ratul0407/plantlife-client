@@ -33,7 +33,6 @@ export default function NavbarUi() {
   const { pathname } = useLocation();
   const [openSearchBar, setOpenSearchBar] = useState(false);
   const wishlist = useAppSelector((state) => state.wishlist.items);
-
   const openCloseNavbar = useThrottledCallback(() => {
     if (typeof window !== "undefined") {
       if (window.scrollY > lastScrollY) {
@@ -55,7 +54,7 @@ export default function NavbarUi() {
   return (
     <>
       <header
-        className={`font-roboto sticky top-0 z-[90] border-b bg-white text-black transition-all duration-200 ${show ? "translate-y-0" : "-translate-y-full"} `}
+        className={`font-roboto sticky top-0 z-[20] border-b bg-white text-black transition-all duration-200 ${show ? "translate-y-0" : "-translate-y-full"} `}
       >
         <Marquee />
         <div className="px-4 pb-4 md:px-6">
@@ -108,7 +107,7 @@ export default function NavbarUi() {
                 </Button>
               </Link>
               {/* cart */}
-
+              <Cart />
               <UserMenu />
             </div>
           </div>
@@ -184,7 +183,7 @@ export default function NavbarUi() {
               </Button>
             </Link>
             {/* cart */}
-
+            <Cart />
             <UserMenu />
           </div>
         </div>

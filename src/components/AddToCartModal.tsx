@@ -15,22 +15,18 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { useAddToCartMutation } from "@/redux/features/cart/cart.api";
 
-import { addToLocalCart } from "@/utils/cartLocal";
-
-import { useAuth } from "@/hooks/useAuth";
 import { DialogOverlay } from "@radix-ui/react-dialog";
-
-const addToCartVariants = {
-  initial: { bottom: "-2.5rem", opacity: 0 },
-  hover: { bottom: 0, opacity: 1 },
-};
+import { useAppDispatch } from "@/redux/hooks";
+import { useGetMeQuery } from "@/redux/features/user.api";
+import { addToCart } from "@/redux/features/cart/cartSlice";
 
 const AddToCartModal = ({ plant, children }) => {
-  const { isAuthenticated } = useAuth();
   const [open, setOpen] = useState(false);
-  const [addToCart, { isLoading }] = useAddToCartMutation();
+  const [addToDatabaseCart, { isLoading }] = useAddToCartMutation();
   const [selectedVariant, setSelectedVariant] = useState<string | null>(null);
   const [quantity, setQuantity] = useState(1);
+  const { data: userData } = useGetMeQuery(undefined);
+  const dispatch = useAppDispatch();
 
   const handleSelectVariant = (id: string) => {
     // toggle selection: if clicking the same, unselect
@@ -43,30 +39,23 @@ const AddToCartModal = ({ plant, children }) => {
 
   const handleAddToCart = async () => {
     const variant = plant?.variants?.find((v) => v.sku === selectedVariant);
-
     const item = {
-      name: variant?.variantName,
-      plant: plant?._id,
+      plantId: plant?._id,
       sku: variant?.sku,
       quantity: quantity,
-      img: variant?.image,
-      price: variant?.price,
-      stock: variant?.stock,
     };
-
-    // if (!isAuthenticated) {
-    //   return addToLocalCart(item);
-    // }
-
-    try {
-      const res = await addToCart(item).unwrap();
-      if (res?.success) {
-        toast.success("Plant added to cart");
-        setOpen(false);
+    dispatch(addToCart(item));
+    toast.success("Plant added to cart");
+    setOpen(false);
+    if (userData) {
+      try {
+        const res = await addToDatabaseCart(item).unwrap();
+        if (res?.success) {
+        }
+      } catch (error) {
+        console.log(error);
+        toast.error(error?.data?.message || "Failed to add");
       }
-    } catch (error) {
-      console.log(error);
-      toast.error(error?.data?.message || "Failed to add");
     }
   };
   const handleIncrementStock = () => {

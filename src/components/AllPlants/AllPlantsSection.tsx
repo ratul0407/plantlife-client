@@ -49,7 +49,6 @@ export const AllPlantsSection = () => {
 
   const [openFilter, setOpenFilter] = useState(false);
 
-  console.log(searchParams.getAll("category"));
   const { data, isLoading, isFetching } = useGetAllPlantsQuery({
     category,
     sort: sort,

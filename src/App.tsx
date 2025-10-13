@@ -3,30 +3,21 @@ import CommonLayout from "./components/layout/CommonLayout";
 import { useAppDispatch } from "./redux/hooks";
 import { useEffect } from "react";
 import { setWishlist } from "./redux/features/wishlist/wishlistSlice";
-import { useGetUserWishlistQuery } from "./redux/features/wishlist/wishlist.api";
+import { setCart } from "./redux/features/cart/cartSlice";
 
 const App = () => {
-  const { data: wishlist } = useGetUserWishlistQuery(undefined);
-
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (!wishlist?.data) return;
-    let savedWishlist: any[] = [];
-
-    try {
-      savedWishlist = JSON.parse(localStorage.getItem("wishlist") || "[]");
-    } catch {}
-
-    const merged = [
-      ...wishlist.data,
-      ...savedWishlist.filter(
-        (item) => !wishlist.data.some((b) => b.plantId === item.plantId),
-      ),
-    ];
-
-    dispatch(setWishlist(merged));
-  }, [wishlist?.data, dispatch]);
+    const savedWishlist = JSON.parse(localStorage.getItem("wishlist") || "[]");
+    const savedCart = JSON.parse(localStorage.getItem("cart") || "[]");
+    if (savedWishlist.length > 0) {
+      dispatch(setWishlist(savedWishlist));
+    }
+    if (savedCart.length > 0) {
+      dispatch(setCart(savedCart));
+    }
+  }, [dispatch]);
 
   return (
     <CommonLayout>

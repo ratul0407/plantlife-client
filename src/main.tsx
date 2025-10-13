@@ -10,17 +10,18 @@ import { Provider as ReduxProvider } from "react-redux";
 import { store } from "./redux/store.js";
 import { router } from "./routes/index.tsx";
 import { Toaster } from "sonner";
+import { AuthProvider } from "./providers/AuthProvider.tsx";
 
 // const queryClient = new QueryClient();
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    {/* <AuthProvider> */}
     <ReduxProvider store={store}>
-      {/* <LenisProvider> */}
-      <RouterProvider router={router} />
-      <Toaster richColors />
-      {/* </LenisProvider> */}
+      <AuthProvider>
+        {/* <LenisProvider> */}
+        <RouterProvider router={router} />
+        <Toaster richColors />
+        {/* </LenisProvider> */}
+      </AuthProvider>
     </ReduxProvider>
-    {/* </AuthProvider> */}
   </StrictMode>,
 );
