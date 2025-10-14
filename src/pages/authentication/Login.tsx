@@ -65,6 +65,7 @@ export const Login = () => {
         password: config.super_admin_password,
       }).unwrap();
       if (res.success) {
+        setAuthUser(res?.data?.user);
         toast.success("Logged in as super admin");
         navigate("/");
       }
@@ -79,6 +80,7 @@ export const Login = () => {
         password: config.user_password,
       }).unwrap();
       if (res.success) {
+        setAuthUser(res?.data?.user);
         toast.success("Logged in as user");
         mergeWishlist(wishlist);
         navigate("/plants");

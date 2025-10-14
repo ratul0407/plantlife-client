@@ -29,7 +29,7 @@ export default function UserMenu() {
   const dispatch = useAppDispatch();
   const handleLogout = async () => {
     await logout(undefined);
-    setAuthUser();
+    setAuthUser(null);
     dispatch(authApi.util.resetApiState());
   };
 

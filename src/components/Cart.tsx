@@ -20,12 +20,17 @@ import {
   openCart,
   updatePlantQuantity,
 } from "@/redux/features/cart/cartSlice";
-import { useLazyMyCartQuery } from "@/redux/features/cart/cart.api";
+import {
+  useLazyMyCartQuery,
+  useRemoveFromCartMutation,
+  useUpdateCartMutation,
+} from "@/redux/features/cart/cart.api";
+import { useAuth } from "@/hooks/useAuth";
 
 export function Cart() {
   const dispatch = useAppDispatch();
   const open = useAppSelector((state) => state.cart.open);
-
+  const { user } = useAuth();
   const handleSetOpen = (state: boolean) => {
     dispatch(openCart(state));
   };
@@ -35,22 +40,45 @@ export function Cart() {
   const [getCart, { data: cartData, isLoading }] =
     useLazyMyCartQuery(undefined);
 
+  const [updateCart] = useUpdateCartMutation();
+  const [deleteCart] = useRemoveFromCartMutation();
   const cart = cartData?.data;
 
-  const handleIncrement = (sku: string, newQuantity: number) => {
+  const handleIncrement = async (sku: string, newQuantity: number) => {
     dispatch(updatePlantQuantity({ sku, newQuantity }));
+    if (user) {
+      try {
+        await updateCart({ newQuantity, sku });
+      } catch (error) {
+        dispatch(updatePlantQuantity({ sku, newQuantity: newQuantity - 1 }));
+      }
+    }
   };
 
-  const handleDecrement = (sku: string, newQuantity: number) => {
+  const handleDecrement = async (sku: string, newQuantity: number) => {
     if (newQuantity <= 0) {
       dispatch(deleteFromCart(sku));
       return;
     }
     dispatch(updatePlantQuantity({ sku, newQuantity }));
+    if (user) {
+      try {
+        await updateCart({ newQuantity, sku });
+      } catch (error) {
+        dispatch(updatePlantQuantity({ sku, newQuantity: newQuantity + 1 }));
+      }
+    }
   };
 
-  const removeFromCart = (sku: string) => {
+  const removeFromCart = async (sku: string) => {
     dispatch(deleteFromCart(sku));
+    if (user) {
+      try {
+        await deleteCart({ sku });
+      } catch (error) {
+        console.log(error);
+      }
+    }
     toast.info("Plant removed from cart");
   };
   useEffect(() => {
