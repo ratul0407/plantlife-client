@@ -87,6 +87,11 @@ export function Cart() {
     }
   }, [cartStore, getCart]);
 
+  const subTotal = cart
+    ?.map((item) => item.price * item.quantity)
+    .reduce((acc, cur) => acc + cur, 0)
+    .toFixed(2);
+  console.log(subTotal);
   return (
     <Sheet open={open} onOpenChange={handleSetOpen}>
       {/* Trigger button */}
@@ -183,7 +188,7 @@ export function Cart() {
           <SheetFooter className="space-y-3 border-t p-4">
             <div className="flex items-center justify-between">
               <p className="font-medium">Subtotal</p>
-              <p className="font-semibold">$29.99</p>
+              <p className="font-semibold">${subTotal}</p>
             </div>
             <SheetClose asChild>
               <Button className="w-full">

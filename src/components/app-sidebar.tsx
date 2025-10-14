@@ -1,31 +1,28 @@
-import { SearchForm } from "@/components/search-form";
-
 import {
   Sidebar,
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
-  SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import { useGetMeQuery } from "@/redux/features/user.api";
+
 import { Link, useLocation } from "react-router";
 import { getSidebarItems } from "@/utils/getSidebarItems";
-import { Separator } from "./ui/separator";
-import { Home } from "lucide-react";
-import { PiPlant } from "react-icons/pi";
+
 import Logo from "@/Logo";
+import { useAuth } from "@/hooks/useAuth";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { data: userData } = useGetMeQuery(undefined);
+  const { user } = useAuth();
+  console.log(user);
   const { pathname } = useLocation();
-  console.log(userData?.data?.role);
+  console.log(user?.role);
   const data = {
-    navMain: getSidebarItems(userData?.data?.role),
+    navMain: getSidebarItems(user?.role),
   };
   return (
     <Sidebar {...props}>

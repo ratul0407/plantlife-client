@@ -98,7 +98,7 @@ export const AllPlantsSection = () => {
           Connect with nature
         </h1>
       </div>
-      <div className="container mx-auto space-y-10 px-8 py-12 sm:p-8 sm:py-8 md:space-y-20 2xl:mx-80">
+      <div className="container mx-auto space-y-10 px-8 py-12 sm:p-8 sm:py-8 md:space-y-20 2xl:mx-auto">
         <div className="flex items-start justify-between lg:justify-end">
           {/* filter */}
           <button

@@ -14,16 +14,16 @@ import { role } from "@/constants/role";
 import { TRole } from "@/types";
 import { generateRoute } from "@/utils/generateRoutes";
 import { adminSidebarItems } from "./adminSidebarItems";
-import { userSidebarItems } from "./userSidebarItems";
+// import { userSidebarItems } from "./userSidebarItems";
 import About from "@/pages/About";
 
-import { lazy } from "react";
+// import { lazy } from "react";
 import Blogs from "@/pages/Blogs";
 import Cart from "@/pages/user/Cart";
 import Wishlist from "@/pages/user/Wishlist";
 import Orders from "@/pages/user/Orders";
 
-const Checkout = lazy(() => import("@/pages/Checkout"));
+// const Checkout = lazy(() => import("@/pages/Checkout"));
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -37,10 +37,10 @@ export const router = createBrowserRouter([
         path: "/about",
         Component: About,
       },
-      {
-        path: "/checkout",
-        Component: Checkout,
-      },
+      // {
+      //   path: "/checkout",
+      //   Component: Checkout,
+      // },
       {
         path: "/blogs",
         Component: Blogs,
