@@ -11,8 +11,10 @@ import { IoChevronUp } from "react-icons/io5";
 
 const RecentlyViewed = () => {
   const plants = useAppSelector((state) => state.recent.items);
+  console.log(plants);
+  if (plants.length === 1) return;
   return (
-    <div className="pt-12">
+    <section className="pt-12">
       <div className="flex items-center justify-between">
         <h3 className="font-metal pb-12 text-2xl italic sm:text-3xl md:text-4xl lg:text-5xl">
           Recently Viewed
@@ -85,7 +87,7 @@ const RecentlyViewed = () => {
           </SwiperSlide>
         ))}
       </Swiper>
-    </div>
+    </section>
   );
 };
 

@@ -389,9 +389,8 @@ export const PlantDetails = () => {
         </div>
       </div>
       {/* you may also like section */}
-      <section>
-        <RecentlyViewed />
-      </section>
+
+      <RecentlyViewed />
     </div>
   );
 };
