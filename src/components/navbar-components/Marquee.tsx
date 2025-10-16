@@ -12,12 +12,12 @@ const bannerText = [
 ];
 const Marquee = () => {
   return (
-    <div className="relative bg-green-900 py-2 text-center text-lg text-white">
+    <div className="relative bg-green-900 py-2 text-center text-sm text-white md:text-lg">
       <div className="prev absolute left-2 z-50 cursor-pointer">
-        <IoChevronBack size={30} className="text-green-600" />
+        <IoChevronBack className="size-6 text-green-600 md:size-8" />
       </div>
       <div className="next absolute right-2 z-50 cursor-pointer">
-        <IoChevronForward size={30} className="text-green-600" />
+        <IoChevronForward className="size-6 text-green-600 md:size-8" />
       </div>
       <Swiper
         modules={[Navigation, Autoplay]}

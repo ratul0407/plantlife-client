@@ -1,5 +1,6 @@
 import AddToCartModal from "@/components/AddToCartModal";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -77,7 +78,7 @@ const Wishlist = () => {
   const showSkeleton = isLoading && !wishlistData;
 
   return (
-    <div className="font-roboto min-h-screen space-y-12">
+    <div className="font-roboto min-h-screen space-y-12 bg-gray-200 md:bg-white">
       <h1 className="bg-green-700 py-6 text-center text-2xl font-bold text-white lg:text-5xl">
         Your Wishlist
       </h1>
@@ -87,59 +88,90 @@ const Wishlist = () => {
           <WishlistSkeleton />
         ) : wishlistData?.data?.length ? (
           <div className="mx-auto max-w-4xl">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead></TableHead>
-                  <TableHead>Image</TableHead>
-                  <TableHead>Name</TableHead>
-                  <TableHead>Category</TableHead>
-                  <TableHead>Price</TableHead>
-                  <TableHead></TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {wishlistData.data.map((item) => (
-                  <TableRow key={item._id}>
-                    <TableCell>
-                      <Button
-                        variant="ghost"
-                        onClick={() => handleRemoveFromWishlist(item._id)}
-                      >
-                        <X />
-                      </Button>
-                    </TableCell>
-                    <TableCell>
-                      <Link to={`/plants/${item._id}`}>
-                        <img
-                          className="size-32 object-cover"
-                          src={item?.variants?.[0]?.image}
-                          alt={item?.name}
-                        />
-                      </Link>
-                    </TableCell>
-                    <TableCell>
-                      <h3 className="font-metal text-3xl">{item?.name}</h3>
-                    </TableCell>
-                    <TableCell>
-                      <h3 className="font-metal text-xl italic">
-                        {item?.category.split("_").join(" ")}
-                      </h3>
-                    </TableCell>
-                    <TableCell>
-                      <h3 className="sm:text-lg lg:text-xl">
-                        ${item?.variants?.[0]?.price}
-                      </h3>
-                    </TableCell>
-                    <TableCell>
-                      <AddToCartModal plant={item}>
-                        <Button disabled={addToCartLoading}>Add to cart</Button>
-                      </AddToCartModal>
-                    </TableCell>
+            <div className="hidden md:block">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead></TableHead>
+                    <TableHead>Image</TableHead>
+                    <TableHead>Name</TableHead>
+                    <TableHead>Category</TableHead>
+                    <TableHead>Price</TableHead>
+                    <TableHead></TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                </TableHeader>
+                <TableBody>
+                  {wishlistData?.data?.map((item) => (
+                    <TableRow key={item._id}>
+                      <TableCell>
+                        <Button
+                          variant="ghost"
+                          onClick={() => handleRemoveFromWishlist(item._id)}
+                        >
+                          <X />
+                        </Button>
+                      </TableCell>
+                      <TableCell>
+                        <Link to={`/plants/${item._id}`}>
+                          <img
+                            className="size-32 object-cover"
+                            src={item?.variants?.[0]?.image}
+                            alt={item?.name}
+                          />
+                        </Link>
+                      </TableCell>
+                      <TableCell>
+                        <h3 className="font-metal text-3xl">{item?.name}</h3>
+                      </TableCell>
+                      <TableCell>
+                        <h3 className="font-metal text-xl italic">
+                          {item?.category.split("_").join(" ")}
+                        </h3>
+                      </TableCell>
+                      <TableCell>
+                        <h3 className="sm:text-lg lg:text-xl">
+                          ${item?.variants?.[0]?.price}
+                        </h3>
+                      </TableCell>
+                      <TableCell>
+                        <AddToCartModal plant={item}>
+                          <Button disabled={addToCartLoading}>
+                            Add to cart
+                          </Button>
+                        </AddToCartModal>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+            <div className="md:hidden">
+              {wishlistData?.data?.map((item) => (
+                <div className="px-4" key={item?._id}>
+                  <div className="flex gap-6 rounded-sm bg-gray-50 px-4 py-4">
+                    <Link
+                      to={`/plants/${item?._id}`}
+                      className="border border-gray-200"
+                    >
+                      <img
+                        src={item?.variants?.[0]?.image}
+                        className="size-40 rounded-sm object-cover object-center"
+                      />
+                    </Link>
+                    <div className="flex flex-col justify-around">
+                      <h3 className="font-metal text-lg text-green-800 italic">
+                        {item?.name}
+                      </h3>
+                      <p className="text-lg font-bold">
+                        ${item?.variants?.[0]?.price}
+                      </p>
+                      <Button>Add to cart</Button>
+                    </div>
+                    <div></div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center gap-12 pt-40">
