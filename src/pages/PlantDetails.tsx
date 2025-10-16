@@ -18,8 +18,6 @@ import PlantDetailsSkeleton from "@/components/PlantDetailsSkeleton";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { useAppDispatch } from "@/redux/hooks";
-import { openCart } from "@/redux/features/cart/cartSlice";
-import { useAddToCartMutation } from "@/redux/features/cart/cart.api";
 
 import MobileSlider from "@/components/MobileSlider";
 import WishlistHeart from "@/components/WishlistHeart";
@@ -27,6 +25,9 @@ import { addToRecentSlice } from "@/redux/features/recentlyViewed/recentSlice";
 import RecentlyViewed from "@/components/RecentlyViewed";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import gsap from "gsap";
+import { useAuth } from "@/hooks/useAuth";
+import { addToCart } from "@/redux/features/cart/cartSlice";
+import { useAddToCartMutation } from "@/redux/features/cart/cart.api";
 
 const features = [
   {
@@ -58,15 +59,15 @@ const features = [
 const PlantDetails = () => {
   const { id } = useParams();
   const dispatch = useAppDispatch();
-
+  const { user } = useAuth();
   const { data, isSuccess, isLoading } = useGetSinglePlantQuery({ id });
-
+  const [addToDatabaseCart, { isLoading: addToDatabaseCartLoading }] =
+    useAddToCartMutation();
   const plant = data?.data;
   const [fetchMorePlants, { data: morePlants }] = useLazyGetAllPlantsQuery();
   const containerRef = useRef(null);
   const leftRef = useRef(null);
   const scrollAbleInfo = useRef<HTMLDivElement>(null);
-
   useLayoutEffect(() => {
     if (!isSuccess || !containerRef.current || !leftRef.current) return;
 
@@ -98,13 +99,11 @@ const PlantDetails = () => {
     }
   }, [isSuccess, plant, fetchMorePlants]);
 
-  const [addToCart] = useAddToCartMutation();
   console.log("I have rendered");
   // state
   const [imgIndex, setImgIndex] = useState(0);
   const [currentVariant, setCurrentVariant] = useState(null);
   const [quantity, setQuantity] = useState(1);
-  const [showControls, setShowControls] = useState(false);
 
   // refs
   const thumbnailsRef = useRef(null);
@@ -175,23 +174,24 @@ const PlantDetails = () => {
   };
 
   //handle add to cart
+  console.log(currentVariant);
   const handleAddToCart = async () => {
-    try {
-      const res = await addToCart({
-        plant: plant?._id,
-        sku: currentVariant?.sku,
-        img: currentVariant?.image,
-        quantity: quantity,
-        price: currentVariant?.price,
-        stock: currentVariant?.stock,
-        name: currentVariant?.variantName,
-      }).unwrap();
-      if (res.success) {
-        toast.success("Plant added to cart");
-        dispatch(openCart(true));
+    const item = {
+      plantId: plant?._id,
+      sku: currentVariant?.sku,
+      quantity,
+    };
+    dispatch(addToCart(item));
+    toast.success("Plant added to cart");
+    if (user) {
+      try {
+        const res = await addToDatabaseCart(item).unwrap();
+        if (res?.success) {
+        }
+      } catch (error) {
+        console.log(error);
+        toast.error(error?.data?.message || "Failed to add");
       }
-    } catch (error) {
-      toast.error(error?.data?.message);
     }
   };
   if (isLoading) return <PlantDetailsSkeleton />;
