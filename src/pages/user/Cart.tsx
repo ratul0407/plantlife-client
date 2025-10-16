@@ -3,6 +3,7 @@ import {
   useRemoveFromCartMutation,
   useUpdateCartMutation,
 } from "@/redux/features/cart/cart.api";
+import { useAppSelector } from "@/redux/hooks";
 
 import { Minus, Plus, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -11,30 +12,25 @@ import { toast } from "sonner";
 
 const Cart = () => {
   const [amount, setAmount] = useState(0);
-  const { data } = useMyCartQuery(undefined);
   const [updateCart] = useUpdateCartMutation();
   const [removeFromCart] = useRemoveFromCartMutation();
-  const cart = data?.data?.[0]?.cart;
+  const cart = useAppSelector((state) => state.cart.items);
 
-  const currentPrice = cart?.[0]?.plantDetails?.variants?.find(
-    (i) => i.sku === cart?.[0]?.sku,
-  );
+  // useEffect(() => {
+  //   if (cart?.length) {
+  //     const variants = cart?.map((cartItem) =>
+  //       cartItem?.plantDetails?.variants?.find((v) => v.sku === cartItem.sku),
+  //     );
 
-  useEffect(() => {
-    if (cart?.length) {
-      const variants = cart?.map((cartItem) =>
-        cartItem?.plantDetails?.variants?.find((v) => v.sku === cartItem.sku),
-      );
+  //     let total = 0;
+  //     cart?.map((item, index: number) => {
+  //       total += variants?.[index]?.price * item?.quantity;
+  //     });
 
-      let total = 0;
-      cart?.map((item, index: number) => {
-        total += variants?.[index]?.price * item?.quantity;
-      });
-
-      total.toString(2);
-      setAmount(total);
-    }
-  }, [data]);
+  //     total.toString(2);
+  //     setAmount(total);
+  //   }
+  // }, [data]);
 
   const handleRemoveFromCart = async (sku: string) => {
     try {

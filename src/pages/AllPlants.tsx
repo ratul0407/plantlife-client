@@ -4,7 +4,7 @@ export const AllPlants = () => {
   return (
     <>
       <div className="relative bg-slate-50/50">
-        <main>
+        <main className="pb-20">
           <Outlet />
         </main>
       </div>

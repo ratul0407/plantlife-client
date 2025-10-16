@@ -1,19 +1,10 @@
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Link, useParams } from "react-router";
-import React, {
-  useState,
-  useEffect,
-  useRef,
-  useLayoutEffect,
-  memo,
-} from "react";
+import { useState, useEffect, useRef, useLayoutEffect, memo } from "react";
 import { PiMinus, PiPlus } from "react-icons/pi";
 import { IoChevronUp } from "react-icons/io5";
 import { FiGift, FiHeadphones, FiShield, FiTruck } from "react-icons/fi";
-import {
-  useGetSinglePlantQuery,
-  useLazyGetAllPlantsQuery,
-} from "@/redux/features/plant.api";
+import { useGetSinglePlantQuery } from "@/redux/features/plant.api";
 import PlantDetailsSkeleton from "@/components/PlantDetailsSkeleton";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
@@ -21,13 +12,15 @@ import { useAppDispatch } from "@/redux/hooks";
 
 import MobileSlider from "@/components/MobileSlider";
 import WishlistHeart from "@/components/WishlistHeart";
-import { addToRecentSlice } from "@/redux/features/recentlyViewed/recentSlice";
+
 import RecentlyViewed from "@/components/RecentlyViewed";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import gsap from "gsap";
 import { useAuth } from "@/hooks/useAuth";
 import { addToCart } from "@/redux/features/cart/cartSlice";
 import { useAddToCartMutation } from "@/redux/features/cart/cart.api";
+import YouMayAlsoLike from "@/components/YouMayAlsoLike";
+import { Variant } from "@/types/plant";
 
 const features = [
   {
@@ -52,7 +45,7 @@ const features = [
     icon: <FiHeadphones className="mt-1.5 h-6 w-6 text-green-900" />,
     title: "Plant Experts to help you",
     description:
-      "Chat directly via video with a knowledgeable houseplant expert from The Sill team about plant-specific care, repotting tips and tricks, pest identification, and more. Schedule an appointment today.",
+      "Chat directly via video with a knowledgeable houseplant expert from The Sill team about plant-specific care, reporting tips and tricks, pest identification, and more. Schedule an appointment today.",
   },
 ];
 
@@ -61,10 +54,9 @@ const PlantDetails = () => {
   const dispatch = useAppDispatch();
   const { user } = useAuth();
   const { data, isSuccess, isLoading } = useGetSinglePlantQuery({ id });
-  const [addToDatabaseCart, { isLoading: addToDatabaseCartLoading }] =
-    useAddToCartMutation();
+  const [addToDatabaseCart] = useAddToCartMutation();
   const plant = data?.data;
-  const [fetchMorePlants, { data: morePlants }] = useLazyGetAllPlantsQuery();
+
   const containerRef = useRef(null);
   const leftRef = useRef(null);
   const scrollAbleInfo = useRef<HTMLDivElement>(null);
@@ -84,25 +76,10 @@ const PlantDetails = () => {
     return () => st.kill();
   }, [isSuccess, plant]);
 
-  useEffect(() => {
-    if (isSuccess && plant?.category) {
-      fetchMorePlants({ category: [plant.category] });
-      dispatch(
-        addToRecentSlice({
-          plantId: plant?._id,
-          name: plant?.name,
-          firstImg: plant?.variants?.[0]?.image,
-          secondImg: plant?.variants?.[1]?.image,
-          price: plant?.variants?.[0]?.price,
-        }),
-      );
-    }
-  }, [isSuccess, plant, fetchMorePlants]);
-
   console.log("I have rendered");
   // state
   const [imgIndex, setImgIndex] = useState(0);
-  const [currentVariant, setCurrentVariant] = useState(null);
+  const [currentVariant, setCurrentVariant] = useState<Variant | null>(null);
   const [quantity, setQuantity] = useState(1);
 
   // refs
@@ -114,7 +91,7 @@ const PlantDetails = () => {
 
   // images = all variants + additional
   const images = [
-    ...(variants?.map((item) => item?.image) || []),
+    ...(variants?.map((item: Variant) => item?.image) || []),
     ...(additionalImages || []),
   ];
 
@@ -151,7 +128,7 @@ const PlantDetails = () => {
   }, [imgIndex, images]);
 
   // handlers
-  const handleSetImgIndex = (index) => {
+  const handleSetImgIndex = (index: number) => {
     setImgIndex(index);
   };
 
@@ -178,8 +155,8 @@ const PlantDetails = () => {
   const handleAddToCart = async () => {
     const item = {
       plantId: plant?._id,
-      sku: currentVariant?.sku,
       quantity,
+      sku: currentVariant?.sku as string,
     };
     dispatch(addToCart(item));
     toast.success("Plant added to cart");
@@ -188,9 +165,10 @@ const PlantDetails = () => {
         const res = await addToDatabaseCart(item).unwrap();
         if (res?.success) {
         }
-      } catch (error) {
-        console.log(error);
-        toast.error(error?.data?.message || "Failed to add");
+      } catch (error: any) {
+        if (error?.data) {
+          toast.error(error?.data?.message || "Failed to add");
+        }
       }
     }
   };
@@ -241,11 +219,7 @@ const PlantDetails = () => {
           </div>
 
           {/* main image slider */}
-          <div
-            onMouseEnter={() => setShowControls(true)}
-            onMouseLeave={() => setShowControls(false)}
-            className="relative flex h-[350px] w-full overflow-hidden md:h-[600px] lg:h-[700px] lg:w-full"
-          >
+          <div className="relative flex h-[350px] w-full overflow-hidden md:h-[600px] lg:h-[700px] lg:w-full">
             {images?.map((img, index) => (
               <div
                 style={{ translate: `${-100 * imgIndex}%` }}
@@ -294,7 +268,10 @@ const PlantDetails = () => {
                   {category
                     ?.toLowerCase()
                     .split("_")
-                    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                    .map(
+                      (word: string) =>
+                        word.charAt(0).toUpperCase() + word.slice(1),
+                    )
                     .join(" ")}{" "}
                   plants
                 </Link>
@@ -313,7 +290,7 @@ const PlantDetails = () => {
             <div className="space-y-4">
               <h4 className="text-xl font-bold text-gray-800">Variants:</h4>
               <div className="flex gap-2">
-                {variants?.map((variant, index) => (
+                {variants?.map((variant: Variant, index: number) => (
                   <div key={index} className="w-full">
                     <input
                       type="radio"
@@ -394,8 +371,8 @@ const PlantDetails = () => {
           </div>
         </div>
       </div>
-      {/* you may also like section */}
 
+      <YouMayAlsoLike />
       <RecentlyViewed />
     </div>
   );
