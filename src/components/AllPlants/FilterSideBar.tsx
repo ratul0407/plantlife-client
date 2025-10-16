@@ -1,5 +1,6 @@
-import { FaCheck } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
+import FilterDesktop from "../FilterDesktop";
+import { SetURLSearchParams } from "react-router";
 
 const plantCategories = [
   {
@@ -28,7 +29,17 @@ const plantCategories = [
     value: "flowering",
   },
 ];
-export const FilterSideBar = ({ openFilter, closeFilterSideBar }) => {
+export const FilterSideBar = ({
+  openFilter,
+  closeFilterSideBar,
+  searchParams,
+  setSearchParams,
+}: {
+  openFilter: boolean;
+  closeFilterSideBar: () => void;
+  searchParams: URLSearchParams;
+  setSearchParams: SetURLSearchParams;
+}) => {
   return (
     <div
       className={`${openFilter ? "translate-x-0" : "-translate-x-100"} absolute top-0 left-0 z-100 min-h-screen w-84 bg-slate-50 transition-all duration-300 ease-linear`}
@@ -41,7 +52,7 @@ export const FilterSideBar = ({ openFilter, closeFilterSideBar }) => {
           <IoMdClose className="h-12 w-12 rounded-full border p-1" />
         </span>
       </button>
-      <div className="space-y-4 px-4 pt-28">
+      {/* <div className="space-y-4 px-4 pt-28">
         <p className="text-2xl font-semibold">Categories</p>
         <form>
           <div className="space-y-2.5">
@@ -64,6 +75,13 @@ export const FilterSideBar = ({ openFilter, closeFilterSideBar }) => {
             })}
           </div>
         </form>
+      </div> */}
+      <div className="space-y-4 px-4 pt-28">
+        <p className="font-metal text-3xl text-green-900">Categories</p>
+        <FilterDesktop
+          setSearchParams={setSearchParams}
+          searchParams={searchParams}
+        />
       </div>
     </div>
   );

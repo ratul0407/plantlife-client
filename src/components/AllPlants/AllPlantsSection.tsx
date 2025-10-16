@@ -112,6 +112,8 @@ export const AllPlantsSection = () => {
           <FilterSideBar
             openFilter={openFilter}
             closeFilterSideBar={closeFilterSideBar}
+            searchParams={searchParams}
+            setSearchParams={setSearchParams}
           />
 
           {/* sort by */}

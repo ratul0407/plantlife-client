@@ -78,7 +78,7 @@ const Wishlist = () => {
   const showSkeleton = isLoading && !wishlistData;
 
   return (
-    <div className="font-roboto min-h-screen space-y-12 bg-gray-200 md:bg-white">
+    <div className="font-roboto min-h-screen space-y-12 bg-gray-100 md:bg-white">
       <h1 className="bg-green-700 py-6 text-center text-2xl font-bold text-white lg:text-5xl">
         Your Wishlist
       </h1>
@@ -145,10 +145,10 @@ const Wishlist = () => {
                 </TableBody>
               </Table>
             </div>
-            <div className="md:hidden">
+            <div className="space-y-4 md:hidden">
               {wishlistData?.data?.map((item) => (
                 <div className="px-4" key={item?._id}>
-                  <div className="flex gap-6 rounded-sm bg-gray-50 px-4 py-4">
+                  <div className="flex gap-6 rounded-lg border border-gray-200 bg-gray-50 px-4 py-4">
                     <Link
                       to={`/plants/${item?._id}`}
                       className="border border-gray-200"
@@ -165,9 +165,18 @@ const Wishlist = () => {
                       <p className="text-lg font-bold">
                         ${item?.variants?.[0]?.price}
                       </p>
-                      <Button>Add to cart</Button>
+                      <AddToCartModal plant={item}>
+                        <Button disabled={addToCartLoading}>Add to cart</Button>
+                      </AddToCartModal>
                     </div>
-                    <div></div>
+                    <div>
+                      <Button
+                        variant="ghost"
+                        onClick={() => handleRemoveFromWishlist(item._id)}
+                      >
+                        <X />
+                      </Button>
+                    </div>
                   </div>
                 </div>
               ))}
@@ -175,7 +184,7 @@ const Wishlist = () => {
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center gap-12 pt-40">
-            <h3 className="font-metal text-gray-300 italic sm:text-xl md:text-2xl lg:text-4xl xl:text-6xl">
+            <h3 className="font-metal text-gray-800 italic sm:text-xl md:text-2xl lg:text-4xl xl:text-6xl">
               Your Wishlist is Empty
             </h3>
             <Link to="/plants">
