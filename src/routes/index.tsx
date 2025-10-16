@@ -66,8 +66,12 @@ export const router = createBrowserRouter([
             Component: AllPlantsSection,
           },
           {
-            path: "/plants/:id",
+            path: ":id",
             Component: PlantDetails,
+          },
+          {
+            path: "*",
+            Component: ErrorPage,
           },
         ],
       },
