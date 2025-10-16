@@ -22,6 +22,7 @@ import Cart from "@/pages/user/Cart";
 import Wishlist from "@/pages/user/Wishlist";
 import Orders from "@/pages/user/Orders";
 import PlantDetails from "@/pages/PlantDetails";
+import Checkout from "@/pages/Checkout";
 
 // const Checkout = lazy(() => import("@/pages/Checkout"));
 export const router = createBrowserRouter([
@@ -37,10 +38,10 @@ export const router = createBrowserRouter([
         path: "/about",
         Component: About,
       },
-      // {
-      //   path: "/checkout",
-      //   Component: Checkout,
-      // },
+      {
+        path: "/checkout",
+        Component: Checkout,
+      },
       {
         path: "/blogs",
         Component: Blogs,
