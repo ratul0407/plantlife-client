@@ -1,8 +1,6 @@
 import { Link, useNavigate } from "react-router";
 import signUpImg from "../../assets/static/sign-up-page-img.jpg";
 
-import { useState } from "react";
-
 import {
   Form,
   FormControl,
@@ -57,8 +55,6 @@ export const Register = () => {
   });
 
   const onSubmit = async (data: z.infer<typeof registerSchema>) => {
-    console.log(data);
-
     try {
       const res = await register(data).unwrap();
       if (res.success) {

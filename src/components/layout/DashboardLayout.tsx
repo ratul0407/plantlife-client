@@ -20,7 +20,7 @@ export default function DashboardLayout() {
             className="mr-2 data-[orientation=vertical]:h-4"
           />
         </header>
-        <div className="font-roboto flex flex-1 flex-col gap-4 p-4">
+        <div className="font-roboto flex flex-1 flex-col gap-4 bg-gray-200/50 p-4">
           <Outlet />
         </div>
       </SidebarInset>

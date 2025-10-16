@@ -1,19 +1,17 @@
-import { columns } from "@/components/modules/Admin/AllPlants/Columnts";
-import { PlantsTable } from "@/components/modules/Admin/AllPlants/PlantsTable";
+import { columns } from "@/components/modules/Admin/AllPlants/Columns";
+import { DataTable } from "@/components/modules/Admin/AllPlants/DataTable";
+import { Spinner } from "@/components/ui/spinner";
+import { useGetAllPlantsQuery } from "@/redux/features/plant.api";
 
-const data = [
-  {
-    id: "728ed52f",
-    amount: 100,
-    status: "pending",
-    email: "m@example.com",
-  },
-];
 const AllPlants = () => {
+  const { data, isLoading } = useGetAllPlantsQuery(undefined);
+
+  if (isLoading) return <Spinner />;
   return (
-    <div>
-      <h1>AllPlants Section</h1>
-      <PlantsTable columns={columns} data={data} />
+    <div className="rounded-xl bg-white py-4">
+      <h1 className="py-4 pl-8 text-xl font-medium">All Plants List</h1>
+
+      <DataTable columns={columns} data={data?.data?.data} />
     </div>
   );
 };

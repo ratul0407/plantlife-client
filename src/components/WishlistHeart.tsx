@@ -1,4 +1,4 @@
-import { useGetMeQuery } from "@/redux/features/user.api";
+import { useAuth } from "@/hooks/useAuth";
 import {
   useAddWishlistMutation,
   useDeleteWishlistMutation,
@@ -13,7 +13,7 @@ import { toast } from "sonner";
 
 const WishlistHeart = ({ plant }) => {
   const dispatch = useAppDispatch();
-  const { data: userData } = useGetMeQuery(undefined);
+  const { user } = useAuth();
 
   const wishlist = useAppSelector((state) => state.wishlist.items);
   let inWishlist = wishlist.some(
@@ -28,7 +28,7 @@ const WishlistHeart = ({ plant }) => {
   const handleAddToWishlist = async () => {
     dispatch(addToWishlist(plantData));
     toast.success("Added to wishlist");
-    if (userData) {
+    if (user) {
       try {
         await addWishlist(plantData).unwrap();
       } catch (error: any) {
@@ -41,7 +41,7 @@ const WishlistHeart = ({ plant }) => {
   const handleRemoveFromWishlist = async () => {
     dispatch(deleteFromWishlist(plant?._id));
     toast.success("Removed from wishlist");
-    if (userData) {
+    if (user) {
       try {
         await deleteWishlist({ plantId: plant?._id }).unwrap();
       } catch (error) {

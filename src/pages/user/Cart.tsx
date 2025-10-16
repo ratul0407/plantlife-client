@@ -74,7 +74,7 @@ const Cart = () => {
               const plant = item?.plantDetails?.variants?.find(
                 (p) => p.sku === item?.sku,
               );
-              console.log(plant);
+
               return (
                 <div
                   key={item.id}

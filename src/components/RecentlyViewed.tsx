@@ -11,7 +11,7 @@ import { IoChevronUp } from "react-icons/io5";
 
 const RecentlyViewed = () => {
   const plants = useAppSelector((state) => state.recent.items);
-  console.log(plants);
+
   if (plants.length === 1) return;
   return (
     <section className="pt-12">

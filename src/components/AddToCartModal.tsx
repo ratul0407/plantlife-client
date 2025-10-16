@@ -17,15 +17,16 @@ import { useAddToCartMutation } from "@/redux/features/cart/cart.api";
 
 import { DialogOverlay } from "@radix-ui/react-dialog";
 import { useAppDispatch } from "@/redux/hooks";
-import { useGetMeQuery } from "@/redux/features/user.api";
+
 import { addToCart } from "@/redux/features/cart/cartSlice";
+import { useAuth } from "@/hooks/useAuth";
 
 const AddToCartModal = ({ plant, children }) => {
   const [open, setOpen] = useState(false);
   const [addToDatabaseCart, { isLoading }] = useAddToCartMutation();
   const [selectedVariant, setSelectedVariant] = useState<string | null>(null);
   const [quantity, setQuantity] = useState(1);
-  const { data: userData } = useGetMeQuery(undefined);
+  const { user } = useAuth();
   const dispatch = useAppDispatch();
 
   const handleSelectVariant = (id: string) => {
@@ -47,7 +48,7 @@ const AddToCartModal = ({ plant, children }) => {
     dispatch(addToCart(item));
     toast.success("Plant added to cart");
     setOpen(false);
-    if (userData) {
+    if (user) {
       try {
         const res = await addToDatabaseCart(item).unwrap();
         if (res?.success) {

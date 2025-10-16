@@ -1,3 +1,4 @@
+import { Spinner } from "@/components/ui/spinner";
 import { useAuth } from "@/hooks/useAuth";
 import { TRole } from "@/types";
 import { ComponentType } from "react";
@@ -6,7 +7,11 @@ import { Navigate } from "react-router";
 export const withAuth = (Component: ComponentType, requiredRole?: TRole) => {
   return function AuthWrapper() {
     const { user, isLoading } = useAuth();
-    if (!isLoading && !user?.email) {
+    console.log(requiredRole, isLoading, user?.role);
+    if (isLoading || !user) {
+      return <Spinner />;
+    }
+    if (!isLoading && !user?.role) {
       return <Navigate to="/login" />;
     }
     if (requiredRole && !isLoading && requiredRole !== user?.role) {

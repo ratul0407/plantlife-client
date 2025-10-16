@@ -36,8 +36,6 @@ export const AllPlantsSection = () => {
         ? [...categoryParams]
         : undefined;
 
-  console.log([...categoryParams]);
-
   useEffect(() => {
     if (user?.data?.wishlist) {
       const ids = user?.data?.wishlist?.map((w) => w.plant);

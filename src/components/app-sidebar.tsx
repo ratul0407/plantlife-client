@@ -18,9 +18,9 @@ import { useAuth } from "@/hooks/useAuth";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { user } = useAuth();
-  console.log(user);
+
   const { pathname } = useLocation();
-  console.log(user?.role);
+
   const data = {
     navMain: getSidebarItems(user?.role),
   };
@@ -36,13 +36,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
       <SidebarContent>
         {/* We create a SidebarGroup for each parent. */}
-        {data.navMain.map((item) => (
-          <SidebarGroup key={item.title}>
+        {data.navMain.map((item, index) => (
+          <SidebarGroup key={index}>
             <SidebarGroupLabel>{item.title}</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                {item.items.map((item) => (
-                  <SidebarMenuItem key={item.title}>
+                {item.items.map((item, index) => (
+                  <SidebarMenuItem key={index}>
                     <SidebarMenuButton asChild isActive={pathname === item.url}>
                       <Link to={item.url}>
                         <item.icon />

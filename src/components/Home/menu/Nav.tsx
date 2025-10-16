@@ -4,15 +4,14 @@ import { useLocation } from "react-router";
 import { MyLink } from "./MyLink";
 import { Curve } from "./Curve";
 import { menuSlide } from "./anim";
-import { useGetMeQuery } from "@/redux/features/user.api";
-import { role } from "@/constants/role";
+import { useAuth } from "@/hooks/useAuth";
 
 export const Nav = ({ closeMenu }) => {
   const { pathname } = useLocation();
   const [selectedIndicator, setSelectedIndicator] = useState(pathname);
-  const { data } = useGetMeQuery(undefined);
+  const { user } = useAuth();
 
-  const userRole = data?.data?.role;
+  const userRole = user?.role;
 
   const navItems = [
     {

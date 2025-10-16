@@ -1,11 +1,11 @@
 import React from "react";
 import Footer from "../Footer";
-import NavbarUi from "../NavbarUi";
+import Navbar from "../Navbar";
 
 const CommonLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="font-roboto">
-      <NavbarUi />
+      <Navbar />
       <main>{children}</main>
       <Footer />
     </div>

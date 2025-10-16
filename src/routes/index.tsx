@@ -7,7 +7,6 @@ import { Login } from "@/pages/authentication/Login";
 import { Register } from "@/pages/authentication/Register";
 import { AllPlants } from "@/pages/AllPlants";
 import { AllPlantsSection } from "@/components/AllPlants/AllPlantsSection";
-import { PlantDetails } from "@/pages/PlantDetails";
 import { withAuth } from "@/utils/withAuth";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import { role } from "@/constants/role";
@@ -22,6 +21,7 @@ import Blogs from "@/pages/Blogs";
 import Cart from "@/pages/user/Cart";
 import Wishlist from "@/pages/user/Wishlist";
 import Orders from "@/pages/user/Orders";
+import PlantDetails from "@/pages/PlantDetails";
 
 // const Checkout = lazy(() => import("@/pages/Checkout"));
 export const router = createBrowserRouter([

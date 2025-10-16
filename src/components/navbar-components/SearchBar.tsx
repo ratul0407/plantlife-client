@@ -48,7 +48,6 @@ const SearchBar = ({
     }
   };
 
-  console.log(debouncedSearch);
   return (
     <div ref={wrapperRef}>
       <div className="font-robot relative mx-auto hidden w-full max-w-xl sm:block">

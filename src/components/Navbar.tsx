@@ -25,9 +25,8 @@ const navigationLinks = [
   { href: "/", label: "Home" },
   { href: "/plants", label: "Plants" },
   { href: "/about", label: "About" },
-  { href: "/blogs", label: "Blogs" },
 ];
-export default function NavbarUi() {
+export default function Navbar() {
   const [show, setShow] = useState<boolean>(true);
   const [lastScrollY, setLastScrollY] = useState<number>(0);
   const { pathname } = useLocation();

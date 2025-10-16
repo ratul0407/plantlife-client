@@ -1,6 +1,12 @@
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Link, useParams } from "react-router";
-import { useState, useEffect, useRef, useLayoutEffect } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useLayoutEffect,
+  memo,
+} from "react";
 import { PiMinus, PiPlus } from "react-icons/pi";
 import { IoChevronUp } from "react-icons/io5";
 import { FiGift, FiHeadphones, FiShield, FiTruck } from "react-icons/fi";
@@ -49,7 +55,7 @@ const features = [
   },
 ];
 
-export const PlantDetails = () => {
+const PlantDetails = () => {
   const { id } = useParams();
   const dispatch = useAppDispatch();
 
@@ -77,7 +83,6 @@ export const PlantDetails = () => {
     return () => st.kill();
   }, [isSuccess, plant]);
 
-  console.log("I have rendered");
   useEffect(() => {
     if (isSuccess && plant?.category) {
       fetchMorePlants({ category: [plant.category] });
@@ -94,6 +99,7 @@ export const PlantDetails = () => {
   }, [isSuccess, plant, fetchMorePlants]);
 
   const [addToCart] = useAddToCartMutation();
+  console.log("I have rendered");
   // state
   const [imgIndex, setImgIndex] = useState(0);
   const [currentVariant, setCurrentVariant] = useState(null);
@@ -394,3 +400,5 @@ export const PlantDetails = () => {
     </div>
   );
 };
+
+export default memo(PlantDetails);

@@ -91,7 +91,7 @@ export function Cart() {
     ?.map((item) => item.price * item.quantity)
     .reduce((acc, cur) => acc + cur, 0)
     .toFixed(2);
-  console.log(subTotal);
+
   return (
     <Sheet open={open} onOpenChange={handleSetOpen}>
       {/* Trigger button */}
