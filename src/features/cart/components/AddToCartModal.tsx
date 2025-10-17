@@ -11,16 +11,9 @@ import {
 import { Button } from "../../../components/ui/button";
 import { Check, Minus, Plus } from "lucide-react";
 import React, { useState } from "react";
-
-import { toast } from "sonner";
-import { useAddToCartMutation } from "@/features/cart/api/cart.api";
-
 import { DialogOverlay } from "@radix-ui/react-dialog";
-import { useAppDispatch } from "@/redux/hooks";
-
-import { addToCart } from "@/features/cart/slices/cartSlice";
-import { useAuth } from "@/hooks/useAuth";
 import { Plant, Variant } from "@/types/plant";
+import { useCartActions } from "../actions/cartAction";
 
 const AddToCartModal = ({
   plant,
@@ -30,37 +23,14 @@ const AddToCartModal = ({
   children: React.ReactNode;
 }) => {
   const [open, setOpen] = useState(false);
-  const [addToDatabaseCart, { isLoading }] = useAddToCartMutation();
   const [selectedVariant, setSelectedVariant] = useState<string | null>(null);
   const [quantity, setQuantity] = useState(1);
-  const { user } = useAuth();
-  const dispatch = useAppDispatch();
 
+  const { handleAddToCart } = useCartActions();
   const handleSelectVariant = (id: string) => {
     setSelectedVariant((prev) => (prev === id ? null : id));
   };
 
-  const handleAddToCart = async () => {
-    const variant = plant?.variants?.find((v) => v.sku === selectedVariant);
-    if (!variant) return;
-    const item = {
-      plantId: plant._id,
-      sku: variant.sku,
-      quantity: quantity,
-    };
-    dispatch(addToCart(item));
-    toast.success("Plant added to cart");
-    setOpen(false);
-    if (user) {
-      try {
-        const res = await addToDatabaseCart(item).unwrap();
-        if (res?.success) {
-        }
-      } catch (error: any) {
-        toast.error(error?.data?.message || "Failed to add");
-      }
-    }
-  };
   const handleIncrementStock = () => {
     const currentVariant = plant?.variants?.find(
       (p) => p.sku === selectedVariant,
@@ -147,8 +117,10 @@ const AddToCartModal = ({
         <DialogFooter>
           <Button
             className="w-full"
-            onClick={handleAddToCart}
-            disabled={!selectedVariant || isLoading}
+            onClick={() =>
+              handleAddToCart(plant, quantity, selectedVariant as string)
+            }
+            disabled={!selectedVariant}
           >
             Add to Cart
           </Button>

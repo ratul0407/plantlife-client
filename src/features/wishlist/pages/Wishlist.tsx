@@ -28,7 +28,6 @@ const Wishlist = () => {
   const dispatch = useAppDispatch();
   const wishlist = useAppSelector((state) => state.wishlist.items);
 
-  const [addToCart, { isLoading: addToCartLoading }] = useAddToCartMutation();
   const [getWishlist, { data: wishlistData, isLoading }] =
     useLazyGetLocalWishlistQuery();
   const [deleteWishlist] = useDeleteWishlistMutation();
@@ -51,18 +50,6 @@ const Wishlist = () => {
         console.error(error);
         toast.error("Failed to remove from wishlist");
       }
-    }
-  };
-
-  const handleAddToCart = async (plantId: string) => {
-    try {
-      const res = await addToCart({ plant: plantId, quantity: 1 }).unwrap();
-      if (res.success) {
-        toast.success("Product added to cart!");
-        await handleRemoveFromWishlist(plantId);
-      }
-    } catch (error) {
-      toast.error("Failed to add to cart");
     }
   };
 
