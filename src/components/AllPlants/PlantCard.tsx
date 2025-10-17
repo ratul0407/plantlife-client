@@ -2,9 +2,9 @@ import { useNavigate } from "react-router";
 import { motion } from "motion/react";
 import { BsCart } from "react-icons/bs";
 
-import AddToCartModal from "../AddToCartModal";
+import AddToCartModal from "../../features/cart/components/AddToCartModal";
 
-import WishlistHeart from "../WishlistHeart";
+import WishlistHeart from "../../features/wishlist/components/WishlistHeart";
 
 export const PlantCard = ({ plant, wishSet, variantImages }: any) => {
   const { name } = plant;

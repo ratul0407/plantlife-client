@@ -11,14 +11,14 @@ import { toast } from "sonner";
 import { useAppDispatch } from "@/redux/hooks";
 
 import MobileSlider from "@/components/MobileSlider";
-import WishlistHeart from "@/components/WishlistHeart";
+import WishlistHeart from "@/features/wishlist/components/WishlistHeart";
 
 import RecentlyViewed from "@/components/RecentlyViewed";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import gsap from "gsap";
 import { useAuth } from "@/hooks/useAuth";
-import { addToCart } from "@/redux/features/cart/cartSlice";
-import { useAddToCartMutation } from "@/redux/features/cart/cart.api";
+import { addToCart } from "@/features/cart/slices/cartSlice";
+import { useAddToCartMutation } from "@/features/cart/api/cart.api";
 import YouMayAlsoLike from "@/components/YouMayAlsoLike";
 import { Variant } from "@/types/plant";
 

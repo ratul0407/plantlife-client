@@ -1,4 +1,4 @@
-import AddToCartModal from "@/components/AddToCartModal";
+import AddToCartModal from "@/features/cart/components/AddToCartModal";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -9,14 +9,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { WishlistSkeleton } from "@/components/WishlistSkeleton";
+import { WishlistSkeleton } from "@/features/wishlist/components/WishlistSkeleton";
 import { useAuth } from "@/hooks/useAuth";
-import { useAddToCartMutation } from "@/redux/features/cart/cart.api";
+import { useAddToCartMutation } from "@/features/cart/api/cart.api";
 import {
   useDeleteWishlistMutation,
   useLazyGetLocalWishlistQuery,
-} from "@/redux/features/wishlist/wishlist.api";
-import { deleteFromWishlist } from "@/redux/features/wishlist/wishlistSlice";
+} from "@/features/wishlist/api/wishlist.api";
+import { deleteFromWishlist } from "@/features/wishlist/slices/wishlistSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { X } from "lucide-react";
 import { useEffect } from "react";

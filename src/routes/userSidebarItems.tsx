@@ -2,8 +2,8 @@ import { ISidebarItems } from "@/types";
 import { Box, Heart, ShoppingCart } from "lucide-react";
 import { lazy } from "react";
 
-const Wishlist = lazy(() => import("@/pages/user/Wishlist"));
-const Cart = lazy(() => import("@/pages/user/Cart"));
+const Wishlist = lazy(() => import("@/features/wishlist/pages/Wishlist"));
+const Cart = lazy(() => import("@/features/cart/pages/Cart"));
 const Orders = lazy(() => import("@/pages/user/Orders"));
 export const userSidebarItems: ISidebarItems[] = [
   {

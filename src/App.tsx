@@ -2,8 +2,8 @@ import { Outlet } from "react-router";
 import CommonLayout from "./components/layout/CommonLayout";
 import { useAppDispatch } from "./redux/hooks";
 import { useEffect } from "react";
-import { setWishlist } from "./redux/features/wishlist/wishlistSlice";
-import { setCart } from "./redux/features/cart/cartSlice";
+import { setWishlist } from "./features/wishlist/slices/wishlistSlice";
+import { setCart } from "./features/cart/slices/cartSlice";
 
 const App = () => {
   const dispatch = useAppDispatch();

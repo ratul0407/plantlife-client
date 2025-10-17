@@ -8,20 +8,27 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-import { Button } from "./ui/button";
+import { Button } from "../../../components/ui/button";
 import { Check, Minus, Plus } from "lucide-react";
-import { useState } from "react";
+import React, { useState } from "react";
 
 import { toast } from "sonner";
-import { useAddToCartMutation } from "@/redux/features/cart/cart.api";
+import { useAddToCartMutation } from "@/features/cart/api/cart.api";
 
 import { DialogOverlay } from "@radix-ui/react-dialog";
 import { useAppDispatch } from "@/redux/hooks";
 
-import { addToCart } from "@/redux/features/cart/cartSlice";
+import { addToCart } from "@/features/cart/slices/cartSlice";
 import { useAuth } from "@/hooks/useAuth";
+import { Plant, Variant } from "@/types/plant";
 
-const AddToCartModal = ({ plant, children }) => {
+const AddToCartModal = ({
+  plant,
+  children,
+}: {
+  plant: Plant;
+  children: React.ReactNode;
+}) => {
   const [open, setOpen] = useState(false);
   const [addToDatabaseCart, { isLoading }] = useAddToCartMutation();
   const [selectedVariant, setSelectedVariant] = useState<string | null>(null);
@@ -30,19 +37,15 @@ const AddToCartModal = ({ plant, children }) => {
   const dispatch = useAppDispatch();
 
   const handleSelectVariant = (id: string) => {
-    // toggle selection: if clicking the same, unselect
     setSelectedVariant((prev) => (prev === id ? null : id));
-    const currentVariant = plant?.variants?.find((p) => p.sku === id);
-    if (quantity > currentVariant?.stock) {
-      setQuantity(currentVariant?.stock);
-    }
   };
 
   const handleAddToCart = async () => {
     const variant = plant?.variants?.find((v) => v.sku === selectedVariant);
+    if (!variant) return;
     const item = {
-      plantId: plant?._id,
-      sku: variant?.sku,
+      plantId: plant._id,
+      sku: variant.sku,
       quantity: quantity,
     };
     dispatch(addToCart(item));
@@ -53,8 +56,7 @@ const AddToCartModal = ({ plant, children }) => {
         const res = await addToDatabaseCart(item).unwrap();
         if (res?.success) {
         }
-      } catch (error) {
-        console.log(error);
+      } catch (error: any) {
         toast.error(error?.data?.message || "Failed to add");
       }
     }
@@ -85,7 +87,7 @@ const AddToCartModal = ({ plant, children }) => {
         </DialogHeader>
 
         <div className="flex items-center justify-center gap-3">
-          {plant?.variants?.map((variant, index) => {
+          {plant?.variants?.map((variant: Variant, index: number) => {
             const isSelected = selectedVariant === variant.sku;
 
             return (
@@ -105,7 +107,7 @@ const AddToCartModal = ({ plant, children }) => {
                   />
                 </div>
                 <div className="mt-2 text-center">
-                  <p className="font-medium">{variant.name}</p>
+                  <p className="font-medium">{variant.variantName}</p>
                   <p className="text-muted-foreground text-sm">
                     ${variant.price}
                   </p>

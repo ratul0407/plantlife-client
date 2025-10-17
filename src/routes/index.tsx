@@ -18,8 +18,8 @@ import About from "@/pages/About";
 
 // import { lazy } from "react";
 import Blogs from "@/pages/Blogs";
-import Cart from "@/pages/user/Cart";
-import Wishlist from "@/pages/user/Wishlist";
+import Cart from "@/features/cart/pages/Cart";
+import Wishlist from "@/features/wishlist/pages/Wishlist";
 import Orders from "@/pages/user/Orders";
 import PlantDetails from "@/pages/PlantDetails";
 import Checkout from "@/pages/Checkout";

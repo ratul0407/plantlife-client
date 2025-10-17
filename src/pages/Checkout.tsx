@@ -9,7 +9,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { useLazyMyCartQuery } from "@/redux/features/cart/cart.api";
+import { useLazyMyCartQuery } from "@/features/cart/api/cart.api";
 import { useAppSelector } from "@/redux/hooks";
 import { CreditCard, Truck } from "lucide-react";
 import { useEffect } from "react";

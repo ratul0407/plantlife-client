@@ -19,12 +19,12 @@ import {
   deleteFromCart,
   openCart,
   updatePlantQuantity,
-} from "@/redux/features/cart/cartSlice";
+} from "@/features/cart/slices/cartSlice";
 import {
   useLazyMyCartQuery,
   useRemoveFromCartMutation,
   useUpdateCartMutation,
-} from "@/redux/features/cart/cart.api";
+} from "@/features/cart/api/cart.api";
 import { useAuth } from "@/hooks/useAuth";
 
 export function Cart() {
@@ -88,8 +88,10 @@ export function Cart() {
   }, [cartStore, getCart]);
 
   const subTotal = cart
-    ?.map((item) => item.price * item.quantity)
-    .reduce((acc, cur) => acc + cur, 0)
+    ?.map(
+      (item: { price: number; quantity: number }) => item.price * item.quantity,
+    )
+    .reduce((acc: number, cur: number) => acc + cur, 0)
     .toFixed(2);
 
   return (
@@ -142,6 +144,7 @@ export function Cart() {
                     <p className="text-sm text-gray-500">
                       ${(item?.price * item?.quantity).toFixed(2)}
                     </p>
+                    <p className="text-sm text-gray-500">{item?.variant}</p>
                     <div className="flex items-center overflow-hidden rounded-md border text-sm">
                       <Button
                         variant="ghost"

@@ -6,7 +6,7 @@ import {
   NavigationMenuList,
 } from "@/components/ui/navigation-menu";
 
-import { Cart } from "./Cart";
+import { Cart } from "../features/cart/components/Cart";
 import { Link, useLocation } from "react-router";
 import { Menu } from "./Home/menu/Menu";
 

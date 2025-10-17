@@ -1,4 +1,4 @@
-import { baseApi } from "../../baseApi";
+import { baseApi } from "../../../redux/baseApi";
 
 const cartApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({

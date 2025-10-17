@@ -1,67 +1,65 @@
+import { DataTable } from "@/components/modules/Admin/AllPlants/DataTable";
 import { Button } from "@/components/ui/button";
-import {
-  useRemoveFromCartMutation,
-  useUpdateCartMutation,
-} from "@/redux/features/cart/cart.api";
-import { useAppSelector } from "@/redux/hooks";
+import { Spinner } from "@/components/ui/spinner";
+import { useLazyMyCartQuery } from "@/features/cart/api/cart.api";
 
-import { Minus, Plus, Trash2 } from "lucide-react";
-import { useEffect, useState } from "react";
-import { Link } from "react-router";
-import { toast } from "sonner";
+import { useAppSelector } from "@/redux/hooks";
+import { X } from "lucide-react";
+import { useEffect } from "react";
+import { cartColumns } from "../../../pages/user/cartColumns";
+import { Input } from "@/components/ui/input";
+import { Separator } from "@/components/ui/separator";
 
 const Cart = () => {
-  const [amount, setAmount] = useState(0);
-  const [updateCart] = useUpdateCartMutation();
-  const [removeFromCart] = useRemoveFromCartMutation();
-  const cart = useAppSelector((state) => state.cart.items);
+  const cartStore = useAppSelector((state) => state.cart.items);
 
-  // useEffect(() => {
-  //   if (cart?.length) {
-  //     const variants = cart?.map((cartItem) =>
-  //       cartItem?.plantDetails?.variants?.find((v) => v.sku === cartItem.sku),
-  //     );
+  const [getCart, { data, isLoading }] = useLazyMyCartQuery();
 
-  //     let total = 0;
-  //     cart?.map((item, index: number) => {
-  //       total += variants?.[index]?.price * item?.quantity;
-  //     });
-
-  //     total.toString(2);
-  //     setAmount(total);
-  //   }
-  // }, [data]);
-
-  const handleRemoveFromCart = async (sku: string) => {
-    try {
-      const res = await removeFromCart({ sku: sku }).unwrap();
-      if (res.success) {
-        toast.success(res.message);
-      }
-    } catch (error) {
-      console.log(error);
+  useEffect(() => {
+    if (cartStore) {
+      getCart(cartStore);
     }
-  };
-  const handleIncrement = (max: number, current: number, sku: string) => {
-    if (current >= max) return;
-    updateCart({ quantity: current + 1, sku });
-  };
-  const handleDecrement = async (current: number, sku: string) => {
-    if (current <= 1) {
-      handleRemoveFromCart(sku);
-      return;
-    }
-    updateCart({ quantity: current - 1, sku });
-  };
+  }, [cartStore, getCart]);
+
+  const cart = data?.data;
+
+  if (isLoading) return <Spinner />;
   return (
     <div>
       <h1 className="bg-green-700 py-6 text-center text-2xl font-bold text-white lg:text-5xl">
         Your Cart
       </h1>
-      <main className="grid min-h-[calc(100vh-200px)] items-center justify-center">
+      {/* <main className="grid min-h-[calc(100vh-200px)] items-center justify-center">
         <h3 className="px-12 text-center text-3xl font-bold">
           Cart page is in Development...
         </h3>
+      </main> */}
+      <main className="flex min-h-screen items-start gap-6 p-12">
+        <div className="basis-2/3 rounded-xl border border-gray-200 px-12 py-4 shadow-sm">
+          <div className="flex items-center justify-between">
+            <h3 className="text-3xl font-bold">
+              Cart
+              <span className="pl-4 text-base font-medium text-gray-400">
+                ({cart?.length} products)
+              </span>
+            </h3>
+            <Button variant={"ghost"} className="text-red-500">
+              <X />
+              Clear cart
+            </Button>
+          </div>
+          {cart && <DataTable columns={cartColumns} data={cart} />}
+        </div>
+        <div className="basis-1/3 rounded-xl bg-gray-100 p-4">
+          <h3 className="font-xl py-4 font-bold">Promo Code</h3>
+          <div className="flex items-center rounded-full border border-gray-300">
+            <Input className="" placeholder="Type Here" />
+            <Button className="rounded-full">Apply</Button>
+          </div>
+          <div className="py-4">
+            <Separator />
+          </div>
+        </div>
       </main>
     </div>
     // <div className="space-y-6">

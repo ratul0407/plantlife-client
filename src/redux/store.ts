@@ -2,8 +2,8 @@ import { configureStore } from "@reduxjs/toolkit";
 // Or from '@reduxjs/toolkit/query/react'
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { baseApi } from "./baseApi";
-import cartReducer from "./features/cart/cartSlice";
-import wishlistReducer from "./features/wishlist/wishlistSlice";
+import cartReducer from "../features/cart/slices/cartSlice";
+import wishlistReducer from "../features/wishlist/slices/wishlistSlice";
 import recentReducer from "./features/recentlyViewed/recentSlice";
 export const store = configureStore({
   reducer: {

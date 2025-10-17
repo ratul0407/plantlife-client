@@ -2,16 +2,17 @@ import { useAuth } from "@/hooks/useAuth";
 import {
   useAddWishlistMutation,
   useDeleteWishlistMutation,
-} from "@/redux/features/wishlist/wishlist.api";
+} from "@/features/wishlist/api/wishlist.api";
 import {
   addToWishlist,
   deleteFromWishlist,
-} from "@/redux/features/wishlist/wishlistSlice";
+} from "@/features/wishlist/slices/wishlistSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { Plant } from "@/types/plant";
 import { IoHeart, IoHeartOutline } from "react-icons/io5";
 import { toast } from "sonner";
 
-const WishlistHeart = ({ plant }) => {
+const WishlistHeart = ({ plant }: { plant: Plant }) => {
   const dispatch = useAppDispatch();
   const { user } = useAuth();
 

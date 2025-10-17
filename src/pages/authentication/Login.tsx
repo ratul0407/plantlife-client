@@ -19,7 +19,7 @@ import { useLoginMutation } from "@/redux/features/auth.api";
 import config from "@/config";
 import { toast } from "sonner";
 import { useAppSelector } from "@/redux/hooks";
-import { useMergeWishlistMutation } from "@/redux/features/wishlist/wishlist.api";
+import { useMergeWishlistMutation } from "@/features/wishlist/api/wishlist.api";
 import { useAuth } from "@/hooks/useAuth";
 const loginSchema = z.object({
   email: z.string(),
