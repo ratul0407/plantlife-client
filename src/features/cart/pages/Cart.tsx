@@ -9,10 +9,11 @@ import { useEffect } from "react";
 import { cartColumns } from "../../../pages/user/cartColumns";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { useCartActions } from "../actions/cartAction";
 
 const Cart = () => {
   const cartStore = useAppSelector((state) => state.cart.items);
-
+  const { handleIncrement, handleDecrement } = useCartActions();
   const [getCart, { data, isLoading }] = useLazyMyCartQuery();
 
   useEffect(() => {
@@ -48,7 +49,14 @@ const Cart = () => {
               Clear cart
             </Button>
           </div>
-          {cart && <DataTable columns={cartColumns} data={cart} />}
+          {cart && (
+            <DataTable
+              onIncrement={handleIncrement}
+              onDecrement={handleDecrement}
+              columns={cartColumns}
+              data={cart}
+            />
+          )}
         </div>
         <div className="basis-1/3 rounded-xl bg-gray-100 p-4">
           <h3 className="font-xl py-4 font-bold">Promo Code</h3>

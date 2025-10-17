@@ -9,7 +9,7 @@ interface Cart {
   sku: string;
   price: number;
   image: string;
-  quantity: string;
+  quantity: number;
   variant: string;
 }
 export const cartColumns: ColumnDef<Cart>[] = [
@@ -38,11 +38,13 @@ export const cartColumns: ColumnDef<Cart>[] = [
   {
     accessorKey: "quantity",
     header: "Quantity",
-    cell: ({ row }) => {
-      const { quantity } = row.original;
+    cell: ({ row, table }) => {
+      const { quantity, sku } = row.original;
+      const { onIncrement, onDecrement } = table.options.meta ?? {};
       return (
         <div className="flex items-center gap-4">
           <Button
+            onClick={() => onIncrement(sku, quantity + 1)}
             variant={"ghost"}
             className="rounded-full border border-gray-300"
             size={"icon"}
@@ -51,6 +53,7 @@ export const cartColumns: ColumnDef<Cart>[] = [
           </Button>
           <p>{quantity}</p>
           <Button
+            onClick={() => onDecrement(sku, quantity - 1)}
             variant={"ghost"}
             className="rounded-full border border-gray-300"
             size={"icon"}

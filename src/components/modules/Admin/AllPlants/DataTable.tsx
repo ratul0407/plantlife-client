@@ -16,15 +16,24 @@ import {
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  onIncrement?: (id: string) => void;
+  onDecrement?: (id: string) => void;
 }
 export function DataTable<TData, TValue>({
   columns,
   data,
+  onIncrement,
+  onDecrement,
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
     columns,
+
     getCoreRowModel: getCoreRowModel(),
+    meta: {
+      onIncrement,
+      onDecrement,
+    },
   });
 
   return (

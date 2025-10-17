@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { BsCart } from "react-icons/bs";
 import { Minus, Plus, X } from "lucide-react";
 import { Link } from "react-router";
-import { toast } from "sonner";
 
 import {
   Sheet,
@@ -15,22 +14,15 @@ import {
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import {
-  deleteFromCart,
-  openCart,
-  updatePlantQuantity,
-} from "@/features/cart/slices/cartSlice";
-import {
-  useLazyMyCartQuery,
-  useRemoveFromCartMutation,
-  useUpdateCartMutation,
-} from "@/features/cart/api/cart.api";
-import { useAuth } from "@/hooks/useAuth";
+import { openCart } from "@/features/cart/slices/cartSlice";
+import { useLazyMyCartQuery } from "@/features/cart/api/cart.api";
+import { useCartActions } from "../actions/cartAction";
 
 export function Cart() {
   const dispatch = useAppDispatch();
   const open = useAppSelector((state) => state.cart.open);
-  const { user } = useAuth();
+  const { handleDecrement, handleIncrement, handleRemoveFromCart } =
+    useCartActions();
   const handleSetOpen = (state: boolean) => {
     dispatch(openCart(state));
   };
@@ -40,47 +32,8 @@ export function Cart() {
   const [getCart, { data: cartData, isLoading }] =
     useLazyMyCartQuery(undefined);
 
-  const [updateCart] = useUpdateCartMutation();
-  const [deleteCart] = useRemoveFromCartMutation();
   const cart = cartData?.data;
 
-  const handleIncrement = async (sku: string, newQuantity: number) => {
-    dispatch(updatePlantQuantity({ sku, newQuantity }));
-    if (user) {
-      try {
-        await updateCart({ newQuantity, sku });
-      } catch (error) {
-        dispatch(updatePlantQuantity({ sku, newQuantity: newQuantity - 1 }));
-      }
-    }
-  };
-
-  const handleDecrement = async (sku: string, newQuantity: number) => {
-    if (newQuantity <= 0) {
-      dispatch(deleteFromCart(sku));
-      return;
-    }
-    dispatch(updatePlantQuantity({ sku, newQuantity }));
-    if (user) {
-      try {
-        await updateCart({ newQuantity, sku });
-      } catch (error) {
-        dispatch(updatePlantQuantity({ sku, newQuantity: newQuantity + 1 }));
-      }
-    }
-  };
-
-  const removeFromCart = async (sku: string) => {
-    dispatch(deleteFromCart(sku));
-    if (user) {
-      try {
-        await deleteCart({ sku });
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    toast.info("Plant removed from cart");
-  };
   useEffect(() => {
     if (cartStore) {
       getCart(cartStore);
@@ -171,7 +124,7 @@ export function Cart() {
                 <Button
                   variant="ghost"
                   size="icon"
-                  onClick={() => removeFromCart(item?.sku)}
+                  onClick={() => handleRemoveFromCart(item?.sku)}
                 >
                   <X className="h-4 w-4 text-gray-600" />
                 </Button>
