@@ -122,9 +122,7 @@ const Wishlist = () => {
                       </TableCell>
                       <TableCell>
                         <AddToCartModal plant={item}>
-                          <Button disabled={addToCartLoading}>
-                            Add to cart
-                          </Button>
+                          <Button>Add to cart</Button>
                         </AddToCartModal>
                       </TableCell>
                     </TableRow>
@@ -153,7 +151,7 @@ const Wishlist = () => {
                         ${item?.variants?.[0]?.price}
                       </p>
                       <AddToCartModal plant={item}>
-                        <Button disabled={addToCartLoading}>Add to cart</Button>
+                        <Button>Add to cart</Button>
                       </AddToCartModal>
                     </div>
                     <div>
