@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { BsCart } from "react-icons/bs";
-import { Minus, Plus, X } from "lucide-react";
+import { ArrowRight, Minus, Plus, X } from "lucide-react";
 import { Link } from "react-router";
 
 import {
@@ -29,8 +29,7 @@ export function Cart() {
 
   const cartStore = useAppSelector((state) => state.cart.items);
 
-  const [getCart, { data: cartData, isLoading }] =
-    useLazyMyCartQuery(undefined);
+  const [getCart, { data: cartData }] = useLazyMyCartQuery(undefined);
 
   const cart = cartData?.data;
 
@@ -70,7 +69,13 @@ export function Cart() {
         className="flex w-full flex-col p-0 sm:max-w-md"
       >
         <SheetHeader className="border-b p-4">
-          <SheetTitle>Your Cart</SheetTitle>
+          <SheetTitle>
+            <Link to="/cart">
+              <div className="flex items-center gap-2">
+                View Cart <ArrowRight size={16} />
+              </div>
+            </Link>
+          </SheetTitle>
         </SheetHeader>
 
         {/* cart items */}

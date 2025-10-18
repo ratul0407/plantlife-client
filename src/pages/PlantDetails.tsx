@@ -372,8 +372,10 @@ const PlantDetails = () => {
         </div>
       </div>
 
-      <YouMayAlsoLike />
-      <RecentlyViewed />
+      <div className="space-y-12 py-12">
+        <YouMayAlsoLike />
+        {/* <RecentlyViewed /> */}
+      </div>
     </div>
   );
 };

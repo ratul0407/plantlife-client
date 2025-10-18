@@ -16,8 +16,8 @@ import {
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  onIncrement?: (id: string) => void;
-  onDecrement?: (id: string) => void;
+  onIncrement?: (sku: string, newQuantity: number) => void;
+  onDecrement?: (sku: string, newQuantity: number) => void;
 }
 export function DataTable<TData, TValue>({
   columns,

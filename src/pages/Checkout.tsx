@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
@@ -171,7 +172,7 @@ const Checkout = () => {
           </div>
         </div>
         {/* right side */}
-        <div className="space-y-5 md:w-1/2">
+        <div className="flex flex-col items-stretch justify-between gap-6 md:w-1/2">
           <p className="text-3xl font-bold">Review Your Cart</p>
           <div>
             {cart?.map((item: any) => (
@@ -197,6 +198,10 @@ const Checkout = () => {
                 </div>
               </div>
             ))}
+          </div>
+          <div className="grid gap-4">
+            <p>Delivery Generally takes 7-8 Days</p>
+            <Button>Place order</Button>
           </div>
         </div>
       </div>
