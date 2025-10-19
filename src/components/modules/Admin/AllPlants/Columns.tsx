@@ -60,7 +60,6 @@ export const columns: ColumnDef<Plant>[] = [
     header: "Category",
     cell: ({ getValue }) => {
       const data = getValue();
-      console.log(data);
       if (typeof data === "string")
         return (
           <p>

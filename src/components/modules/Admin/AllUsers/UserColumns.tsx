@@ -9,7 +9,7 @@ export const userColumns: ColumnDef<User>[] = [
     cell: ({ getValue }) => {
       const { img, name } = getValue() as { img: string | null; name: string };
       return (
-        <div>
+        <div className="flex items-center gap-2">
           {img ? (
             <img
               className="size-10 rounded-full"
@@ -18,10 +18,10 @@ export const userColumns: ColumnDef<User>[] = [
             />
           ) : (
             <p className="flex size-10 items-center justify-center rounded-full bg-gray-400 text-lg text-black">
-              {name[0]}
+              {name[0].toUpperCase()}
             </p>
           )}
-          <p className="text-gray-700">{name}</p>
+          <p className="text-gray-600">{name}</p>
         </div>
       );
     },
@@ -33,10 +33,24 @@ export const userColumns: ColumnDef<User>[] = [
   },
   {
     accessorKey: "isVerified",
+
+    cell: ({ getValue }) => {
+      const result = getValue();
+      if (result) {
+        return <p>Yes</p>;
+      } else {
+        return <p>No</p>;
+      }
+    },
     header: "isVerified",
   },
   {
     accessorKey: "role",
+    cell: ({ getValue }) => {
+      const result = getValue();
+
+      return <p>{(result as string).split("_").join(" ")}</p>;
+    },
     header: "Role",
   },
   {

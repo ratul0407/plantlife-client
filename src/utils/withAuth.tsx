@@ -7,7 +7,6 @@ import { Navigate } from "react-router";
 export const withAuth = (Component: ComponentType, requiredRole?: TRole) => {
   return function AuthWrapper() {
     const { user, isLoading } = useAuth();
-    console.log(requiredRole, isLoading, user?.role);
     if (isLoading || !user) {
       return <Spinner />;
     }
