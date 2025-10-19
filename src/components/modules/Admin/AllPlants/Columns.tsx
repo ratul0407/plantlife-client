@@ -5,13 +5,12 @@ import { Link } from "react-router";
 
 export const columns: ColumnDef<Plant>[] = [
   {
-    accessorKey: "name",
     header: "Name",
 
     accessorFn: (row) => ({
       name: row.name,
       image: row.variants?.[0]?.image,
-      variants: row.variants.map((v) => v.variantName),
+      variants: [...row.variants.map((v) => v.variantName)],
     }),
     cell: ({ getValue }) => {
       const { name, image, variants } = getValue() as {
@@ -35,7 +34,6 @@ export const columns: ColumnDef<Plant>[] = [
     },
   },
   {
-    accessorKey: "price",
     accessorFn: (row) => ({ price: row.variants?.[0]?.price }),
     cell: ({ getValue }) => {
       const { price } = getValue() as { price: number };
@@ -44,7 +42,6 @@ export const columns: ColumnDef<Plant>[] = [
     header: "Price",
   },
   {
-    accessorKey: "stock",
     accessorFn: (row) => ({
       stock: row.variants?.[0]?.stock,
     }),
@@ -56,7 +53,6 @@ export const columns: ColumnDef<Plant>[] = [
   },
   {
     accessorKey: "category",
-
     header: "Category",
     cell: ({ getValue }) => {
       const data = getValue();
@@ -75,7 +71,6 @@ export const columns: ColumnDef<Plant>[] = [
     },
   },
   {
-    accessorKey: "action",
     header: "Action",
     accessorFn: (row) => ({ id: row._id }),
     cell: ({ getValue }) => {

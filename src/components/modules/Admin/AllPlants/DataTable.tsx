@@ -12,6 +12,7 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import { useMemo } from "react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -25,9 +26,11 @@ export function DataTable<TData, TValue>({
   onIncrement,
   onDecrement,
 }: DataTableProps<TData, TValue>) {
+  const memoizedData = useMemo(() => data ?? [], [data]);
+  const memoizedColumns = useMemo(() => columns ?? [], [columns]);
   const table = useReactTable({
-    data,
-    columns,
+    data: memoizedData,
+    columns: memoizedColumns,
 
     getCoreRowModel: getCoreRowModel(),
     meta: {
@@ -35,6 +38,8 @@ export function DataTable<TData, TValue>({
       onDecrement,
     },
   });
+
+  console.log(table.getRowModel().rows.length);
 
   return (
     <div>
