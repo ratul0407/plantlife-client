@@ -8,7 +8,11 @@ export const withAuth = (Component: ComponentType, requiredRole?: TRole) => {
   return function AuthWrapper() {
     const { user, isLoading } = useAuth();
     if (isLoading || !user) {
-      return <Spinner />;
+      return (
+        <div className="flex min-h-screen items-center justify-center">
+          <Spinner className="size-10" />
+        </div>
+      );
     }
     if (!isLoading && !user?.role) {
       return <Navigate to="/login" />;

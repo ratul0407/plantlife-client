@@ -43,7 +43,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               <SidebarMenu>
                 {item.items.map((item, index) => (
                   <SidebarMenuItem key={index}>
-                    <SidebarMenuButton asChild isActive={pathname === item.url}>
+                    <SidebarMenuButton
+                      asChild
+                      className={` ${
+                        pathname === item.url && "bg-green-600 text-white"
+                      } hover:bg-transparent hover:text-green-600`}
+                    >
                       <Link to={item.url}>
                         <item.icon />
                         <p>{item.title}</p>

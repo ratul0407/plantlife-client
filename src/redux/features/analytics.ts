@@ -8,7 +8,14 @@ export const analyticsApi = baseApi.injectEndpoints({
         method: "GET",
       }),
     }),
+    getPlantAnalytics: builder.query({
+      query: () => ({
+        url: "/analytics/plant",
+        method: "GET",
+      }),
+    }),
   }),
 });
 
-export const { useGetUserAnalyticsQuery } = analyticsApi;
+export const { useGetUserAnalyticsQuery, useGetPlantAnalyticsQuery } =
+  analyticsApi;

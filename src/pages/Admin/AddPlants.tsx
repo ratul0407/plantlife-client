@@ -22,6 +22,7 @@ import { plantCategories } from "@/constants/plantCategories";
 
 import { FileMetadata } from "@/hooks/use-file-upload";
 import { useAddPlantsMutation } from "@/redux/features/plant.api";
+import { File } from "buffer";
 import { PlusCircle, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
@@ -102,8 +103,8 @@ const AddPlants = () => {
   };
 
   return (
-    <div>
-      <h1 className="mb-12 text-4xl font-bold">Add Plants</h1>
+    <div className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
+      <h1 className="py-4 pb-10 text-xl font-medium">Add Plants</h1>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}

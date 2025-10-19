@@ -29,7 +29,7 @@ export default function UserMenu() {
   const dispatch = useAppDispatch();
   const handleLogout = async () => {
     await logout(undefined);
-    setAuthUser(null);
+    setAuthUser();
     dispatch(authApi.util.resetApiState());
   };
 
@@ -89,7 +89,7 @@ export default function UserMenu() {
                   <span>Wishlist</span>
                 </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem className="py-0">
+              {/* <DropdownMenuItem className="py-0">
                 <Link
                   to="/cart"
                   className="flex h-full w-full items-center gap-2 py-1.5"
@@ -101,7 +101,7 @@ export default function UserMenu() {
                   />
                   <span>Cart</span>
                 </Link>
-              </DropdownMenuItem>
+              </DropdownMenuItem> */}
               <DropdownMenuItem className="py-0">
                 <Link
                   to="/orders"

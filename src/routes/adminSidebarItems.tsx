@@ -17,6 +17,12 @@ export const adminSidebarItems: ISidebarItems[] = [
         icon: Grid2X2,
       },
       {
+        title: "All Plants",
+        url: "/admin/all-plants",
+        component: AllPlants,
+        icon: Sprout,
+      },
+      {
         title: "Add Plants",
         url: "/admin/add-plants",
         component: AddPlants,
@@ -27,12 +33,6 @@ export const adminSidebarItems: ISidebarItems[] = [
         url: "/admin/all-users",
         component: AllUsers,
         icon: User,
-      },
-      {
-        title: "All Plants",
-        url: "/admin/all-plants",
-        component: AllPlants,
-        icon: Sprout,
       },
     ],
   },

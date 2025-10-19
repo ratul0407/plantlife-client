@@ -69,13 +69,7 @@ export function Cart() {
         className="flex w-full flex-col p-0 sm:max-w-md"
       >
         <SheetHeader className="border-b p-4">
-          <SheetTitle>
-            <Link to="/cart">
-              <div className="flex items-center gap-2">
-                View Cart <ArrowRight size={16} />
-              </div>
-            </Link>
-          </SheetTitle>
+          <SheetTitle>Cart</SheetTitle>
         </SheetHeader>
 
         {/* cart items */}
