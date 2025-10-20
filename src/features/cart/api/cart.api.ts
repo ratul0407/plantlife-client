@@ -34,6 +34,13 @@ const cartApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["CART"],
     }),
+    deleteCart: builder.mutation({
+      query: () => ({
+        url: "/cart/delete-cart",
+        method: "DELETE",
+      }),
+      invalidatesTags: ["CART"],
+    }),
   }),
 });
 
@@ -42,4 +49,5 @@ export const {
   useLazyMyCartQuery,
   useUpdateCartMutation,
   useRemoveFromCartMutation,
+  useDeleteCartMutation,
 } = cartApi;

@@ -22,10 +22,12 @@ const AllPlants = () => {
   const { data, isLoading, isError } = useGetAllPlantsQuery(
     {
       category: category || undefined,
-      sort: sort || "",
+      sort: sort || undefined,
+      searchTerm: debouncedSearch || undefined,
     },
-    { skip: !category },
+    { queryKey: ["plants", { category, sort, searchTerm: debouncedSearch }] },
   );
+
   if (isLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
@@ -61,7 +63,7 @@ const AllPlants = () => {
                     Price Low to High
                   </SelectItem>
                   <SelectItem value="-variants.0.price">
-                    high Low to Low
+                    Price high to Low
                   </SelectItem>
                   <SelectItem value="name">Alphabetically A-Z</SelectItem>
                 </SelectGroup>
@@ -70,7 +72,7 @@ const AllPlants = () => {
           </div>
 
           <div className="col-span-1">
-            <Select value={sort} onValueChange={setSort}>
+            <Select>
               <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="Stock" />
               </SelectTrigger>
@@ -110,7 +112,11 @@ const AllPlants = () => {
       </div>
       <div className="px-8 py-12">
         {!isLoading && !isError && (
-          <DataTable key={category + sort} columns={columns} data={plants} />
+          <DataTable
+            key={category + sort + search}
+            columns={columns}
+            data={plants}
+          />
         )}
       </div>
     </div>

@@ -5,7 +5,7 @@ const Orders = () => {
         Your Orders
       </h1>
       <main className="grid min-h-[calc(100vh-200px)] items-center justify-center">
-        <h3 className="px-12 text-center text-3xl font-bold">
+        <h3 className="px-12 text-center text-3xl font-bold text-gray-400">
           No orders placed yet :(
         </h3>
       </main>

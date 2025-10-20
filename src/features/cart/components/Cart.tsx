@@ -146,11 +146,9 @@ export function Cart() {
               <p className="font-semibold">${subTotal}</p>
             </div>
             <SheetClose asChild>
-              <Button className="w-full">
-                <Link to="/checkout" className="w-full">
-                  Proceed to Checkout
-                </Link>
-              </Button>
+              <Link to="/checkout" className="w-full">
+                <Button className="w-full">Proceed to Checkout</Button>
+              </Link>
             </SheetClose>
           </SheetFooter>
         )}
