@@ -82,7 +82,7 @@ export function Cart() {
               >
                 <div className="flex items-center gap-3">
                   <Link
-                    to={`/plants/${item?.plant}`}
+                    to={`/plants/${item?.plantId}`}
                     onClick={() => handleSetOpen(false)}
                   >
                     <img

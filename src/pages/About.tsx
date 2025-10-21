@@ -43,7 +43,7 @@ export default function About() {
 
         {/* Paragraphs */}
         <section className="text-lg lg:space-y-8 lg:leading-relaxed">
-          <p>
+          <p className="text-gray-600">
             At PlantLife, we believe that every home and workspace deserves the
             calming touch of greenery. Our mission is to make it easy for
             anyone—whether you’re a seasoned plant enthusiast or just starting
@@ -52,7 +52,7 @@ export default function About() {
             ready to thrive.
           </p>
 
-          <p>
+          <p className="text-gray-600">
             We know that plants aren’t just decorations; they’re companions that
             improve air quality, reduce stress, and create a sense of
             well-being. That’s why we go beyond simply selling plants—we provide
@@ -85,7 +85,7 @@ export default function About() {
             />
           </div>
         </section>
-        <p>
+        <p className="text-gray-600">
           What sets us apart is our dedication to customer experience. From
           secure packaging that protects your plants in transit to responsive
           support that helps with care questions, we’re here every step of the

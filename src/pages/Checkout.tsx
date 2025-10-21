@@ -77,10 +77,9 @@ const Checkout = () => {
     }
   };
 
-  const total = cart?.reduce(
-    (acc, item) => acc + item.price * item.quantity,
-    0,
-  );
+  const total = cart
+    ?.reduce((acc, item) => acc + item.price * item.quantity, 0)
+    .toFixed(2);
   if (isLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
@@ -154,7 +153,7 @@ const Checkout = () => {
                 {/* phone number */}
                 <FormField
                   control={form.control}
-                  name="email"
+                  name="phone"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Phone Number</FormLabel>

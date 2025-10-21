@@ -131,7 +131,8 @@ export const AllPlantsSection = () => {
                 <SelectItem value="-variants.0.price">
                   Price, High to low
                 </SelectItem>
-                <SelectItem value="name">Alphabetically a-z</SelectItem>
+                <SelectItem value="name">Alphabetically A-Z</SelectItem>
+                <SelectItem value="-name">Alphabetically Z-A</SelectItem>
               </SelectContent>
             </Select>
           </div>
