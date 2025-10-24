@@ -4,6 +4,7 @@ import {
   LayoutDashboard,
   LogOutIcon,
   ShoppingCart,
+  User,
 } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -89,19 +90,7 @@ export default function UserMenu() {
                   <span>Wishlist</span>
                 </Link>
               </DropdownMenuItem>
-              {/* <DropdownMenuItem className="py-0">
-                <Link
-                  to="/cart"
-                  className="flex h-full w-full items-center gap-2 py-1.5"
-                >
-                  <ShoppingCart
-                    size={16}
-                    className="opacity-60"
-                    aria-hidden="true"
-                  />
-                  <span>Cart</span>
-                </Link>
-              </DropdownMenuItem> */}
+
               <DropdownMenuItem className="py-0">
                 <Link
                   to="/orders"
@@ -109,6 +98,15 @@ export default function UserMenu() {
                 >
                   <Box size={16} className="opacity-60" aria-hidden="true" />
                   <span>Orders</span>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem className="py-0">
+                <Link
+                  to="/profile"
+                  className="flex h-full w-full items-center gap-2 py-1.5"
+                >
+                  <User size={16} className="opacity-60" aria-hidden="true" />
+                  <span>Profile</span>
                 </Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>

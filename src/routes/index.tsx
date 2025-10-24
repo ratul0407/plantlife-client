@@ -18,11 +18,12 @@ import About from "@/pages/About";
 
 // import { lazy } from "react";
 import Blogs from "@/pages/Blogs";
-import Cart from "@/features/cart/pages/Cart";
+
 import Wishlist from "@/features/wishlist/pages/Wishlist";
 import Orders from "@/pages/user/Orders";
 import PlantDetails from "@/pages/PlantDetails";
 import Checkout from "@/pages/Checkout";
+import Profile from "@/features/profile/Profile";
 
 // const Checkout = lazy(() => import("@/pages/Checkout"));
 export const router = createBrowserRouter([
@@ -47,8 +48,8 @@ export const router = createBrowserRouter([
         Component: Blogs,
       },
       {
-        path: "/cart",
-        Component: Cart,
+        path: "/profile",
+        Component: Profile,
       },
       {
         path: "/wishlist",
