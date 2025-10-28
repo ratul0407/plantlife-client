@@ -9,7 +9,7 @@ const Overview = () => {
   const { data: plantRes } = useGetPlantAnalyticsQuery(undefined);
   const plantData = plantRes?.data;
   const userData = userRes?.data;
-  console.log(userData, plantData);
+
   return (
     <div className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
       <h1 className="py-4 pl-8 text-xl font-medium">Analytics</h1>{" "}

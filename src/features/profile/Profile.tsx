@@ -3,7 +3,7 @@ import UpdateProfile from "./UpdateProfile";
 
 const Profile = () => {
   const { user } = useAuth();
-  console.log(user);
+
   return (
     <main className="pb-8 md:pb-12 lg:pb-24">
       <h1 className="bg-green-700 py-6 text-center text-2xl font-bold text-white lg:text-5xl">

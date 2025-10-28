@@ -36,7 +36,7 @@ const AllPlants = () => {
     );
   }
   const plants = data?.data?.data || [];
-  console.log(debouncedSearch);
+
   return (
     <div className="rounded-xl border border-gray-200 bg-white py-4 shadow-sm">
       <h1 className="py-4 pl-8 text-xl font-medium">All Plants </h1>

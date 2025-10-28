@@ -22,7 +22,7 @@ export const useCartActions = () => {
 
   const handleIncrement = async (sku: string, newQuantity: number) => {
     dispatch(updatePlantQuantity({ sku, newQuantity }));
-    console.log("I was used");
+
     if (user) {
       try {
         await updateCart({ newQuantity, sku });
@@ -37,7 +37,7 @@ export const useCartActions = () => {
       dispatch(deleteFromCart(sku));
       return;
     }
-    console.log("I was used");
+
     dispatch(updatePlantQuantity({ sku, newQuantity }));
     if (user) {
       try {

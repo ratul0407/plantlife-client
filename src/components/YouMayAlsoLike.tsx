@@ -11,7 +11,7 @@ import { Plant } from "@/types/plant";
 const YouMayAlsoLike = () => {
   const { data: morePlants, isLoading } = useGetAllPlantsQuery(undefined);
   const plants = morePlants?.data?.data;
-  console.log(plants);
+
   if (isLoading) return <Spinner />;
   return (
     <section className="pt-12">

@@ -36,7 +36,6 @@ const Cart = () => {
     if (cartStore) {
       getCart(cartStore);
     }
-    console.log("I was used");
   }, [cartStore, getCart]);
 
   const cart = data?.data;

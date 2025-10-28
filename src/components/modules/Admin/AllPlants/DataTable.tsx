@@ -39,8 +39,6 @@ export function DataTable<TData, TValue>({
     },
   });
 
-  console.log(table.getRowModel().rows.length);
-
   return (
     <div>
       <Table>

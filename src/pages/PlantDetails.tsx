@@ -76,7 +76,6 @@ const PlantDetails = () => {
     return () => st.kill();
   }, [isSuccess, plant]);
 
-  console.log("I have rendered");
   // state
   const [imgIndex, setImgIndex] = useState(0);
   const [currentVariant, setCurrentVariant] = useState<Variant | null>(null);
@@ -151,7 +150,7 @@ const PlantDetails = () => {
   };
 
   //handle add to cart
-  console.log(currentVariant);
+
   const handleAddToCart = async () => {
     const item = {
       plantId: plant?._id,

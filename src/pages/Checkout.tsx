@@ -37,9 +37,7 @@ const Checkout = () => {
   const dispatch = useAppDispatch();
   const cartStore = useAppSelector((state) => state.cart.items);
   const form = useForm();
-  const onSubmit = (data) => {
-    console.log(data);
-  };
+  const onSubmit = (data) => {};
 
   const cart = cartData?.data;
   useEffect(() => {
