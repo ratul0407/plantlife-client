@@ -43,7 +43,7 @@ const UpdateProfile = () => {
   const { user } = useAuth();
   const form = useForm();
   const onSubmit = (data: FieldValues) => {
-    console.log(data);
+    
   };
   return (
     <Dialog>
