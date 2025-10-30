@@ -13,19 +13,17 @@ import { role } from "@/constants/role";
 import { TRole } from "@/types";
 import { generateRoute } from "@/utils/generateRoutes";
 import { adminSidebarItems } from "./adminSidebarItems";
-// import { userSidebarItems } from "./userSidebarItems";
-import About from "@/pages/About";
 
-// import { lazy } from "react";
-import Blogs from "@/pages/Blogs";
-
-import Wishlist from "@/features/wishlist/pages/Wishlist";
+import { lazy } from "react";
 import Orders from "@/pages/user/Orders";
-import PlantDetails from "@/pages/PlantDetails";
-import Checkout from "@/pages/Checkout";
-import Profile from "@/features/profile/Profile";
+import { allPlantsLoader } from "./allPlantsLoader";
 
-// const Checkout = lazy(() => import("@/pages/Checkout"));
+const Checkout = lazy(() => import("@/pages/Checkout"));
+const About = lazy(() => import("@/pages/About"));
+const PlantDetails = lazy(() => import("@/pages/PlantDetails"));
+const Profile = lazy(() => import("@/features/profile/Profile"));
+const Wishlist = lazy(() => import("@/features/wishlist/pages/Wishlist"));
+
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -42,10 +40,6 @@ export const router = createBrowserRouter([
       {
         path: "/checkout",
         Component: Checkout,
-      },
-      {
-        path: "/blogs",
-        Component: Blogs,
       },
       {
         path: "/profile",
@@ -100,15 +94,4 @@ export const router = createBrowserRouter([
       ...generateRoute(adminSidebarItems),
     ],
   },
-  // {
-  //   path: "/user",
-  //   Component: withAuth(DashboardLayout, role.user as TRole),
-  //   children: [
-  //     {
-  //       index: true,
-  //       element: <Navigate to="/user/wishlist" />,
-  //     },
-  //     ...generateRoute(userSidebarItems),
-  //   ],
-  // },
 ]);

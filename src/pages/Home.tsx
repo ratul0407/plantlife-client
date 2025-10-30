@@ -17,7 +17,7 @@ export const Home = () => {
 
       <main className="space-y-20 px-4 py-12 sm:px-6 md:space-y-12 lg:space-y-32 2xl:container 2xl:mx-auto">
         {/* curated plants section */}
-        <section>
+        <section id="curated">
           <CuratedPlants />
         </section>
         <section>
@@ -35,7 +35,6 @@ export const Home = () => {
           <VisitStore />
         </section>
       </main>
-      <footer></footer>
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import { useEffect, useId, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -50,9 +50,12 @@ export default function Navbar() {
     };
   }, [lastScrollY]);
 
+  const headerRef = useRef(null);
+  console.log(headerRef.current);
   return (
     <>
       <header
+        ref={headerRef}
         className={`font-roboto sticky top-0 z-[20] border-b bg-white text-black transition-all duration-200 ${show ? "translate-y-0" : "-translate-y-full"} `}
       >
         <Marquee />

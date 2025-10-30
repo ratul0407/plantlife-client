@@ -15,10 +15,10 @@
   --background-image-plants-banner: url("./assets/static/plants-banner.jpg");
 }
 
+html {
+  scroll-behavior: smooth;
+}
 @layer components {
-  .btn {
-    @apply cursor-pointer rounded-sm bg-white p-4 text-center font-medium text-black uppercase transition-colors duration-300 ease-linear hover:bg-black/90 hover:text-white;
-  }
   .heading {
     @apply text-2xl sm:text-3xl md:text-4xl lg:text-5xl;
   }

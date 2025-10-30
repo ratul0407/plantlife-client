@@ -41,7 +41,7 @@ const plants = [
 export const CuratedPlants = () => {
   return (
     <div className="space-y-10 lg:space-y-20">
-      <div className="md:px-4 lg:px-8">
+      <div>
         <h3 className="heading overflow-hidden">
           <span className="block">
             Choose from our <span className="plant-text">curated plant</span>
@@ -51,7 +51,7 @@ export const CuratedPlants = () => {
       </div>
 
       {/* plants  */}
-      <div className="grid gap-4 sm:grid-cols-2 md:px-4 lg:grid-cols-4 lg:gap-1 lg:px-8">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-1">
         {plants.map((plant) => {
           return <PlantCard key={plant.id} plant={plant} />;
         })}
