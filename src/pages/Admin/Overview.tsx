@@ -3,13 +3,63 @@ import {
   useGetUserAnalyticsQuery,
 } from "@/redux/features/analytics";
 import { ArrowUp, Heart, Leaf, ShoppingCart, User } from "lucide-react";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+);
+import { Line } from "react-chartjs-2";
+export const options = {
+  responsive: true,
+  plugins: {
+    legend: {
+      position: "top" as const,
+    },
+    title: {
+      display: true,
+      text: "Chart.js Line Chart",
+    },
+  },
+};
 
+const labels = ["January", "February", "March", "April", "May", "June", "July"];
+
+export const data = {
+  labels,
+  datasets: [
+    {
+      label: "Dataset 1",
+      data: [1000, 1000, 3409, 340934, 3403, 343, 756, 3434, 23, 12],
+      borderColor: "rgb(255, 99, 132)",
+      backgroundColor: "rgba(255, 99, 132, 0.5)",
+    },
+    {
+      label: "Dataset 2",
+      data: [1000, 1000, 3409, 340934, 3403, 343, 756, 3434, 23, 12],
+      borderColor: "rgb(53, 162, 235)",
+      backgroundColor: "rgba(53, 162, 235, 0.5)",
+    },
+  ],
+};
 const Overview = () => {
   const { data: userRes } = useGetUserAnalyticsQuery(undefined);
   const { data: plantRes } = useGetPlantAnalyticsQuery(undefined);
   const plantData = plantRes?.data;
   const userData = userRes?.data;
-
   return (
     <div className="container mx-auto rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
       <h1 className="py-4 pl-8 text-xl font-medium">Analytics</h1>{" "}
@@ -87,6 +137,9 @@ const Overview = () => {
           </div>
         </div>
       </div>
+      {/* <div className="w-full">
+        <Line options={options} data={data} />;
+      </div> */}
     </div>
   );
 };

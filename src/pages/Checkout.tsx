@@ -1,3 +1,4 @@
+import Loader from "@/components/shared/Loader";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -19,7 +20,7 @@ import { clearCart } from "@/features/cart/slices/cartSlice";
 import { useAuth } from "@/hooks/useAuth";
 import { usePlaceOrderMutation } from "@/redux/features/order.api";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { CreditCard, Truck } from "lucide-react";
+import { Truck } from "lucide-react";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { IoWarning } from "react-icons/io5";
@@ -78,13 +79,8 @@ const Checkout = () => {
   const total = cart
     ?.reduce((acc, item) => acc + item.price * item.quantity, 0)
     .toFixed(2);
-  if (isLoading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        <Spinner className="size-8" />
-      </div>
-    );
-  }
+  if (isLoading) return <Loader />;
+
   return (
     <main className="relative space-y-24 px-24 py-20">
       <div>

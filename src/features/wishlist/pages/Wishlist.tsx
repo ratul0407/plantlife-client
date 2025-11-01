@@ -35,7 +35,7 @@ const Wishlist = () => {
   // ✅ Optimistic remove
   const handleRemoveFromWishlist = async (plantId: string) => {
     dispatch(deleteFromWishlist(plantId));
-    toast.success("Removed from wishlist");
+    if (!user) return toast.success("Removed from wishlist");
 
     if (user) {
       try {
@@ -45,6 +45,7 @@ const Wishlist = () => {
           getWishlist(
             wishlist.filter((i) => i.plantId !== plantId).map((i) => i.plantId),
           );
+          toast.success("Removed from wishlist");
         }
       } catch (error) {
         console.error(error);

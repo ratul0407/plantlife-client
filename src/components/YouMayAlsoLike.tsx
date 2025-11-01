@@ -5,14 +5,14 @@ import { Navigation } from "swiper/modules";
 import { Link } from "react-router";
 
 import { useGetAllPlantsQuery } from "@/redux/features/plant.api";
-import { Spinner } from "./ui/spinner";
 import { Plant } from "@/types/plant";
+import Loader from "./shared/Loader";
 
 const YouMayAlsoLike = () => {
   const { data: morePlants, isLoading } = useGetAllPlantsQuery(undefined);
   const plants = morePlants?.data?.data;
 
-  if (isLoading) return <Spinner />;
+  if (isLoading) return <Loader />;
   return (
     <section className="pt-12">
       <div className="flex items-center justify-between">

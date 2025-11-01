@@ -1,6 +1,5 @@
 import { DataTable } from "@/components/modules/Admin/AllPlants/DataTable";
 import { Button } from "@/components/ui/button";
-import { Spinner } from "@/components/ui/spinner";
 import {
   useLazyMyCartQuery,
   useUpdateCartMutation,
@@ -14,6 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { useCartActions } from "../actions/cartAction";
 import { updatePlantQuantity } from "../slices/cartSlice";
+import Loader from "@/components/shared/Loader";
 
 const Cart = () => {
   const cartStore = useAppSelector((state) => state.cart.items);
@@ -40,7 +40,7 @@ const Cart = () => {
 
   const cart = data?.data;
 
-  if (isLoading) return <Spinner />;
+  if (isLoading) return <Loader />;
   return (
     <div>
       <h1 className="bg-green-700 py-6 text-center text-2xl font-bold text-white lg:text-5xl">

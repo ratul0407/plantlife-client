@@ -95,7 +95,7 @@ export default function Navbar() {
               <Link to="/wishlist">
                 <Button
                   variant="outline"
-                  className="relative size-8 rounded-full text-center"
+                  className="relative size-10 rounded-full text-center"
                 >
                   <Heart
                     className={`relative size-4 text-gray-600 ${wishlist?.length ? "left-0" : "left-1"}`}
