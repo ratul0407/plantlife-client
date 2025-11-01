@@ -67,7 +67,7 @@ export const Login = () => {
       if (res.success) {
         setAuthUser(res?.data?.user);
         toast.success("Logged in as super admin");
-        navigate("/");
+        navigate("/admin/overview");
       }
     } catch (error) {
       console.log(error);

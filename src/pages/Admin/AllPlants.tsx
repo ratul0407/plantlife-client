@@ -1,6 +1,5 @@
 import { columns } from "@/components/modules/Admin/AllPlants/Columns";
 import { DataTable } from "@/components/modules/Admin/AllPlants/DataTable";
-import { Spinner } from "@/components/ui/spinner";
 import { useGetAllPlantsQuery } from "@/redux/features/plant.api";
 import {
   Select,
@@ -14,6 +13,7 @@ import { plantCategories } from "@/constants/plantCategories";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { useDebounce } from "use-debounce";
+import Loader from "@/components/shared/Loader";
 const AllPlants = () => {
   const [category, setCategory] = useState<string>("");
   const [search, setSearch] = useState<string>("");
@@ -29,16 +29,12 @@ const AllPlants = () => {
   );
 
   if (isLoading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        <Spinner className="size-8" />
-      </div>
-    );
+    return <Loader />;
   }
   const plants = data?.data?.data || [];
 
   return (
-    <div className="rounded-xl border border-gray-200 bg-white py-4 shadow-sm">
+    <div className="container mx-auto rounded-xl border border-gray-200 bg-white py-4 shadow-sm">
       <h1 className="py-4 pl-8 text-xl font-medium">All Plants </h1>
       <div className="flex items-center justify-between px-12">
         <div>

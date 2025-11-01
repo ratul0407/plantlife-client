@@ -103,7 +103,7 @@ const AddPlants = () => {
   };
 
   return (
-    <div className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
+    <div className="container mx-auto rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
       <h1 className="py-4 pb-10 text-xl font-medium">Add Plants</h1>
       <Form {...form}>
         <form

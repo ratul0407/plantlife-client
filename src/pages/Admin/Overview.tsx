@@ -11,7 +11,7 @@ const Overview = () => {
   const userData = userRes?.data;
 
   return (
-    <div className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
+    <div className="container mx-auto rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
       <h1 className="py-4 pl-8 text-xl font-medium">Analytics</h1>{" "}
       <div className="grid grid-cols-2 items-center gap-4">
         <div className="col-span-1 flex items-start justify-start gap-6 rounded-sm border border-l-2 border-gray-200 border-l-purple-700 p-4">

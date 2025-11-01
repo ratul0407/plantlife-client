@@ -16,7 +16,7 @@ import { adminSidebarItems } from "./adminSidebarItems";
 
 import { lazy } from "react";
 import Orders from "@/pages/user/Orders";
-import { allPlantsLoader } from "./allPlantsLoader";
+import allPlantsLoader from "./allPlantsLoader";
 
 const Checkout = lazy(() => import("@/pages/Checkout"));
 const About = lazy(() => import("@/pages/About"));
