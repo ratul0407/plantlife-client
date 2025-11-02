@@ -1,11 +1,4 @@
-import {
-  Box,
-  Heart,
-  LayoutDashboard,
-  LogOutIcon,
-  ShoppingCart,
-  User,
-} from "lucide-react";
+import { Box, Heart, LayoutDashboard, LogOutIcon, User } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
