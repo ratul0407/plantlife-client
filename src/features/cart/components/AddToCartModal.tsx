@@ -117,9 +117,10 @@ const AddToCartModal = ({
         <DialogFooter>
           <Button
             className="w-full"
-            onClick={() =>
-              handleAddToCart(plant, quantity, selectedVariant as string)
-            }
+            onClick={() => {
+              handleAddToCart(plant, quantity, selectedVariant as string);
+              setOpen(false);
+            }}
             disabled={!selectedVariant}
           >
             Add to Cart

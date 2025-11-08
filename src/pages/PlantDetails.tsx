@@ -13,11 +13,10 @@ import { useAppDispatch } from "@/redux/hooks";
 import MobileSlider from "@/components/MobileSlider";
 import WishlistHeart from "@/features/wishlist/components/WishlistHeart";
 
-import RecentlyViewed from "@/components/RecentlyViewed";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import gsap from "gsap";
 import { useAuth } from "@/hooks/useAuth";
-import { addToCart } from "@/features/cart/slices/cartSlice";
+import { addToCart, openCart } from "@/features/cart/slices/cartSlice";
 import { useAddToCartMutation } from "@/features/cart/api/cart.api";
 import YouMayAlsoLike from "@/components/YouMayAlsoLike";
 import { Variant } from "@/types/plant";
@@ -158,6 +157,7 @@ const PlantDetails = () => {
       sku: currentVariant?.sku as string,
     };
     dispatch(addToCart(item));
+    dispatch(openCart(true));
     toast.success("Plant added to cart");
     if (user) {
       try {

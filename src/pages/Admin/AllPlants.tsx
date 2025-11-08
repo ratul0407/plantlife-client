@@ -25,7 +25,6 @@ const AllPlants = () => {
       sort: sort || undefined,
       searchTerm: debouncedSearch || undefined,
     },
-    { queryKey: ["plants", { category, sort, searchTerm: debouncedSearch }] },
   );
 
   if (isLoading) {
@@ -36,16 +35,16 @@ const AllPlants = () => {
   return (
     <div className="container mx-auto rounded-xl border border-gray-200 bg-white py-4 shadow-sm">
       <h1 className="py-4 pl-8 text-xl font-medium">All Plants </h1>
-      <div className="flex items-center justify-between px-12">
-        <div>
+      <div className="flex items-start justify-between px-12 flex-col">
+        <div className="py-4">
           <Input
             onChange={(e) => setSearch(e.target.value)}
             placeholder="search"
           />
         </div>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="flex w-fit ml-auto flex-col gap-4">
           <div className="col-span-1">
-            <Select value={sort} onValueChange={setSort}>
+            <Select value={sort} onValueChange={(v) => setSort(v === "no" ? "" : v)}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Sort By" />
               </SelectTrigger>
@@ -67,7 +66,7 @@ const AllPlants = () => {
             </Select>
           </div>
 
-          <div className="col-span-1">
+          {/* <div>
             <Select>
               <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="Stock" />
@@ -82,9 +81,9 @@ const AllPlants = () => {
                 </SelectGroup>
               </SelectContent>
             </Select>
-          </div>
-          <div className="col-span-2">
-            <Select value={category} onValueChange={setCategory}>
+          </div> */}
+          <div>
+            <Select value={category} onValueChange={(v) => setCategory(v === "no" ? "" : v)}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Categories" />
               </SelectTrigger>
@@ -109,7 +108,7 @@ const AllPlants = () => {
       <div className="px-8 py-12">
         {!isLoading && !isError && (
           <DataTable
-            key={category + sort + search}
+            key={category + sort + debouncedSearch}
             columns={columns}
             data={plants}
           />

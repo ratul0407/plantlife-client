@@ -5,6 +5,8 @@ import { BsCart } from "react-icons/bs";
 import AddToCartModal from "../../features/cart/components/AddToCartModal";
 
 import WishlistHeart from "../../features/wishlist/components/WishlistHeart";
+import { Search } from "lucide-react";
+import QuickViewModal from "./QuickViewModal";
 
 export const PlantCard = ({ plant, wishSet, variantImages }: any) => {
   const { name } = plant;
@@ -17,6 +19,11 @@ export const PlantCard = ({ plant, wishSet, variantImages }: any) => {
   };
 
   const whishListVariants = {
+    initial: { opacity: 0, right: "-2.5rem" },
+    hover: { opacity: 1, right: "1rem" },
+  };
+
+  const quickViewVariants = {
     initial: { opacity: 0, right: "-2.5rem" },
     hover: { opacity: 1, right: "1rem" },
   };
@@ -63,6 +70,15 @@ export const PlantCard = ({ plant, wishSet, variantImages }: any) => {
             className="absolute top-4 cursor-pointer"
           >
             <WishlistHeart plant={plant} />
+          </motion.button>
+          {/* quick view */}
+          <motion.button
+            variants={quickViewVariants}
+            className="absolute top-16 cursor-pointer"
+          >
+            <QuickViewModal plant={plant}>
+              <Search />
+            </QuickViewModal>
           </motion.button>
         </motion.div>
       </div>
