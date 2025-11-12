@@ -18,7 +18,6 @@ export const cartColumns: ColumnDef<Cart>[] = [
     header: "Product",
     cell: ({ row }) => {
       const { name, image, variant, plantId } = row.original;
-      console.log(plantId);
       return (
         <Link to={`/plants/${plantId}`} className="flex items-center gap-3">
           <img

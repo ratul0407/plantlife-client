@@ -1,6 +1,5 @@
 import AddToCartModal from "@/features/cart/components/AddToCartModal";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -11,7 +10,7 @@ import {
 } from "@/components/ui/table";
 import { WishlistSkeleton } from "@/features/wishlist/components/WishlistSkeleton";
 import { useAuth } from "@/hooks/useAuth";
-import { useAddToCartMutation } from "@/features/cart/api/cart.api";
+
 import {
   useDeleteWishlistMutation,
   useLazyGetLocalWishlistQuery,
@@ -61,10 +60,10 @@ const Wishlist = () => {
     if (wishlist) {
       getWishlist(wishlist.map((item) => item.plantId));
     }
-  }, [wishlistData, wishlist, getWishlist]);
+  }, [wishlist]);
 
   const showSkeleton = isLoading && !wishlistData;
-
+  console.log(wishlist, wishlistData);
   return (
     <div className="font-roboto min-h-screen space-y-12 bg-gray-100 md:bg-white">
       <h1 className="bg-green-700 py-6 text-center text-2xl font-bold text-white lg:text-5xl">

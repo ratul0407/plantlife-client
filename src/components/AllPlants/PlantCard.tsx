@@ -72,14 +72,14 @@ export const PlantCard = ({ plant, wishSet, variantImages }: any) => {
             <WishlistHeart plant={plant} />
           </motion.button>
           {/* quick view */}
-          <motion.button
+          <motion.div
             variants={quickViewVariants}
             className="absolute top-16 cursor-pointer"
           >
             <QuickViewModal plant={plant}>
               <Search />
             </QuickViewModal>
-          </motion.button>
+          </motion.div>
         </motion.div>
       </div>
 

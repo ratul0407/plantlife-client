@@ -18,9 +18,21 @@ import { Button } from "@/components/ui/button";
 import { useLoginMutation } from "@/redux/features/auth.api";
 import config from "@/config";
 import { toast } from "sonner";
-import { useAppSelector } from "@/redux/hooks";
-import { useMergeWishlistMutation } from "@/features/wishlist/api/wishlist.api";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import {
+  useLazyGetUserWishlistQuery,
+  useMergeWishlistMutation,
+} from "@/features/wishlist/api/wishlist.api";
 import { useAuth } from "@/hooks/useAuth";
+import {
+  useLazyMyCartQuery,
+  useMergeCartMutation,
+} from "@/features/cart/api/cart.api";
+import { clearCart, setCart } from "@/features/cart/slices/cartSlice";
+import {
+  clearWishlist,
+  setWishlist,
+} from "@/features/wishlist/slices/wishlistSlice";
 const loginSchema = z.object({
   email: z.string(),
   password: z.string().min(8, { error: "Min 8 characters required" }),
@@ -28,8 +40,12 @@ const loginSchema = z.object({
 export const Login = () => {
   const { login: setAuthUser } = useAuth();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const wishlist = useAppSelector((state) => state.wishlist.items);
+  const cart = useAppSelector((state) => state.cart.items);
 
+  const [myCart] = useLazyMyCartQuery();
+  const [myWishlist] = useLazyGetUserWishlistQuery();
   const [login, { isLoading }] = useLoginMutation();
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -39,16 +55,47 @@ export const Login = () => {
     },
   });
 
+  const autoFill = (user: string) => {
+    form.setValue("email", config[`${user}_email`]);
+    form.setValue("password", config[`${user}_password`]);
+    form.handleSubmit(onSubmit)();
+  };
   const [mergeWishlist, { isLoading: mergingLoading }] =
     useMergeWishlistMutation();
+  const [mergeCart, { isLoading: mergingCartLoading }] = useMergeCartMutation();
   const onSubmit = async (data: z.infer<typeof loginSchema>) => {
     try {
       const res = await login(data).unwrap();
 
       if (res.success) {
         setAuthUser(res?.data?.user);
-        mergeWishlist(wishlist);
-        if (!mergingLoading) {
+        const { data: mergeWishlistResponse } = await mergeWishlist(wishlist);
+        const { data: mergeCartResponse } = await mergeCart(cart);
+        console.log("merge cart response", mergeCartResponse);
+        if (mergeCartResponse.success && mergeWishlistResponse.success) {
+          dispatch(clearWishlist());
+          dispatch(clearCart());
+          const cart = await myCart(undefined);
+
+          if (cart.isSuccess) {
+            const cartItem = cart.data.data.map((item: any) => ({
+              plantId: item.plantId,
+              quantity: item.quantity,
+              sku: item.sku,
+            }));
+            dispatch(setCart(cartItem));
+          }
+
+          const wishlist = await myWishlist(undefined);
+          console.log(wishlist);
+          if (wishlist.isSuccess) {
+            const wishlistItem = wishlist.data.data.map((item: any) => ({
+              plantId: item.plantId,
+            }));
+            dispatch(setWishlist(wishlistItem));
+          }
+        }
+        if (!mergingLoading && !mergingCartLoading) {
           navigate("/");
           toast.success("Logged in successfully!");
         }
@@ -58,37 +105,6 @@ export const Login = () => {
     }
   };
 
-  const handleSuperAdminLogin = async () => {
-    try {
-      const res = await login({
-        email: config.super_admin_email,
-        password: config.super_admin_password,
-      }).unwrap();
-      if (res.success) {
-        setAuthUser(res?.data?.user);
-        toast.success("Logged in as super admin");
-        navigate("/admin/overview");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const handleUserLogin = async () => {
-    try {
-      const res = await login({
-        email: config.user_email,
-        password: config.user_password,
-      }).unwrap();
-      if (res.success) {
-        setAuthUser(res?.data?.user);
-        toast.success("Logged in as user");
-        mergeWishlist(wishlist);
-        navigate("/plants");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
   return (
     <div className="flex min-h-screen items-center">
       <div className="mx-auto px-4 sm:max-w-lg lg:max-w-lg lg:basis-1/2 lg:space-y-6">
@@ -101,10 +117,10 @@ export const Login = () => {
           </p>
         </div>
         <div className="space-x-4">
-          <Button disabled={isLoading} onClick={handleSuperAdminLogin}>
+          <Button disabled={isLoading} onClick={() => autoFill("super_admin")}>
             Admin Login
           </Button>
-          <Button disabled={isLoading} onClick={handleUserLogin}>
+          <Button disabled={isLoading} onClick={() => autoFill("user")}>
             User Login
           </Button>
         </div>

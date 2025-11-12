@@ -2,6 +2,12 @@ import { baseApi } from "../../../redux/baseApi";
 
 const cartApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
+    myCart: builder.query({
+      query: () => ({
+        url: "/cart/my-cart",
+        method: "GET",
+      }),
+    }),
     addToCart: builder.mutation({
       query: (data) => ({
         url: "/cart/add-to-cart",
@@ -10,7 +16,7 @@ const cartApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["CART"],
     }),
-    myCart: builder.query({
+    getCartPlants: builder.query({
       query: (data) => ({
         url: "/cart/get-cart",
         method: "POST",
@@ -41,13 +47,23 @@ const cartApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["CART"],
     }),
+    mergeCart: builder.mutation({
+      query: (data) => ({
+        url: "/cart/merge",
+        method: "POST",
+        data,
+      }),
+      invalidatesTags: ["CART"],
+    }),
   }),
 });
 
 export const {
   useAddToCartMutation,
-  useLazyMyCartQuery,
+  useLazyGetCartPlantsQuery,
   useUpdateCartMutation,
   useRemoveFromCartMutation,
   useDeleteCartMutation,
+  useMergeCartMutation,
+  useLazyMyCartQuery,
 } = cartApi;

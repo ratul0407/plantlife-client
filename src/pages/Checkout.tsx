@@ -14,7 +14,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Spinner } from "@/components/ui/spinner";
 import {
   useDeleteCartMutation,
-  useLazyMyCartQuery,
+  useLazyGetCartPlantsQuery,
 } from "@/features/cart/api/cart.api";
 import { clearCart } from "@/features/cart/slices/cartSlice";
 import { useAuth } from "@/hooks/useAuth";
@@ -33,7 +33,7 @@ const Checkout = () => {
     usePlaceOrderMutation();
   const { user } = useAuth();
   const [getCart, { data: cartData, isLoading }] =
-    useLazyMyCartQuery(undefined);
+    useLazyGetCartPlantsQuery(undefined);
   const [deleteCart] = useDeleteCartMutation();
   const dispatch = useAppDispatch();
   const cartStore = useAppSelector((state) => state.cart.items);
@@ -52,7 +52,6 @@ const Checkout = () => {
       return navigate("/login");
     }
 
-    console.log(cart);
     const orderData = {
       items: cart.map((item) => ({
         plantId: item.plantId,

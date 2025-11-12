@@ -51,7 +51,7 @@ export default function Navbar() {
   }, [lastScrollY]);
 
   const headerRef = useRef(null);
-  console.log(headerRef.current);
+
   return (
     <>
       <header

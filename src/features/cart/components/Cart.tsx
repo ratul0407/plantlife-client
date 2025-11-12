@@ -15,8 +15,9 @@ import {
 import { Button } from "@/components/ui/button";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { openCart } from "@/features/cart/slices/cartSlice";
-import { useLazyMyCartQuery } from "@/features/cart/api/cart.api";
+
 import { useCartActions } from "../actions/cartAction";
+import { useLazyGetCartPlantsQuery } from "../api/cart.api";
 
 export function Cart() {
   const dispatch = useAppDispatch();
@@ -29,7 +30,7 @@ export function Cart() {
 
   const cartStore = useAppSelector((state) => state.cart.items);
 
-  const [getCart, { data: cartData }] = useLazyMyCartQuery(undefined);
+  const [getCart, { data: cartData }] = useLazyGetCartPlantsQuery(undefined);
 
   const cart = cartData?.data;
 

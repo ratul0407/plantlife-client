@@ -81,7 +81,6 @@ const QuickViewModal = ({
       setCurrentVariant(plant.variants[0]);
     }
   }, [plant]);
-  console.log(currentVariant);
   const containerRef = useRef(null);
   const leftRef = useRef(null);
   const scrollAbleInfo = useRef<HTMLDivElement>(null);

@@ -39,12 +39,9 @@ const divisions = {
   Mymensingh: "MYMENSINGH",
 };
 const UpdateProfile = () => {
-  Object.entries(divisions).map(([key, value]) => console.log(key, value));
   const { user } = useAuth();
   const form = useForm();
-  const onSubmit = (data: FieldValues) => {
-    
-  };
+  const onSubmit = (data: FieldValues) => {};
   return (
     <Dialog>
       <DialogTrigger asChild>

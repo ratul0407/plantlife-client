@@ -43,9 +43,9 @@ export const wishlistAPi = baseApi.injectEndpoints({
 });
 
 export const {
-  useMergeWishlistMutation,
   useAddWishlistMutation,
   useLazyGetLocalWishlistQuery,
-  useGetUserWishlistQuery,
+  useLazyGetUserWishlistQuery,
   useDeleteWishlistMutation,
+  useMergeWishlistMutation,
 } = wishlistAPi;
