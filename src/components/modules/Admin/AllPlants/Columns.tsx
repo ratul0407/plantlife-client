@@ -1,6 +1,7 @@
+import { Button } from "@/components/ui/button";
 import { Plant } from "@/types/plant";
 import { ColumnDef } from "@tanstack/react-table";
-import { Eye, Pen, Trash2 } from "lucide-react";
+import { ArrowUpDown, Eye, Pen, Trash2 } from "lucide-react";
 import { Link } from "react-router";
 
 export const columns: ColumnDef<Plant>[] = [
@@ -34,12 +35,24 @@ export const columns: ColumnDef<Plant>[] = [
     },
   },
   {
-    accessorFn: (row) => ({ price: row.variants?.[0]?.price }),
+    id: "price",
+    accessorFn: (row) => row.variants?.[0]?.price,
+    enableSorting: true,
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Price
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ getValue }) => {
-      const { price } = getValue() as { price: number };
+      const price = getValue() as number;
       return <p>${price}</p>;
     },
-    header: "Price",
   },
   {
     accessorFn: (row) => ({

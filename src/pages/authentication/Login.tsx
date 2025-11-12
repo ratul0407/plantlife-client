@@ -87,7 +87,7 @@ export const Login = () => {
           }
 
           const wishlist = await myWishlist(undefined);
-          console.log(wishlist);
+
           if (wishlist.isSuccess) {
             const wishlistItem = wishlist.data.data.map((item: any) => ({
               plantId: item.plantId,

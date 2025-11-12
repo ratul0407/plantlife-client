@@ -8,34 +8,41 @@ import {
 } from "@/components/ui/table";
 import {
   ColumnDef,
+  SortingState,
   flexRender,
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { useMemo } from "react";
+import React, { useEffect, useState } from "react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   onIncrement?: (sku: string, newQuantity: number) => void;
   onDecrement?: (sku: string, newQuantity: number) => void;
+  sorting: SortingState;
+  setSorting: React.Dispatch<React.SetStateAction<SortingState>>;
 }
 export function DataTable<TData, TValue>({
   columns,
   data,
   onIncrement,
   onDecrement,
+  sorting,
+  setSorting,
 }: DataTableProps<TData, TValue>) {
-  const memoizedData = useMemo(() => data ?? [], [data]);
-  const memoizedColumns = useMemo(() => columns ?? [], [columns]);
   const table = useReactTable({
-    data: memoizedData,
-    columns: memoizedColumns,
-
+    data,
+    columns,
     getCoreRowModel: getCoreRowModel(),
+    onSortingChange: setSorting,
+    manualSorting: true,
     meta: {
       onIncrement,
       onDecrement,
+    },
+    state: {
+      sorting,
     },
   });
 

@@ -32,7 +32,6 @@ export const useWishlistActions = () => {
         await deleteWishlist({ plantId: plantData.plantId }).unwrap();
       } catch (error) {
         // await addWishlist(plantData);
-        console.log(error);
       }
     }
   };
