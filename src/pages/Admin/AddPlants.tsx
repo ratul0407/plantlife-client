@@ -43,6 +43,7 @@ const plantSchema = z.object({
 });
 const AddPlants = () => {
   const [images, setImages] = useState<(File | FileMetadata)[]>([]);
+  const [reset, setReset] = useState<boolean>(false);
   const [addPlant, { isLoading }] = useAddPlantsMutation();
   const form = useForm<z.infer<typeof plantSchema>>({
     defaultValues: {
@@ -94,9 +95,11 @@ const AddPlants = () => {
       const res = await addPlant(formData).unwrap();
 
       if (res.success) {
+        form.reset();
+        setImages([]);
+        setReset(true);
         toast.success("Plant created successfully!");
       }
-      form.reset();
     } catch (error) {
       console.log(error);
     }
@@ -275,7 +278,7 @@ const AddPlants = () => {
           />
           <div>
             <h3>Add additional images</h3>
-            <MultipleImgUploader onChange={setImages} />
+            <MultipleImgUploader onChange={setImages} reset={reset} />
           </div>
           <Button disabled={isLoading}>Add Plant</Button>
         </form>

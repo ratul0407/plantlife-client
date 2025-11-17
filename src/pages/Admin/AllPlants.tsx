@@ -50,7 +50,6 @@ const AllPlants = () => {
     return <Loader />;
   }
 
-  console.log(data?.data?.data);
   return (
     <div className="container mx-auto rounded-xl border border-gray-200 bg-white py-4 shadow-sm">
       <h1 className="py-4 pl-8 text-xl font-medium">All Plants </h1>

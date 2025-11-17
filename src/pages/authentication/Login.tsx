@@ -71,7 +71,7 @@ export const Login = () => {
         setAuthUser(res?.data?.user);
         const { data: mergeWishlistResponse } = await mergeWishlist(wishlist);
         const { data: mergeCartResponse } = await mergeCart(cart);
-        console.log("merge cart response", mergeCartResponse);
+
         if (mergeCartResponse.success && mergeWishlistResponse.success) {
           dispatch(clearWishlist());
           dispatch(clearCart());

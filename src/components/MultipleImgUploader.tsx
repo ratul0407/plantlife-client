@@ -6,8 +6,9 @@ import { useEffect } from "react";
 
 interface IProps {
   onChange: React.Dispatch<React.SetStateAction<(File | FileMetadata)[]>>;
+  reset?: boolean;
 }
-export default function MultipleImgUploader({ onChange }: IProps) {
+export default function MultipleImgUploader({ onChange, reset }: IProps) {
   const maxSizeMB = 5;
   const maxSize = maxSizeMB * 1024 * 1024; // 5MB default
   const maxFiles = 6;
@@ -22,6 +23,7 @@ export default function MultipleImgUploader({ onChange }: IProps) {
       openFileDialog,
       removeFile,
       getInputProps,
+      clearFiles,
     },
   ] = useFileUpload({
     accept: "image/svg+xml,image/png,image/jpeg,image/jpg,image/gif",
@@ -30,6 +32,15 @@ export default function MultipleImgUploader({ onChange }: IProps) {
     maxFiles,
   });
 
+  // 1. Handle reset
+  useEffect(() => {
+    if (reset) {
+      clearFiles();
+      onChange([]);
+    }
+  }, [reset]);
+
+  // 2. Handle file changes
   useEffect(() => {
     if (files.length > 0) {
       const imageList = files.map((item) => item.file);
@@ -38,6 +49,7 @@ export default function MultipleImgUploader({ onChange }: IProps) {
       onChange([]);
     }
   }, [files]);
+
   return (
     <div className="flex flex-col gap-2">
       {/* Drop area */}
