@@ -34,7 +34,7 @@ import {
   setWishlist,
 } from "@/features/wishlist/slices/wishlistSlice";
 const loginSchema = z.object({
-  email: z.string(),
+  email: z.string().min(1, { error: "Email is required" }),
   password: z.string().min(8, { error: "Min 8 characters required" }),
 });
 export const Login = () => {
@@ -100,8 +100,8 @@ export const Login = () => {
           toast.success("Logged in successfully!");
         }
       }
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      toast.error(error?.data?.message);
     }
   };
 

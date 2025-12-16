@@ -18,7 +18,7 @@ export const Menu = () => {
   return (
     <>
       <div className="main">
-        <div className="header | relative z-50">
+        <div className="header | relative z-200">
           <button
             className="button | flex h-[50px] w-[50px] cursor-pointer items-center justify-center rounded-full"
             onClick={() => setIsActive(!isActive)}

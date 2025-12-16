@@ -37,7 +37,7 @@ export const Nav = ({ closeMenu }) => {
   ];
   return (
     <motion.div
-      className="menu | bg-nav fixed top-0 left-0 z-40 h-screen text-white"
+      className="menu | bg-nav fixed top-0 left-0 z-150 h-screen text-white"
       variants={menuSlide}
       initial="initial"
       animate="enter"
